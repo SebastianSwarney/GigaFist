@@ -150,8 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 907375986}
-  fadeTime: 5
-  FADEOUTTOOOOO: 1
+  fadeTime: 1
   fadeCurve:
     serializedVersion: 2
     m_Curve:

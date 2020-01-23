@@ -13,6 +13,9 @@ namespace GigaFist
         public float fadeTime;
         public AnimationCurve fadeCurve = new AnimationCurve();
 
+        [HideInInspector]
+        public List<AsyncOperation> loadingScenes;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -34,7 +37,7 @@ namespace GigaFist
 
         public void ChangeScene(SceneIndexes scene)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene((int)scene, LoadSceneMode.Additive);
+            loadingScenes.Add(UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)scene, LoadSceneMode.Additive));
         }
 
         private IEnumerator Fade(bool fadeOut, float transitionTime)
@@ -45,14 +48,7 @@ namespace GigaFist
             for (float t = 0; t <= 1; t += 1 / (transitionTime / Time.deltaTime))
             {
                 //Calculate Alpha value
-                if (fadeOut)
-                {
-                    alpha = fadeCurve.Evaluate(t);
-                }
-                else
-                {
-                    alpha = 1 - fadeCurve.Evaluate(t);
-                }
+                alpha = fadeOut == true ? alpha = fadeCurve.Evaluate(t): alpha = 1 - fadeCurve.Evaluate(t);
                 
                 //Apply alpha value to canvas group
                 if (canvasGroup != null)
