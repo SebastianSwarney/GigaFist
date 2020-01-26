@@ -172,7 +172,7 @@ MonoBehaviour:
         PublicKeyToken=null
   m_mouseSensitivity: 0.1
   m_maxCameraAng: 50
-  m_inverted: 0
+  m_inverted: 1
   m_camera: {fileID: 5795091098614260645}
   m_cameraTilt: {fileID: 5862515351299538762}
   m_cameraMain: {fileID: 4710219578411615725}
@@ -182,40 +182,76 @@ MonoBehaviour:
   m_maxJumpHeight: 4
   m_minJumpHeight: 1
   m_timeToJumpApex: 0.4
-  m_graceTime: 0
-  m_jumpBufferTime: 0
+  m_graceTime: 0.1
+  m_jumpBufferTime: 0.3
   m_gravity: 0
   m_leapCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_leapTime: 0
-  m_leapSpeedBoostBase: 0
-  m_leapSpeedBoostIncrease: 0
-  m_leapSpeedBoostCountMax: 0
-  m_leapBufferTime: 0
+  m_leapTime: 5
+  m_leapSpeedBoostBase: 5
+  m_leapSpeedBoostIncrease: 2
+  m_leapSpeedBoostCountMax: 5
+  m_leapBufferTime: 0.2
   m_wallMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_wallSpeedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_wallSpeedUpTime: 0
-  m_maxWallRunSpeed: 0
-  m_tiltSpeed: 0
-  m_wallRunCameraMaxTilt: 0
-  m_wallRidingRayCount: 0
-  m_wallRaySpacing: 0
-  m_wallRunRayLength: 0
-  m_wallRunBufferTime: 0
-  m_wallRunJumpVelocity: {x: 0, y: 0, z: 0}
-  m_wallJumpBufferTime: 0
-  m_wallJumpVelocity: {x: 0, y: 0, z: 0}
+  m_wallSpeedUpTime: 3
+  m_maxWallRunSpeed: 10
+  m_tiltSpeed: 0.1
+  m_wallRunCameraMaxTilt: 30
+  m_wallRidingRayCount: 5
+  m_wallRaySpacing: 180
+  m_wallRunRayLength: 1
+  m_wallRunBufferTime: 0.1
+  m_wallRunJumpVelocity: {x: 50, y: 0, z: 100}
+  m_wallJumpBufferTime: 0.1
+  m_wallJumpVelocity: {x: 50, y: 100, z: 0}
   m_holdingWallRideStick: 0
   m_wallClimbSpeedCurve:
     serializedVersion: 2
@@ -240,18 +276,36 @@ MonoBehaviour:
   m_playerFistMask:
     serializedVersion: 2
     m_Bits: 0
-  m_minPunchTime: 0
-  m_maxPunchTime: 0
-  m_minPunchSpeed: 0
-  m_maxPunchSpeed: 0
+  m_minPunchTime: 0.1
+  m_maxPunchTime: 0.5
+  m_minPunchSpeed: 10
+  m_maxPunchSpeed: 20
   m_punchSpeedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_punchChargeTime: 0
-  m_punchReflectThreshold: 0
+  m_punchChargeTime: 1
+  m_punchReflectThreshold: 0.8
   m_chargeVisual: {fileID: 0}
 --- !u!1 &2592642012345496103
 GameObject:
