@@ -26,6 +26,7 @@ public class PlayerInput : MonoBehaviour
 	public void GetInput()
 	{
 		Vector2 movementInput = new Vector2(m_playerInputController.GetAxis("MoveHorizontal"), m_playerInputController.GetAxis("MoveVertical"));
+		m_playerController.SetMovementInput(movementInput);
 
 		if (Input.GetKeyDown(KeyCode.P))
 		{
@@ -35,26 +36,37 @@ public class PlayerInput : MonoBehaviour
 		if (!m_lockLooking)
 		{
 			Vector2 lookInput = new Vector2(m_playerInputController.GetAxis("LookHorizontal"), m_playerInputController.GetAxis("LookVertical"));
+			m_playerController.SetLookInput(lookInput);
 		}
 
 		if (m_playerInputController.GetButtonDown("Punch"))
 		{
-
+			m_playerController.OnPunchInputDown();
 		}
 
 		if (m_playerInputController.GetButtonUp("Punch"))
 		{
-
+			m_playerController.OnPunchInputUp();
 		}
 
 		if (m_playerInputController.GetButtonDown("Jump"))
 		{
-
+			m_playerController.OnJumpInputDown();
 		}
 
 		if (m_playerInputController.GetButtonUp("Jump"))
 		{
+			m_playerController.OnJumpInputUp();
+		}
 
+		if (m_playerInputController.GetButtonDown("WallRide"))
+		{
+			m_playerController.WallRideInputDown();
+		}
+
+		if (m_playerInputController.GetButtonUp("WallRide"))
+		{
+			m_playerController.WallRideInputUp();
 		}
 	}
 }
