@@ -36,5 +36,15 @@ public class PlayerInput : MonoBehaviour
 		{
 			Vector2 lookInput = new Vector2(m_playerInputController.GetAxis("LookHorizontal"), m_playerInputController.GetAxis("LookVertical"));
 		}
+
+		if (m_playerInputController.GetButtonDown("Jump"))
+		{
+
+		}
+
+		if (m_playerInputController.GetButtonUp("Jump"))
+		{
+
+		}
 	}
 }
