@@ -203,6 +203,9 @@ public class PlayerController : MonoBehaviour
 	private bool m_isChargingPunch;
 	private bool m_isPunching;
 	private Vector3 m_punchHitNormal;
+	private PlayerHitbox m_hitbox;
+	private bool m_attackTriggered;
+	private PlayerController m_hitPlayer;
 	[Space]
 	#endregion
 
@@ -227,6 +230,9 @@ public class PlayerController : MonoBehaviour
 
 		CalculateJump();
 		LockCursor();
+
+		m_hitbox = GetComponentInChildren<PlayerHitbox>();
+		m_hitbox.m_colliderHitEvent += GetHitBoxCollision;
 
 		m_currentMovementSpeed = m_baseMovementSpeed;
 		m_jumpBufferTimer = m_jumpBufferTime;
@@ -997,11 +1003,7 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator RunPunch(Vector3 p_punchDirection, float m_punchChargePercent)
 	{
-		//p_punchDirection = new Vector3(p_punchDirection.x, 0, p_punchDirection.z);
-
 		m_isPunching = true;
-
-		//m_states.m_gravityControllState = GravityState.GravityDisabled;
 		m_states.m_movementControllState = MovementControllState.MovementDisabled;
 
 		float t = 0;
@@ -1029,19 +1031,41 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 
+			if (m_attackTriggered)
+			{
+				Debug.Log("hit the other player during the punch loop");
+
+				m_hitPlayer.TriggerKnockBack(transform.forward, 250f);
+
+				OnAttackFinished();
+
+				t = currentPunchTime;
+			}
+
 			m_velocity = p_punchDirection * currentPunchSpeed;
 
 			yield return null;
 		}
 
 		m_states.m_movementControllState = MovementControllState.MovementEnabled;
-		//m_states.m_gravityControllState = GravityState.GravityEnabled;
 		m_isPunching = false;
 	}
 
-	private void GetHitBoxCollision(Collision p_collision)
+	private void GetHitBoxCollision(GameObject p_collision)
 	{
-		Debug.Log(p_collision.gameObject);
+		if (CheckCollisionLayer(m_playerFistMask, p_collision))
+		{
+			PlayerController otherPlayer = p_collision.GetComponentInParent<PlayerController>();
+			m_hitPlayer = otherPlayer;
+			m_attackTriggered = true;
+		}
+	}
+
+	private void OnAttackFinished() //Must be implemented during the loop of each attack
+	{
+		Debug.Log("set the player to null");
+		m_hitPlayer = null;
+		m_attackTriggered = false;
 	}
 
 	private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -1061,38 +1085,8 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void ReceiveHitBoxCollision(Collision p_collision)
-	{
-
-	}
-
 	private void TriggerKnockBack(Vector3 p_forceDirection, float p_force)
 	{
-		m_velocity = p_forceDirection * p_force;
-	}
-
-	private IEnumerator KnockBack(Vector3 p_forceDirection, float p_force)
-	{
-		m_isStunned = true;
-
-		m_characterController.enabled = false;
-		m_rigidbody.isKinematic = false;
-
-		m_rigidbody.AddForce(p_forceDirection * p_force, ForceMode.Impulse);
-
-		while (m_isStunned)
-		{
-			yield return null;
-		}
-
-		m_rigidbody.isKinematic = true;
-		m_characterController.enabled = true;
-
-		ResetCamera();
-	}
-
-	private void OnCollisionEnter(Collision collision)
-	{
-		m_isStunned = false;
+		m_velocity = p_forceDirection.normalized * p_force;
 	}
 }
