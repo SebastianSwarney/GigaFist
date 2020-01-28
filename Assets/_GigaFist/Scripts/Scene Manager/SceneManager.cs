@@ -66,7 +66,7 @@ namespace GigaFist
 
             if (Input.GetMouseButtonDown(1))
             {
-                ChangeScene(SceneIndexes.SAMPLE_SCENE);
+                ChangeScene(SceneIndexes.SAMPLE_2);
             }
         }
 
@@ -174,11 +174,21 @@ namespace GigaFist
             }
         }
 
+        private void UpdateCurrentScene()
+        {
+            currentScene = (SceneIndexes)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+        }
+
         public IEnumerator TrackLoadProgress(SceneIndexes scene, bool setActiveOnLoad)
         {
             float loadProgress;
             for (int i = 0; i < loadingScenes.Count; i++)
             {
+                if (loadingScenes[i] == null)
+                {
+                    Debug.LogWarning("It's null " + loadingScenes.Count);
+                }
+
                 while (loadingScenes[i].isDone == false)
                 {
                     loadProgress = 0;
@@ -189,15 +199,22 @@ namespace GigaFist
                     }
 
                     loadProgress = loadProgress / loadingScenes.Count;
-
                     UpdateLoadingBar(loadProgress);
                     yield return null;
                 }
             }
+
+            yield return new WaitForSeconds(0.5f);
+
             if (setActiveOnLoad)
             {
                 UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
+                UpdateCurrentScene();
             }
+
+            yield return new WaitForSeconds(0.5f);
+
+            SetLoadingScreen(false, true);
         }
 
         public IEnumerator CycleTips() //Responsible for selecting tips and transitioning them
@@ -270,7 +287,7 @@ namespace GigaFist
             //Assign starting alpha based off of desired fade
             float alpha = 0;
 
-            for (float t = 0; t <= 1; t += 1 / (transitionTime / Time.deltaTime))
+            for (float t = 0; t < 1; t += 1 / (transitionTime / Time.deltaTime))
             {
                 //Calculate Alpha value
                 alpha = fadeIn == true ? fadeCurve.Evaluate(t) : 1 - fadeCurve.Evaluate(t);
@@ -282,6 +299,7 @@ namespace GigaFist
 
                 yield return new WaitForEndOfFrame();
             }
+            if (loadingScreen != null) { loadingScreen.alpha = Mathf.Round(alpha); }
             yield return new WaitForEndOfFrame();
             transitionAnimation = null;
         }
