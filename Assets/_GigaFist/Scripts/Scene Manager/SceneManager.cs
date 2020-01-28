@@ -43,22 +43,28 @@ namespace GigaFist
         // Start is called before the first frame update
         void Start()
         {
+            //Singleton
             if (instance == null)
             {
                 instance = this;
+                DontDestroyOnLoad(instance.gameObject);
             }
             else
             {
                 Destroy(gameObject);
             }
 
+            //Set loading screen to inspector value and do not animate
             SetLoadingScreen(loadingScreenVisible, false);
+            //Reset loadingScenes list
             loadingScenes = new List<AsyncOperation>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            //Testing
+
             if (Input.GetMouseButtonDown(0))
             {
                 SetLoadingScreen(!loadingScreenVisible, animate);
@@ -70,12 +76,14 @@ namespace GigaFist
             }
         }
 
-        public void LoadScene(SceneIndexes scene)
+        #region Scene Loading and Changing
+
+        public void LoadScene(SceneIndexes scene) //Load the selected scene async
         {
             loadingScenes.Add(UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)scene, LoadSceneMode.Additive));
         }
 
-        public void ChangeScene(SceneIndexes scene)
+        public void ChangeScene(SceneIndexes scene) //Change scene from current scene to the selected one
         {
             if (unloadCurrentOnChange)
             {
@@ -88,7 +96,48 @@ namespace GigaFist
             StartCoroutine(TrackLoadProgress(scene, true));
         }
 
-        public void SetLoadingScreen(bool visible, bool animate)
+        public IEnumerator TrackLoadProgress(SceneIndexes scene, bool setActiveOnLoad) //Track all scenes that are loading, and calculate a load progress from that. Once scene is loaded, set it as active
+        {
+            float loadProgress;
+            for (int i = 0; i < loadingScenes.Count; i++)
+            {
+                if (loadingScenes[i] == null)
+                {
+                    Debug.LogWarning("It's null " + loadingScenes.Count);
+                }
+
+                while (loadingScenes[i].isDone == false)
+                {
+                    loadProgress = 0;
+
+                    foreach (AsyncOperation operation in loadingScenes)
+                    {
+                        loadProgress += operation.progress;
+                    }
+
+                    loadProgress = loadProgress / loadingScenes.Count;
+                    UpdateLoadingBar(loadProgress);
+                    yield return null;
+                }
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            if (setActiveOnLoad)
+            {
+                UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
+                UpdateCurrentScene();
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            SetLoadingScreen(false, true);
+        }
+
+        #endregion
+
+        #region Loading Screen
+        public void SetLoadingScreen(bool visible, bool animate) //Toggle visiblity, animation for visiblity changes and if tips are shown
         {
             if (visible)
             {
@@ -140,7 +189,7 @@ namespace GigaFist
             }
         }
 
-        public void UpdateLoadingBar(float progressValue)
+        public void UpdateLoadingBar(float progressValue) //Update the value of the loading bar
         {
             if (progressBar != null)
             {
@@ -148,7 +197,7 @@ namespace GigaFist
             }
         }
 
-        public void UpdateTipText(string newText, bool visible)
+        public void UpdateTipText(string newText, bool visible) //Update the tip text with a new string
         {
             if (tipText != null)
             {
@@ -161,7 +210,7 @@ namespace GigaFist
             }
         }
 
-        public void UpdateTipText(int textIndex, bool visible)
+        public void UpdateTipText(int textIndex, bool visible) //Update the tip text from a tip index value
         {
             if (tipText != null)
             {
@@ -174,47 +223,9 @@ namespace GigaFist
             }
         }
 
-        private void UpdateCurrentScene()
+        private void UpdateCurrentScene() //Update currentScene value for tracking purposes
         {
             currentScene = (SceneIndexes)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
-        }
-
-        public IEnumerator TrackLoadProgress(SceneIndexes scene, bool setActiveOnLoad)
-        {
-            float loadProgress;
-            for (int i = 0; i < loadingScenes.Count; i++)
-            {
-                if (loadingScenes[i] == null)
-                {
-                    Debug.LogWarning("It's null " + loadingScenes.Count);
-                }
-
-                while (loadingScenes[i].isDone == false)
-                {
-                    loadProgress = 0;
-
-                    foreach (AsyncOperation operation in loadingScenes)
-                    {
-                        loadProgress += operation.progress;
-                    }
-
-                    loadProgress = loadProgress / loadingScenes.Count;
-                    UpdateLoadingBar(loadProgress);
-                    yield return null;
-                }
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            if (setActiveOnLoad)
-            {
-                UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
-                UpdateCurrentScene();
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            SetLoadingScreen(false, true);
         }
 
         public IEnumerator CycleTips() //Responsible for selecting tips and transitioning them
@@ -282,7 +293,7 @@ namespace GigaFist
             }
         }
 
-        private IEnumerator Fade(bool fadeIn, float transitionTime)
+        private IEnumerator Fade(bool fadeIn, float transitionTime) //Fade the loading screen in or out based on the fadeCurve
         {
             //Assign starting alpha based off of desired fade
             float alpha = 0;
@@ -303,6 +314,8 @@ namespace GigaFist
             yield return new WaitForEndOfFrame();
             transitionAnimation = null;
         }
+
+        #endregion
     }
 
 }
