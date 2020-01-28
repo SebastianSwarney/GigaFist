@@ -53,6 +53,7 @@ namespace GigaFist
             }
 
             SetLoadingScreen(loadingScreenVisible, false);
+            loadingScenes = new List<AsyncOperation>();
         }
 
         // Update is called once per frame
@@ -61,6 +62,11 @@ namespace GigaFist
             if (Input.GetMouseButtonDown(0))
             {
                 SetLoadingScreen(!loadingScreenVisible, animate);
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                ChangeScene(SceneIndexes.SAMPLE_SCENE);
             }
         }
 
@@ -76,6 +82,7 @@ namespace GigaFist
                 loadingScenes.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)currentScene));
             }
 
+            SetLoadingScreen(true, true);
             LoadScene(scene);
 
             StartCoroutine(TrackLoadProgress(scene, true));
@@ -145,7 +152,20 @@ namespace GigaFist
         {
             if (tipText != null)
             {
-                tipText.text = newText;
+                tipText.text = "Tip: " + newText;
+            }
+
+            if (tipCanvasGroup != null)
+            {
+                tipCanvasGroup.alpha = visible == true ? 1 : 0;
+            }
+        }
+
+        public void UpdateTipText(int textIndex, bool visible)
+        {
+            if (tipText != null)
+            {
+                tipText.text = string.Format("Tip #{0}: {1}", (textIndex + 1).ToString(), tips[textIndex]);
             }
 
             if (tipCanvasGroup != null)
@@ -170,28 +190,78 @@ namespace GigaFist
 
                     loadProgress = loadProgress / loadingScenes.Count;
 
+                    UpdateLoadingBar(loadProgress);
                     yield return null;
                 }
             }
-            UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
+            if (setActiveOnLoad)
+            {
+                UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
+            }
         }
 
         public IEnumerator CycleTips() //Responsible for selecting tips and transitioning them
         {
+            bool transition = true;
+            float timer = 0;
+            int targetTextIndex = 0;
+            bool firstLoad = true;
+            UpdateTipText(Random.Range(0, tips.Count), true);
+
             while (loadingScreenVisible)
             {
-                int chosenTip = Random.Range(0, tips.Count);
-
-                if (chosenTip < tips.Count)
+                if (timer >= timeBetweenTips) //If timer has reached its time, get a new target text
                 {
-                    UpdateTipText(tips[chosenTip], showTips);
-                }
-                else
-                {
-                    UpdateTipText("No tips!", showTips);
+                    targetTextIndex = Random.Range(0, tips.Count);
+                    transition = true;
+                    timer = 0;
                 }
 
-                yield return new WaitForSeconds(timeBetweenTips);
+                if (firstLoad)
+                {
+                    firstLoad = false;
+                    transition = false;
+                }
+
+                if (transition == true && showTips)
+                {
+                    //First, fade out
+
+                    if (tipCanvasGroup != null)
+                    {
+                        for (float t = 0; t <= 1; t += 1 / (fadeTime / Time.deltaTime))
+                        {
+                            tipCanvasGroup.alpha = 1 - fadeCurve.Evaluate(t);
+                            yield return new WaitForEndOfFrame();
+                        }
+                    }
+
+                    //Second, apply new text
+                    UpdateTipText(targetTextIndex, false);
+
+                    //Third, fade back in
+                    if (tipCanvasGroup != null)
+                    {
+                        for (float t = 0; t <= 1; t += 1 / (fadeTime / Time.deltaTime))
+                        {
+                            tipCanvasGroup.alpha = fadeCurve.Evaluate(t);
+                            yield return new WaitForEndOfFrame();
+                        }
+                    }
+
+                    //Lastly, turn off transition
+                    transition = false;
+                }
+
+                if (showTips == false)
+                {
+                    Coroutine temp = cycleTipsCoroutine;
+                    cycleTipsCoroutine = null;
+                    StopCoroutine(temp);
+                }
+
+                timer += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
             }
         }
 
