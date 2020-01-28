@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unloadCurrentOnChange: 1
-  currentScene: 1
+  currentScene: 0
   loadingScreen: {fileID: 907375986}
   animate: 1
   fadeTime: 1
@@ -178,7 +178,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  loadedScenes: []
+  progressBar: {fileID: 0}
+  showTips: 1
+  tipText: {fileID: 573748396}
+  tipCanvasGroup: {fileID: 573748398}
+  tips:
+  - You should just punch everything!
+  - Charge up as much as possible and then release!
+  timeBetweenTips: 3
 --- !u!4 &42450775
 Transform:
   m_ObjectHideFlags: 0
@@ -666,7 +673,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907375985}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
