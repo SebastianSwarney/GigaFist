@@ -149,7 +149,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e2c3f5682da154c896014b68ba2655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 907375986}
+  unloadCurrentOnChange: 1
+  currentScene: 1
+  loadingScreen: {fileID: 907375986}
+  animate: 1
   fadeTime: 1
   fadeCurve:
     serializedVersion: 2
@@ -175,6 +178,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  loadedScenes: []
 --- !u!4 &42450775
 Transform:
   m_ObjectHideFlags: 0
@@ -662,7 +666,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907375985}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
