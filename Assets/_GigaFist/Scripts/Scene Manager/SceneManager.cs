@@ -8,6 +8,9 @@ namespace GigaFist
 {
     public class SceneManager : MonoBehaviour
     {
+        //LoadScene should simply LOAD the scene
+        //ChangeScenes should LOAD if not loaded, and then change to that scene (set as active scene)
+
         [Header("Scene Management Properties")]
         public static SceneManager instance;
         public bool unloadCurrentOnChange = true;
@@ -38,9 +41,6 @@ namespace GigaFist
             }
         }
 
-        //LoadScene should simply LOAD the scene
-        //ChangeScenes should LOAD if not loaded, and then change to that scene (set as active scene)
-
         // Update is called once per frame
         void Update()
         {
@@ -64,6 +64,7 @@ namespace GigaFist
 
             LoadScene(scene);
 
+            StartCoroutine(TrackLoadProgress(scene, true));
         }
 
         public void SetLoadingScreen(bool visible, bool animate)
@@ -106,6 +107,28 @@ namespace GigaFist
                 }
                 loadingScreenVisible = false;
             }
+        }
+
+        public IEnumerator TrackLoadProgress(SceneIndexes scene, bool setActiveOnLoad)
+        {
+            float loadProgress;
+            for (int i = 0; i < loadingScenes.Count; i++)
+            {
+                while (loadingScenes[i].isDone == false)
+                {
+                    loadProgress = 0;
+
+                    foreach (AsyncOperation operation in loadingScenes)
+                    {
+                        loadProgress += operation.progress;
+                    }
+
+                    loadProgress = loadProgress / loadingScenes.Count;
+
+                    yield return null;
+                }
+            }
+            UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
         }
 
         private IEnumerator Fade(bool fadeIn, float transitionTime)
