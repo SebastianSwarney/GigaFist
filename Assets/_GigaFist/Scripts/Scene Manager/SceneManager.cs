@@ -23,6 +23,9 @@ namespace GigaFist
         public AnimationCurve fadeCurve = new AnimationCurve();
         private bool loadingScreenVisible = false;
         private Coroutine transitionAnimation;
+        [Space]
+        public UnityEngine.UI.Image loadingScreenImage;
+        public List<Sprite> loadingScreenImages;
 
         [Space]
         public Slider progressBar;
@@ -141,6 +144,11 @@ namespace GigaFist
         {
             if (visible)
             {
+                if (loadingScreenImage != null)
+                {
+                    loadingScreenImage.sprite = loadingScreenImages[Random.Range(0, loadingScreenImages.Count)];
+                }
+
                 if (animate)
                 {
                     if (transitionAnimation == null)

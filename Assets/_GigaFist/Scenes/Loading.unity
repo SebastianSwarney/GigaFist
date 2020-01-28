@@ -178,6 +178,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  loadingScreenImage: {fileID: 1734391506}
+  loadingScreenImages:
+  - {fileID: 21300000, guid: f2793a41eb068d64fa11e7178ea9c4da, type: 3}
+  - {fileID: 21300000, guid: 8cf6f3e85291dbc4a87530101a73009e, type: 3}
+  - {fileID: 21300000, guid: 01db0ff6c91c7de4a9b8ebfe3116b7af, type: 3}
+  - {fileID: 21300000, guid: 273ed77366b70cf4eb6cd075eb2a6bd3, type: 3}
   progressBar: {fileID: 991287694}
   showTips: 1
   tipText: {fileID: 573748396}
@@ -949,10 +955,10 @@ RectTransform:
   m_Father: {fileID: 907375990}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1982.3, y: 1071}
+  m_SizeDelta: {x: 0, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1734391506
 MonoBehaviour:
@@ -967,7 +973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.13676605, g: 0.0754717, b: 0.3018868, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
