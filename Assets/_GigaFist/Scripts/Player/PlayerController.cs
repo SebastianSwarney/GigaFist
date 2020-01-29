@@ -192,20 +192,32 @@ public class PlayerController : MonoBehaviour
 	public LayerMask m_playerFistMask;
 	public float m_minPunchTime;
 	public float m_maxPunchTime;
-	public float m_minPunchSpeed;
-	public float m_maxPunchSpeed;
-	public AnimationCurve m_punchSpeedCurve;
+	public float m_minPunchDistance;
+	public float m_maxPunchDistance;
+	public AnimationCurve m_punchCurve;
 	public float m_punchChargeTime;
 	public float m_punchReflectThreshold;
+
+	public float m_punchSpeed;
+	public float m_punchEndSpeed;
 
 	public Transform m_chargeVisual;
 
 	private bool m_isChargingPunch;
 	private bool m_isPunching;
 	private Vector3 m_punchHitNormal;
-	private PlayerHitbox m_hitbox;
-	private bool m_attackTriggered;
-	private PlayerController m_hitPlayer;
+	private Vector3 m_punchHitPos; 
+	[Space]
+	#endregion
+
+	#region Uppercut Properties
+	[Header("Uppercut Properties")]
+
+	public float m_uppercutTime;
+	public float m_uppercutDistance;
+	public AnimationCurve m_uppercutCurve;
+
+	private bool m_isUppercutting;
 	[Space]
 	#endregion
 
@@ -231,9 +243,6 @@ public class PlayerController : MonoBehaviour
 		CalculateJump();
 		LockCursor();
 
-		m_hitbox = GetComponentInChildren<PlayerHitbox>();
-		m_hitbox.m_colliderHitEvent += GetHitBoxCollision;
-
 		m_currentMovementSpeed = m_baseMovementSpeed;
 		m_jumpBufferTimer = m_jumpBufferTime;
 		m_wallJumpBufferTimer = m_wallJumpBufferTime;
@@ -245,16 +254,16 @@ public class PlayerController : MonoBehaviour
 		//CalculateJump();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		PerformController();
 	}
 
 	public void PerformController()
 	{
-		CalculateCurrentSpeed();
-
 		//CheckWallRun();
+
+		CalculateCurrentSpeed();
 		CalculateVelocity();
 
 		m_characterController.Move(m_velocity * Time.deltaTime);
@@ -550,6 +559,12 @@ public class PlayerController : MonoBehaviour
 			m_velocity = new Vector3(horizontalMovement.x, m_velocity.y, horizontalMovement.z);
 		}
 
+	}
+
+	public void PhysicsSeekTo(Vector3 p_targetPosition)
+	{
+		Vector3 deltaPosition = p_targetPosition - transform.position;
+		m_velocity = deltaPosition / Time.deltaTime;
 	}
 	#endregion
 
@@ -1001,76 +1016,134 @@ public class PlayerController : MonoBehaviour
 		m_isChargingPunch = false;
 	}
 
-	private IEnumerator RunPunch(Vector3 p_punchDirection, float m_punchChargePercent)
+	private IEnumerator RunPunch(Vector3 p_punchDirection, float p_punchChargePercent)
 	{
 		m_isPunching = true;
 		m_states.m_movementControllState = MovementControllState.MovementDisabled;
+		m_states.m_gravityControllState = GravityState.GravityDisabled;
+
+		float currentPunchTime = Mathf.Lerp(m_minPunchTime, m_maxPunchTime, p_punchChargePercent);
+		float currentPunchDistance = Mathf.Lerp(m_minPunchDistance, m_maxPunchDistance, p_punchChargePercent);
 
 		float t = 0;
 
-		float currentPunchTime = Mathf.Lerp(m_minPunchTime, m_maxPunchTime, m_punchChargePercent);
-		float currentPunchSpeedTarget = Mathf.Lerp(m_minPunchSpeed, m_maxPunchSpeed, m_punchChargePercent);
-		float currentPunchSpeed = 0;
+		Vector3 startPos = transform.position;
+		Vector3 punchPos = startPos + (p_punchDirection * currentPunchDistance);
 
 		while (t < currentPunchTime)
 		{
-			t += Time.deltaTime;
+			t += Time.fixedDeltaTime;
 
-			float progress = m_punchSpeedCurve.Evaluate(t / currentPunchTime);
-			currentPunchSpeed = currentPunchSpeedTarget;
+			float progress = m_punchCurve.Evaluate(t / currentPunchTime);
 
+			#region Reflect
 			if (m_characterController.collisionFlags == CollisionFlags.Below || m_characterController.collisionFlags == CollisionFlags.Sides)
 			{
 				if ((Vector3.Dot(m_punchHitNormal, p_punchDirection) * -1) < m_punchReflectThreshold)
 				{
+					/*
 					p_punchDirection = Vector3.Reflect(p_punchDirection, m_punchHitNormal);
+
+					punchPos = transform.position + (p_punchDirection * (m_maxPunchDistance * (1 - progress)));
+					startPos = transform.position;
+					*/
 				}
 				else
 				{
 					t = currentPunchTime;
 				}
 			}
+			#endregion
 
-			if (m_attackTriggered)
+			//float targetSpeed = Mathf.Lerp(m_punchSpeed, m_punchEndSpeed, progress);
+
+			m_velocity = p_punchDirection * m_punchSpeed;
+
+			//Vector3 targetPos = Vector3.Lerp(startPos, punchPos, progress);
+			//PhysicsSeekTo(targetPos);
+
+			/*
+			PlayerController[] hitPlayers = CheckHitbox((m_camera.transform.forward * 5) + transform.position, 5f, m_playerFistMask);
+
+			if (hitPlayers.Length > 0)
 			{
-				Debug.Log("hit the other player during the punch loop");
+				hitPlayers[0].TriggerKnockBack(transform.forward, 250f); //Make real number
 
-				m_hitPlayer.TriggerKnockBack(transform.forward, 250f);
-
-				OnAttackFinished();
-
-				t = currentPunchTime;
+				t = m_maxPunchTime;
 			}
-
-			m_velocity = p_punchDirection * currentPunchSpeed;
-
-			yield return null;
+			*/
+			yield return new WaitForFixedUpdate();
 		}
 
 		m_states.m_movementControllState = MovementControllState.MovementEnabled;
+		m_states.m_gravityControllState = GravityState.GravityEnabled;
 		m_isPunching = false;
 	}
 
-	private void GetHitBoxCollision(GameObject p_collision)
+	public void OnUppercutInputDown()
 	{
-		if (CheckCollisionLayer(m_playerFistMask, p_collision))
+		if (!m_isUppercutting)
 		{
-			PlayerController otherPlayer = p_collision.GetComponentInParent<PlayerController>();
-			m_hitPlayer = otherPlayer;
-			m_attackTriggered = true;
+			StartCoroutine(RunUppercut());
 		}
 	}
 
-	private void OnAttackFinished() //Must be implemented during the loop of each attack
+	private IEnumerator RunUppercut()
 	{
-		Debug.Log("set the player to null");
-		m_hitPlayer = null;
-		m_attackTriggered = false;
+		m_isUppercutting = true;
+
+		m_states.m_movementControllState = MovementControllState.MovementDisabled;
+		m_states.m_gravityControllState = GravityState.GravityDisabled;
+
+		float t = 0;
+
+		Vector3 startPos = transform.position;
+
+		while (t < m_uppercutTime)
+		{
+			t += Time.fixedDeltaTime;
+
+			float progress = m_uppercutCurve.Evaluate(t / m_uppercutTime);
+
+			Vector3 targetPos = Vector3.Lerp(startPos, startPos + Vector3.up * m_uppercutDistance, progress);
+			PhysicsSeekTo(targetPos);
+
+			yield return new WaitForFixedUpdate();
+		}
+
+		m_states.m_movementControllState = MovementControllState.MovementEnabled;
+		m_states.m_gravityControllState = GravityState.GravityEnabled;
+
+		m_isUppercutting = false;
 	}
 
-	private void OnControllerColliderHit(ControllerColliderHit hit)
+	private PlayerController[] CheckHitbox(Vector3 p_hitboxOrigin, float p_hitboxSize, LayerMask p_layerMask)
 	{
-		m_punchHitNormal = hit.normal;
+		DebugExtension.DebugWireSphere(p_hitboxOrigin, p_hitboxSize);
+
+		Collider[] colliders = Physics.OverlapSphere(p_hitboxOrigin, p_hitboxSize, p_layerMask);
+
+		List<PlayerController> playerList = new List<PlayerController>();
+
+		foreach (Collider collider in colliders)
+		{
+			if (collider.transform.root != transform)
+			{
+				playerList.Add(collider.gameObject.GetComponentInParent<PlayerController>());
+			}
+		}
+
+		return playerList.ToArray();
+	}
+
+	private void TriggerKnockBack(Vector3 p_forceDirection, float p_force)
+	{
+		m_velocity = p_forceDirection.normalized * p_force;
+	}
+
+	private void StopAllActions()
+	{
+		StopAllCoroutines();
 	}
 
 	public bool CheckCollisionLayer(LayerMask p_layerMask, GameObject p_object)
@@ -1085,8 +1158,9 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void TriggerKnockBack(Vector3 p_forceDirection, float p_force)
+	private void OnControllerColliderHit(ControllerColliderHit hit)
 	{
-		m_velocity = p_forceDirection.normalized * p_force;
+		m_punchHitNormal = hit.normal;
+		m_punchHitPos = hit.point;
 	}
 }

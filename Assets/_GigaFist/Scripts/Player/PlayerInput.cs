@@ -49,6 +49,11 @@ public class PlayerInput : MonoBehaviour
 			m_playerController.OnPunchInputUp();
 		}
 
+		if (Input.GetMouseButtonDown(1))
+		{
+			m_playerController.OnUppercutInputDown();
+		}
+
 		if (m_playerInputController.GetButtonDown("Jump"))
 		{
 			m_playerController.OnJumpInputDown();
