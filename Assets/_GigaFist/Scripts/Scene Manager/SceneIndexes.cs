@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public enum SceneIndexes
+namespace GigaFist
 {
-    SCENE_MANAGER = 0,
-    SAMPLE_SCENE = 1
+    public enum SceneIndexes
+    {
+        LOADING = 0,
+        SAMPLE_SCENE = 1,
+        SAMPLE_2 = 2
+    }
 }
