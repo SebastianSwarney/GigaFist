@@ -991,7 +991,7 @@ public class PlayerController : MonoBehaviour
 		{
 			t += Time.deltaTime;
 
-			//m_chargeVisual.localScale = Vector3.Lerp(new Vector3(1, 0, 0.1f), new Vector3(1, 1, 0.1f), t / m_punchChargeTime);
+			m_chargeVisual.localScale = Vector3.Lerp(new Vector3(1, 0, 0.1f), new Vector3(1, 1, 0.1f), t / m_punchChargeTime);
 
 			yield return null;
 		}
