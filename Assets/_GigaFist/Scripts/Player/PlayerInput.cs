@@ -39,6 +39,16 @@ public class PlayerInput : MonoBehaviour
 			m_playerController.SetLookInput(lookInput);
 		}
 
+		if (m_playerInputController.GetButtonDoublePressDown("MoveHorizontal", 0.5f))
+		{
+			//Debug.Log("Double");
+		}
+
+		if (m_playerInputController.GetNegativeButtonDoublePressDown("MoveHorizontal", 0.5f))
+		{
+			//Debug.Log("Double");
+		}
+
 		if (m_playerInputController.GetButtonDown("Punch"))
 		{
 			m_playerController.OnPunchInputDown();
@@ -49,7 +59,7 @@ public class PlayerInput : MonoBehaviour
 			m_playerController.OnPunchInputUp();
 		}
 
-		if (Input.GetMouseButtonDown(1))
+		if (m_playerInputController.GetButtonUp("Uppercut"))
 		{
 			m_playerController.OnUppercutInputDown();
 		}
