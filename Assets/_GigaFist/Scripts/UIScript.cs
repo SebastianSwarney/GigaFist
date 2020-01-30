@@ -8,6 +8,7 @@ public class UIScript : MonoBehaviour
    // public TextMesh opponentText;
     public int playerScore;
     public int opponentScore;
+    
 
     // Start is called before the first frame update
     void Start()
