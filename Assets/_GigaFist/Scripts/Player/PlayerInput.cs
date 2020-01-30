@@ -71,12 +71,13 @@ public class PlayerInput : MonoBehaviour
 
         if (m_playerInputController.GetButtonDown("Punch"))
 		{
-			m_playerController.OnPunchInputDown();
-		}
+            //m_playerController.OnPunchInputDown();
+            m_playerController.OnSlamInputDown();
+        }
 
-		if (m_playerInputController.GetButtonUp("Punch"))
+        if (m_playerInputController.GetButtonUp("Punch"))
 		{
-			m_playerController.OnPunchInputUp();
+			//m_playerController.OnPunchInputUp();
 		}
 
 		if (m_playerInputController.GetButtonUp("Uppercut"))
