@@ -6,6 +6,7 @@ using Rewired;
 public class PlayerInput : MonoBehaviour
 {
 	public int m_playerId;
+    public float m_shortDashInputSpeed;
 
 	private PlayerController m_playerController;
 	private Player m_playerInputController;
@@ -39,17 +40,36 @@ public class PlayerInput : MonoBehaviour
 			m_playerController.SetLookInput(lookInput);
 		}
 
-		if (m_playerInputController.GetButtonDoublePressDown("MoveHorizontal", 0.5f))
+		if (m_playerInputController.GetButtonDoublePressDown("MoveHorizontal", m_shortDashInputSpeed))
 		{
-			//Debug.Log("Double");
+            m_playerController.OnShortDashInputDown(transform.right);
 		}
-
-		if (m_playerInputController.GetNegativeButtonDoublePressDown("MoveHorizontal", 0.5f))
+		if (m_playerInputController.GetNegativeButtonDoublePressDown("MoveHorizontal", m_shortDashInputSpeed))
 		{
-			//Debug.Log("Double");
-		}
+            m_playerController.OnShortDashInputDown(-transform.right);
+        }
 
-		if (m_playerInputController.GetButtonDown("Punch"))
+        if (m_playerInputController.GetButtonDoublePressDown("MoveVertical", m_shortDashInputSpeed))
+        {
+            m_playerController.OnShortDashInputDown(transform.forward);
+        }
+        if (m_playerInputController.GetNegativeButtonDoublePressDown("MoveVertical", m_shortDashInputSpeed))
+        {
+            m_playerController.OnShortDashInputDown(-transform.forward);
+        }
+
+
+        if (m_playerInputController.GetButtonDown("SpeedBoost"))
+        {
+            m_playerController.OnSpeedBoostInputDown();
+        }
+        if (m_playerInputController.GetButtonUp("SpeedBoost"))
+        {
+            m_playerController.OnSpeedBoostInputUp();
+        }
+
+
+        if (m_playerInputController.GetButtonDown("Punch"))
 		{
 			m_playerController.OnPunchInputDown();
 		}

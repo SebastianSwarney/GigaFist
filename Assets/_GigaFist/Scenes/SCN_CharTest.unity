@@ -315,15 +315,15 @@ GameObject:
   - component: {fileID: 800838869}
   - component: {fileID: 800838868}
   - component: {fileID: 800838867}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &800838867
-MeshCollider:
+--- !u!65 &800838867
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -332,10 +332,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 1266515248}
+  serializedVersion: 2
+  m_Size: {x: 47.178272, y: 30, z: 1.0000055}
+  m_Center: {x: -22.589136, y: 15, z: -0.50000274}
 --- !u!114 &800838868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +624,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14270
+  m_Name: pb_Mesh14372
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1596,7 +1595,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14294
+  m_Name: pb_Mesh14396
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1850,7 +1849,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14256
+  m_Name: pb_Mesh14358
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2292,6 +2291,96 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[0].weightedMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[1].inSlope
+      value: 3.9679167
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[1].outSlope
+      value: 3.9679167
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[1].weightedMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCurve.m_Curve.Array.data[1].inWeight
+      value: 0.25165564
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostChargeMax
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostCharge
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostChargeTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 479003483520546471, guid: 2cee4c2eb95f79d47895227505613614,
+        type: 3}
+      propertyPath: m_speedBoostChargeTimer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cee4c2eb95f79d47895227505613614, type: 3}

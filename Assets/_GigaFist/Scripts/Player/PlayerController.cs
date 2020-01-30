@@ -219,9 +219,37 @@ public class PlayerController : MonoBehaviour
 
 	private bool m_isUppercutting;
 	[Space]
-	#endregion
+    #endregion
 
-	private Vector2 m_movementInput;
+    #region Short Dash Properties
+    [Header("Short Dash Properties")]
+
+    public float m_shortDashTime;
+    public float m_shortDashDistance;
+    public AnimationCurve m_shortDashCurve;
+
+    private bool m_isShortDashing;
+    [Space]
+    #endregion
+
+    #region Speed Boost Properties
+    [Header("Speed Boost Properties")]
+    public float m_speedBoostChargeTimer;
+    public float m_speedBoostChargeTime;
+
+    public float m_speedBoostCharge;
+    public float m_speedBoostChargeMax;
+
+    public float m_speedBoostTime;
+    public float m_speedBoostSpeed;
+    public AnimationCurve m_speedBoostCurve;
+
+    private bool m_isSpeedBoosting;
+    private Coroutine m_speedBoostCoroutine;
+    [Space]
+    #endregion
+
+    private Vector2 m_movementInput;
 	private Vector2 m_lookInput;
 
 	private Rigidbody m_rigidbody;
@@ -1079,6 +1107,130 @@ public class PlayerController : MonoBehaviour
 		m_states.m_gravityControllState = GravityState.GravityEnabled;
 		m_isPunching = false;
 	}
+
+    public void OnShortDashInputDown(Vector3 p_dashDirection)
+    {
+        if (!m_isShortDashing)
+        {
+            StartCoroutine(RunShortDash(p_dashDirection));
+        }
+    }
+
+    private IEnumerator RunShortDash(Vector3 p_dashDirection)
+    {
+        m_isShortDashing = true;
+
+        m_states.m_movementControllState = MovementControllState.MovementDisabled;
+        m_states.m_gravityControllState = GravityState.GravityDisabled;
+
+        float t = 0;
+
+        Vector3 startPos = transform.position;
+
+        Vector3 dashPos = startPos + (p_dashDirection * m_shortDashDistance);
+
+        while (t < m_shortDashTime)
+        {
+            t += Time.fixedDeltaTime;
+
+            float progress = m_shortDashCurve.Evaluate(t / m_shortDashTime);
+            Vector3 targetPos = Vector3.Lerp(startPos, dashPos, progress);
+            PhysicsSeekTo(targetPos);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        m_states.m_movementControllState = MovementControllState.MovementEnabled;
+        m_states.m_gravityControllState = GravityState.GravityEnabled;
+
+        m_isShortDashing = false;
+    }
+
+    public void OnSpeedBoostInputDown()
+    {
+        if (!m_isSpeedBoosting && m_speedBoostCharge > 0)
+        {
+            if (m_speedBoostCoroutine != null)
+            {
+                StopCoroutine(m_speedBoostCoroutine);
+            }
+
+            StartCoroutine(RunSpeedBoost());
+        }
+    }
+
+    public void OnSpeedBoostInputUp()
+    {
+        if (m_isSpeedBoosting)
+        {
+            m_isSpeedBoosting = false;
+        }
+    }
+
+    private IEnumerator ChargeSpeedBoost()
+    {
+        while (m_speedBoostCharge < m_speedBoostChargeMax)
+        {
+            m_speedBoostChargeTimer += Time.deltaTime;
+
+            float progress = m_speedBoostChargeTimer / m_speedBoostChargeTime;
+
+            m_speedBoostCharge = Mathf.Lerp(0, m_speedBoostChargeMax, progress);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        m_speedBoostCharge = m_speedBoostChargeMax;
+    }
+
+    private IEnumerator RunSpeedBoost()
+    {
+        m_isSpeedBoosting = true;
+        m_states.m_gravityControllState = GravityState.GravityDisabled;
+
+        m_velocity.y = 0f;
+
+        float t = 0;
+
+        while (m_isSpeedBoosting)
+        {
+            t += Time.fixedDeltaTime;
+
+            m_speedBoostChargeTimer -= Time.fixedDeltaTime;
+
+            float time = m_speedBoostChargeTimer / m_speedBoostChargeTime;
+
+            Debug.Log(time);
+
+            m_speedBoostCharge = Mathf.Lerp(m_speedBoostChargeMax, 0f, time);
+
+            float progress = m_speedBoostCurve.Evaluate(t / m_speedBoostTime);
+
+            float currentSpeed = Mathf.Lerp(m_speedBoostSpeed, m_speedBoostSpeed, progress);
+
+            Vector2 input = new Vector2(m_movementInput.x, m_movementInput.y);
+
+            Vector3 forwardMovement = transform.forward * input.y;
+            Vector3 rightMovement = transform.right * input.x;
+            Vector3 targetHorizontalMovement = forwardMovement + rightMovement;
+            Vector3 horizontalMovement = new Vector3(targetHorizontalMovement.x, 0f, targetHorizontalMovement.z) * currentSpeed;
+
+            m_velocity = new Vector3(horizontalMovement.x, m_velocity.y, horizontalMovement.z);
+
+            if (m_speedBoostCharge <= 0)
+            {
+                m_isSpeedBoosting = false;
+                m_speedBoostCharge = 0;
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        m_states.m_gravityControllState = GravityState.GravityEnabled;
+        m_isSpeedBoosting = false;
+
+        m_speedBoostCoroutine = StartCoroutine(ChargeSpeedBoost());
+    }
 
 	public void OnUppercutInputDown()
 	{

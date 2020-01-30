@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerId: 0
+  m_shortDashInputSpeed: 0.3
 --- !u!114 &479003483520546471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,8 +242,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_wallSpeedUpTime: 3
-  m_maxWallRunSpeed: 10
+  m_wallSpeedUpTime: 1
+  m_maxWallRunSpeed: 50
   m_tiltSpeed: 0.1
   m_wallRunCameraMaxTilt: 30
   m_wallRidingRayCount: 5
@@ -331,6 +332,32 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 1
       inWeight: 0.38225257
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_shortDashTime: 0.3
+  m_shortDashDistance: 15
+  m_shortDashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 41.462265
+      tangentMode: 1
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.025028441
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.10060698
+      outSlope: 0.10060698
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.77360636
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
