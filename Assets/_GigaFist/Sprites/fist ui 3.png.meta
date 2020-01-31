@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 46e602fc4bf35464792a3cc9da4aeaee
+guid: d009fd51ade7d754e975621cbfb13e82
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7083268496629974994
-    second: fist ui 2_0
+      213: -5367313689610167826
+    second: fist ui 3_0
   - first:
-      213: 2280594461022152907
-    second: fist ui 2_1
+      213: 6687178297910070425
+    second: fist ui 3_1
   - first:
-      213: -6332658306799519518
-    second: fist ui 2_2
+      213: 6407355702883046619
+    second: fist ui 3_2
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -49,7 +49,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -81,18 +81,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -143,34 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fist ui 2_0
+      name: fist ui 3_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 861
-        width: 1496
-        height: 155
-      alignment: 9
-      pivot: {x: 0.5031521, y: 0.49087206}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6cf7abd0ff5439d499c76c971bd841a3
-      internalID: 7083268496629974994
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fist ui 2_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 680
-        width: 1500
-        height: 180
+        y: 129
+        width: 412
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce6308fe92198084c86c9db62651b25b
-      internalID: 2280594461022152907
+      spriteID: ed63afb716c5d5944b8a87c5051b86ce
+      internalID: -5367313689610167826
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fist ui 2_2
+      name: fist ui 3_1
       rect:
         serializedVersion: 2
-        x: 2
-        y: 366
-        width: 1496
-        height: 305
+        x: 0
+        y: 83
+        width: 412
+        height: 46
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,8 +166,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9bbf3b96c2f1aa47966990058e1adf7
-      internalID: -6332658306799519518
+      spriteID: a4c3736895a1f64489992f21ad22f0d7
+      internalID: 6687178297910070425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fist ui 3_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 412
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba4573608a9bafd41ba46045c32381bf
+      internalID: 6407355702883046619
       vertices: []
       indices: 
       edges: []
