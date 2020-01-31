@@ -1626,26 +1626,26 @@ MonoBehaviour:
     animate: 1
     origin: {x: 0, y: 0, z: 0}
     amplitude: 0.09
-    frequency: 1.42
+    frequency: 0.199
   - obj: {fileID: 815716688}
     animate: 1
     origin: {x: 0, y: 0, z: 0}
     amplitude: 0.11
-    frequency: 1.4
+    frequency: 0.231
   - obj: {fileID: 997561672}
     animate: 1
     origin: {x: 0, y: 0, z: 0}
     amplitude: 0.13
-    frequency: 1.36
+    frequency: 0.257
   - obj: {fileID: 18220796}
     animate: 1
     origin: {x: 0, y: 0, z: 0}
     amplitude: 0.11
-    frequency: 1.46
+    frequency: 0.241
   - obj: {fileID: 668422446}
     animate: 1
     origin: {x: 0, y: 0, z: 0}
-    amplitude: 0.11
+    amplitude: 0.046
     frequency: 1.46
 --- !u!4 &2120984682
 Transform:
