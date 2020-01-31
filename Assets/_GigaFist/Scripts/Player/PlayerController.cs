@@ -234,9 +234,9 @@ public class PlayerController : MonoBehaviour
 
     #region Speed Boost Properties
     [Header("Speed Boost Properties")]
-    private float m_speedBoostChargeTimer;
     public float m_speedBoostChargeTime;
-
+    private float m_speedBoostChargeTimer;
+    
     private float m_speedBoostCharge;
     public float m_speedBoostChargeMax;
 
