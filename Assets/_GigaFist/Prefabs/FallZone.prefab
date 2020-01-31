@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4977773028457206887}
   m_Layer: 0
   m_Name: FallZone
-  m_TagString: Untagged
+  m_TagString: FallZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,3 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resetZone: {fileID: 4977773028120113105}
+  fallCount: 0
