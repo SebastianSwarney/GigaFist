@@ -194,6 +194,7 @@ public class PlayerController : MonoBehaviour
 		[Header("Punch Cooldown Properties")]
 		public float m_punchCooldownTime;
 		public PlayerUICooldown m_punchCooldownUI;
+        public PlayerUICooldown m_punchChargeUI;
 	}
 
 	[Header("Punch Properties")]
@@ -544,6 +545,7 @@ public class PlayerController : MonoBehaviour
         m_bufferTimerRef(p_bufferTime);
     }
 
+    //For UI Elements
 	private IEnumerator RunBufferTimer(System.Action<float> m_bufferTimerRef, float p_bufferTime, PlayerUICooldown p_cooldownImage)
 	{
 		float t = 0;
@@ -1055,8 +1057,12 @@ public class PlayerController : MonoBehaviour
         {
             t += Time.deltaTime;
 
+            m_punchProperties.m_punchChargeUI.DisplayCooldown(t, m_punchProperties.m_punchChargeTime);
+
             yield return null;
         }
+
+        m_punchProperties.m_punchChargeUI.DisplayCooldown(t, m_punchProperties.m_punchChargeTime);
 
         StartCoroutine(RunPunch(m_cameraProperties.m_camera.transform.forward, t / m_punchProperties.m_punchChargeTime));
 
@@ -1368,7 +1374,9 @@ public class PlayerController : MonoBehaviour
 		m_states.m_movementControllState = MovementControllState.MovementDisabled;
 		m_states.m_aliveState = AliveState.IsDead;
 
-		m_cameraProperties.m_camera.enabled = false;
+        gameObject.SetActive(false);
+
+		//m_cameraProperties.m_camera.enabled = false;
 
 		RoundManager.Instance.OnPlayerDeath();
 	}
