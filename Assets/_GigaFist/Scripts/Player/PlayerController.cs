@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public enum GravityState { GravityEnabled, GravityDisabled }
     public enum DamageState { Vulnerable, Invulnerable }
     public enum InputState { InputEnabled, InputDisabled }
+    public enum AliveState { IsAlive, IsDead }
     public PlayerState m_states;
 
     #region Movement Events
@@ -255,8 +256,10 @@ public class PlayerController : MonoBehaviour
     public AnimationCurve m_slamCurve;
 
     private bool m_isSlaming;
-    [Space]
-    #endregion
+	[Space]
+	#endregion
+
+	public LayerMask m_killZoneMask;
 
     private Vector2 m_movementInput;
     private Vector2 m_lookInput;
@@ -271,6 +274,8 @@ public class PlayerController : MonoBehaviour
     private Coroutine m_wallRunBufferCoroutine;
 
     private float m_currentSpeedBoost;
+
+	private PlayerInput m_input;
 
     private void Start()
     {
@@ -289,7 +294,89 @@ public class PlayerController : MonoBehaviour
         m_speedBoostCharge = m_speedBoostChargeMax;
     }
 
-    private void OnValidate()
+	public void RunRoundSetup(int p_playerId, int p_numberOfPlayers)
+	{
+		m_input = GetComponent<PlayerInput>();
+		m_input.m_playerId = p_playerId;
+
+		#region Camera Size Calc
+		if (p_numberOfPlayers == 1)
+		{
+			return;
+		}
+		else if (p_numberOfPlayers == 2)
+		{
+			Vector2 size = new Vector2(1, 0.5f);
+
+			if (p_playerId == 0)
+			{
+				Vector2 pos = new Vector2(0,0);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+			else if (p_playerId == 1)
+			{
+				Vector2 pos = new Vector2(0, 0.5f);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+		}
+		else if (p_numberOfPlayers == 3)
+		{
+			Vector2 size = new Vector2(0.5f, 0.5f);
+
+			if (p_playerId == 0)
+			{
+				Vector2 pos = new Vector2(0, 0);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+			else if (p_playerId == 1)
+			{
+				Vector2 pos = new Vector2(0.5f, 0);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+			else if (p_playerId == 2)
+			{
+				Vector2 pos = new Vector2(0, 0.5f);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+		}
+		else if (p_numberOfPlayers == 4)
+		{
+			Vector2 size = new Vector2(0.5f, 0.5f);
+
+			if (p_playerId == 0)
+			{
+				Vector2 pos = new Vector2(0, 0);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+			else if (p_playerId == 1)
+			{
+				Vector2 pos = new Vector2(0.5f, 0);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+			else if (p_playerId == 2)
+			{
+				Vector2 pos = new Vector2(0, 0.5f);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+			else if (p_playerId == 3)
+			{
+				Vector2 pos = new Vector2(0.5f, 0.5f);
+				m_camera.rect = new Rect(pos, size);
+				return;
+			}
+		}
+		#endregion
+	}
+
+	private void OnValidate()
     {
         //CalculateJump();
     }
@@ -449,6 +536,7 @@ public class PlayerController : MonoBehaviour
         public GravityState m_gravityControllState;
         public DamageState m_damageState;
         public InputState m_inputState;
+		public AliveState m_aliveState;
     }
 
     private bool IsGrounded()
@@ -1019,11 +1107,12 @@ public class PlayerController : MonoBehaviour
         JumpMaxMultiplied(p_amount);
     }
 
-    #endregion
+	#endregion
 
-    #endregion
+	#endregion
 
-    public void OnPunchInputDown()
+	#region Punching Code
+	public void OnPunchInputDown()
     {
         if (!m_isChargingPunch)
         {
@@ -1046,8 +1135,6 @@ public class PlayerController : MonoBehaviour
         {
             t += Time.deltaTime;
 
-            //m_chargeVisual.localScale = Vector3.Lerp(new Vector3(1, 0, 0.1f), new Vector3(1, 1, 0.1f), t / m_punchChargeTime);
-
             yield return null;
         }
 
@@ -1069,6 +1156,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 startPos = transform.position;
         Vector3 punchPos = startPos + (p_punchDirection * currentPunchDistance);
+
+		List<PlayerController> hitEnemies = new List<PlayerController>();
 
         while (t < currentPunchTime)
         {
@@ -1096,22 +1185,10 @@ public class PlayerController : MonoBehaviour
             #endregion
 
             //float targetSpeed = Mathf.Lerp(m_punchSpeed, m_punchEndSpeed, progress);
-
             m_velocity = p_punchDirection * m_punchSpeed;
 
-            //Vector3 targetPos = Vector3.Lerp(startPos, punchPos, progress);
-            //PhysicsSeekTo(targetPos);
+			HitEnemies(ref hitEnemies, m_camera.transform.forward, 250f, (m_camera.transform.forward * 1) + transform.position, 1, m_playerFistMask);
 
-            /*
-			PlayerController[] hitPlayers = CheckHitbox((m_camera.transform.forward * 5) + transform.position, 5f, m_playerFistMask);
-
-			if (hitPlayers.Length > 0)
-			{
-				hitPlayers[0].TriggerKnockBack(transform.forward, 250f); //Make real number
-
-				t = m_maxPunchTime;
-			}
-			*/
             yield return new WaitForFixedUpdate();
         }
 
@@ -1141,7 +1218,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 dashPos = startPos + (p_dashDirection * m_shortDashDistance);
 
-        while (t < m_shortDashTime)
+		List<PlayerController> hitEnemies = new List<PlayerController>();
+
+		while (t < m_shortDashTime)
         {
             t += Time.fixedDeltaTime;
 
@@ -1149,7 +1228,9 @@ public class PlayerController : MonoBehaviour
             Vector3 targetPos = Vector3.Lerp(startPos, dashPos, progress);
             PhysicsSeekTo(targetPos);
 
-            yield return new WaitForFixedUpdate();
+			HitEnemies(ref hitEnemies, p_dashDirection, 350f, (transform.forward * 2) + transform.position, 2, m_playerFistMask);
+
+			yield return new WaitForFixedUpdate();
         }
 
         m_states.m_movementControllState = MovementControllState.MovementEnabled;
@@ -1255,7 +1336,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 startPos = transform.position;
 
-        while (t < m_uppercutTime)
+		List<PlayerController> hitEnemies = new List<PlayerController>();
+
+		while (t < m_uppercutTime)
         {
             t += Time.fixedDeltaTime;
 
@@ -1264,7 +1347,9 @@ public class PlayerController : MonoBehaviour
             Vector3 targetPos = Vector3.Lerp(startPos, startPos + Vector3.up * m_uppercutDistance, progress);
             PhysicsSeekTo(targetPos);
 
-            yield return new WaitForFixedUpdate();
+			HitEnemies(ref hitEnemies, transform.up, 50f, (transform.forward * 3) + transform.position, 3, m_playerFistMask);
+
+			yield return new WaitForFixedUpdate();
         }
 
         m_states.m_movementControllState = MovementControllState.MovementEnabled;
@@ -1279,8 +1364,6 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(RunSlam());
         }
-
-
     }
 
     private IEnumerator RunSlam()
@@ -1320,6 +1403,20 @@ public class PlayerController : MonoBehaviour
         m_isSlaming = false;
     }
 
+	private void HitEnemies(ref List<PlayerController> p_previouslyHitEnemies, Vector3 p_hitDirection, float p_hitForce, Vector3 p_hitboxOrigin, float p_hitboxSize, LayerMask p_layerMask)
+	{
+		PlayerController[] hitPlayers = CheckHitbox(p_hitboxOrigin, p_hitboxSize, p_layerMask);
+
+		foreach (PlayerController player in hitPlayers)
+		{
+			if (!p_previouslyHitEnemies.Contains(player))
+			{
+				player.TriggerKnockBack(p_hitDirection, p_hitForce);
+				p_previouslyHitEnemies.Add(player);
+			}
+		}
+	}
+
     private PlayerController[] CheckHitbox(Vector3 p_hitboxOrigin, float p_hitboxSize, LayerMask p_layerMask)
     {
         DebugExtension.DebugWireSphere(p_hitboxOrigin, p_hitboxSize);
@@ -1341,10 +1438,33 @@ public class PlayerController : MonoBehaviour
 
     private void TriggerKnockBack(Vector3 p_forceDirection, float p_force)
     {
+		Debug.Log("got hit");
+
         m_velocity = p_forceDirection.normalized * p_force;
     }
+	#endregion
 
-    private void StopAllActions()
+	public void FreezeSelf()
+	{
+		m_states.m_movementControllState = MovementControllState.MovementDisabled;
+	}
+
+	public void UnFreezeSelf()
+	{
+		m_states.m_movementControllState = MovementControllState.MovementEnabled;
+	}
+
+	private void KillSelf()
+	{
+		m_states.m_movementControllState = MovementControllState.MovementDisabled;
+		m_states.m_aliveState = AliveState.IsDead;
+
+		m_camera.enabled = false;
+
+		RoundManager.Instance.OnPlayerDeath();
+	}
+
+	private void StopAllActions()
     {
         StopAllCoroutines();
     }
@@ -1365,5 +1485,10 @@ public class PlayerController : MonoBehaviour
     {
         m_punchHitNormal = hit.normal;
         m_punchHitPos = hit.point;
+
+		if (CheckCollisionLayer(m_killZoneMask, hit.gameObject))
+		{
+			KillSelf();
+		}
     }
 }

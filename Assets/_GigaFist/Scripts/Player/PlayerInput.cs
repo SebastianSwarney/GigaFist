@@ -68,13 +68,15 @@ public class PlayerInput : MonoBehaviour
             m_playerController.OnSpeedBoostInputUp();
         }
 
+		if (m_playerInputController.GetButtonDown("Slam"))
+		{
+			m_playerController.OnSlamInputDown();
+		}
 
-        if (m_playerInputController.GetButtonDown("Punch"))
+		if (m_playerInputController.GetButtonDown("Punch"))
 		{
             m_playerController.OnPunchInputDown();
-            //m_playerController.OnSlamInputDown();
         }
-
         if (m_playerInputController.GetButtonUp("Punch"))
 		{
 			m_playerController.OnPunchInputUp();
