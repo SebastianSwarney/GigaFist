@@ -1349,8 +1349,6 @@ public class PlayerController : MonoBehaviour
 
     private void TriggerKnockBack(Vector3 p_forceDirection, float p_force)
     {
-		Debug.Log("got hit");
-
         m_velocity = p_forceDirection.normalized * p_force;
     }
 	#endregion
