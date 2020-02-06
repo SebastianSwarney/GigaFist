@@ -173,253 +173,181 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: PlayerControllerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-  m_mouseSensitivity: 0.1
-  m_maxCameraAng: 50
-  m_inverted: 1
-  m_camera: {fileID: 5795091098614260645}
-  m_cameraTilt: {fileID: 5862515351299538762}
-  m_cameraMain: {fileID: 4710219578411615725}
-  m_baseMovementSpeed: 10
-  m_accelerationTime: 0.1
+  m_cameraProperties:
+    m_mouseSensitivity: 0.1
+    m_maxCameraAng: 60
+    m_inverted: 1
+    m_camera: {fileID: 5795091098614260645}
+    m_cameraTilt: {fileID: 5862515351299538762}
+    m_cameraMain: {fileID: 4710219578411615725}
+  m_baseMovementProperties:
+    m_baseMovementSpeed: 10
+    m_accelerationTime: 0.1
   m_velocity: {x: 0, y: 0, z: 0}
-  m_maxJumpHeight: 10
-  m_minJumpHeight: 1
-  m_timeToJumpApex: 0.5
-  m_graceTime: 0.1
-  m_jumpBufferTime: 0.3
-  m_gravity: 0
-  m_leapCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_leapTime: 5
-  m_leapSpeedBoostBase: 5
-  m_leapSpeedBoostIncrease: 2
-  m_leapSpeedBoostCountMax: 5
-  m_leapBufferTime: 0.2
-  m_wallMask:
-    serializedVersion: 2
-    m_Bits: 256
-  m_wallSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_wallSpeedUpTime: 1
-  m_maxWallRunSpeed: 50
-  m_tiltSpeed: 0.1
-  m_wallRunCameraMaxTilt: 30
-  m_wallRidingRayCount: 5
-  m_wallRaySpacing: 180
-  m_wallRunRayLength: 1
-  m_wallRunBufferTime: 0.1
-  m_wallRunJumpVelocity: {x: 50, y: 0, z: 100}
-  m_wallJumpBufferTime: 0.1
-  m_wallJumpVelocity: {x: 50, y: 100, z: 0}
+  m_jumpingProperties:
+    m_maxJumpHeight: 13
+    m_minJumpHeight: 1
+    m_timeToJumpApex: 0.6
+    m_graceTime: 0.2
+    m_jumpBufferTime: 0.3
+  m_wallRunProperties:
+    m_wallMask:
+      serializedVersion: 2
+      m_Bits: 0
+    m_wallSpeedCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_wallSpeedUpTime: 0
+    m_maxWallRunSpeed: 0
+    m_tiltSpeed: 0
+    m_wallRunCameraMaxTilt: 0
+    m_wallRidingRayCount: 0
+    m_wallRaySpacing: 0
+    m_wallRunRayLength: 0
+    m_wallRunBufferTime: 0
+    m_wallRunJumpVelocity: {x: 0, y: 0, z: 0}
+    m_wallJumpBufferTime: 0
+    m_wallJumpVelocity: {x: 0, y: 0, z: 0}
   m_holdingWallRideStick: 0
-  m_wallClimbSpeedCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_maxWallClimbSpeed: 0
-  m_wallClimbSpeedUpTime: 0
-  m_wallClimbFactor: 0
-  m_wallClimbJumpVelocity: {x: 0, y: 0, z: 0}
+  m_wallClimbProperties:
+    m_wallClimbSpeedCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_maxWallClimbSpeed: 0
+    m_wallClimbSpeedUpTime: 0
+    m_wallClimbFactor: 0
+    m_wallClimbJumpVelocity: {x: 0, y: 0, z: 0}
   m_localWallFacingVector: {x: 0, y: 0, z: 0}
-  m_slideTime: 0
-  m_slideCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_slideSpeedUpTime: 0
-  m_maxSlideSpeed: 0
   m_playerFistMask:
     serializedVersion: 2
     m_Bits: 512
-  m_minPunchTime: 0.2
-  m_maxPunchTime: 0.5
-  m_minPunchDistance: 0
-  m_maxPunchDistance: 15
-  m_punchCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 41.462265
-      tangentMode: 1
-      weightedMode: 3
-      inWeight: 0
-      outWeight: 0.025028441
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.10060698
-      outSlope: 0.10060698
-      tangentMode: 0
-      weightedMode: 1
-      inWeight: 0.77360636
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_punchChargeTime: 0.5
-  m_punchReflectThreshold: 0.8
-  m_punchSpeed: 50
-  m_punchEndSpeed: 10
-  m_punchCooldownTime: 3
-  m_punchCooldownUI: {fileID: 5883632092911392075}
-  m_uppercutTime: 0.5
-  m_uppercutDistance: 15
-  m_uppercutCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 41.462265
-      tangentMode: 1
-      weightedMode: 3
-      inWeight: 0
-      outWeight: 0.025028441
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.104889594
-      outSlope: 0.104889594
-      tangentMode: 0
-      weightedMode: 1
-      inWeight: 0.38225257
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_uppercutCooldownTime: 1
-  m_uppercutCooldownUI: {fileID: 6860395415775310091}
-  m_shortDashTime: 0.3
-  m_shortDashDistance: 15
-  m_shortDashCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 41.462265
-      tangentMode: 1
-      weightedMode: 3
-      inWeight: 0
-      outWeight: 0.025028441
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.10060698
-      outSlope: 0.10060698
-      tangentMode: 0
-      weightedMode: 1
-      inWeight: 0.77360636
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_speedBoostChargeTime: 3
-  m_speedBoostChargeMax: 100
-  m_speedBoostTime: 0.5
-  m_speedBoostSpeed: 50
-  m_speedBoostCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 3.9679167
-      outSlope: 3.9679167
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0.25165564
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_slamTime: 0.5
-  m_slamCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  m_punchProperties:
+    m_punchChargeTime: 1
+    m_minPunchTime: 0.1
+    m_maxPunchTime: 0.5
+    m_punchSpeed: 50
+    m_punchCooldownTime: 3
+    m_punchCooldownUI: {fileID: 5883632092911392075}
+  m_uppercutProperties:
+    m_uppercutTime: 0.5
+    m_uppercutDistance: 15
+    m_uppercutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 41.462265
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0
+        outWeight: 0.025028441
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.10060698
+        outSlope: 0.10060698
+        tangentMode: 0
+        weightedMode: 1
+        inWeight: 0.77360636
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_uppercutCooldownTime: 1
+    m_uppercutCooldownUI: {fileID: 6860395415775310091}
+  m_shortDashProperties:
+    m_shortDashTime: 0.3
+    m_shortDashDistance: 5
+    m_shortDashCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 41.462265
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0
+        outWeight: 0.025028441
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.10060698
+        outSlope: 0.10060698
+        tangentMode: 0
+        weightedMode: 1
+        inWeight: 0.77360636
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_speedBoostProperties:
+    m_speedBoostChargeTime: 3
+    m_speedBoostChargeMax: 100
+    m_speedBoostTime: 3
+    m_speedBoostSpeed: 50
+    m_speedBoostCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_slamProperties:
+    m_slamWallMask:
+      serializedVersion: 2
+      m_Bits: 256
+    m_slamTime: 0.5
+    m_slamCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0.0061425576
+        outSlope: 0.0061425576
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0
+        outWeight: 0.7679181
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 8.249263
+        outSlope: 8.249263
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0.10921502
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   m_killZoneMask:
     serializedVersion: 2
     m_Bits: 1024
