@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoundManager : MonoBehaviour
 {
 	public static RoundManager Instance;
 
-	public int m_roundStartCountdownTime;
-
 	public int m_numberOfPlayers;
 
 	public Vector3[] m_spawnPositions;
 	public GameObject m_playerPrefab;
+
+	[Header("Round Countdown Properties")]
+	public int m_roundStartCountdownTime;
+	public Text m_countdownText;
+	public GameObject m_countdownObject;
 
 	private List<PlayerController> m_players = new List<PlayerController>();
 
@@ -37,7 +41,19 @@ public class RoundManager : MonoBehaviour
 		SpawnPlayers();
 		FreezePlayers();
 
-		yield return new WaitForSeconds(m_roundStartCountdownTime);
+		m_countdownObject.gameObject.SetActive(true);
+
+		int t = m_roundStartCountdownTime + 1;
+
+		while (t > 0)
+		{
+			t--;
+
+			m_countdownText.text = t.ToString();
+			yield return new WaitForSeconds(1f);
+		}
+
+		m_countdownObject.gameObject.SetActive(false);
 
 		UnFreezePlayers();
 	}

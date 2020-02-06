@@ -184,10 +184,17 @@ public class PlayerController : MonoBehaviour
     private float m_currentSlideSpeed;
     private bool m_isSliding;
 
-    [Space]
+    //[Space]
     #endregion
 
     #region Punch Properties
+
+	[System.Serializable]
+	public struct PunchProperties
+	{
+
+	}
+
     [Header("Punch Properties")]
 
     public LayerMask m_playerFistMask;
@@ -202,23 +209,29 @@ public class PlayerController : MonoBehaviour
     public float m_punchSpeed;
     public float m_punchEndSpeed;
 
-    public Transform m_chargeVisual;
+	public float m_punchCooldownTime;
+	public PlayerUICooldown m_punchCooldownUI;
 
+	private float m_punchCooldownTimer;
     private bool m_isChargingPunch;
     private bool m_isPunching;
     private Vector3 m_punchHitNormal;
     private Vector3 m_punchHitPos;
+	private Coroutine m_punchCooldownCoroutine;
     [Space]
     #endregion
 
     #region Uppercut Properties
     [Header("Uppercut Properties")]
-
     public float m_uppercutTime;
     public float m_uppercutDistance;
     public AnimationCurve m_uppercutCurve;
+	public float m_uppercutCooldownTime;
+	public PlayerUICooldown m_uppercutCooldownUI;
 
-    private bool m_isUppercutting;
+	private bool m_isUppercutting;
+	private Coroutine m_uppercutCoroutine;
+	private float m_uppercutCooldownTimer;
     [Space]
     #endregion
 
@@ -292,7 +305,10 @@ public class PlayerController : MonoBehaviour
 
         m_speedBoostChargeTimer = m_speedBoostChargeTime;
         m_speedBoostCharge = m_speedBoostChargeMax;
-    }
+
+		m_punchCooldownTimer = m_punchCooldownTime;
+		m_uppercutCooldownTimer = m_uppercutCooldownTime;
+	}
 
 	public void RunRoundSetup(int p_playerId, int p_numberOfPlayers)
 	{
@@ -526,10 +542,27 @@ public class PlayerController : MonoBehaviour
         m_bufferTimerRef(p_bufferTime);
     }
 
-    #endregion
+	private IEnumerator RunBufferTimer(System.Action<float> m_bufferTimerRef, float p_bufferTime, PlayerUICooldown p_cooldownImage)
+	{
+		float t = 0;
 
-    #region Player State Code
-    [System.Serializable]
+		while (t < p_bufferTime)
+		{
+			t += Time.deltaTime;
+			m_bufferTimerRef(t);
+			p_cooldownImage.DisplayCooldown(t, p_bufferTime);
+			yield return null;
+		}
+
+		m_bufferTimerRef(p_bufferTime);
+
+		p_cooldownImage.DisplayCooldown(p_bufferTime, p_bufferTime);
+	}
+
+	#endregion
+
+	#region Player State Code
+	[System.Serializable]
     public struct PlayerState
     {
         public MovementControllState m_movementControllState;
@@ -1111,13 +1144,18 @@ public class PlayerController : MonoBehaviour
 
 	#endregion
 
-	#region Punching Code
+	#region Attack Code
+
+	#region Punch Code
 	public void OnPunchInputDown()
     {
-        if (!m_isChargingPunch)
-        {
-            StartCoroutine(ChargePunch());
-        }
+		if (CheckOverBuffer(ref m_punchCooldownTimer, ref m_punchCooldownTime, m_punchCooldownCoroutine))
+		{
+			if (!m_isChargingPunch)
+			{
+				StartCoroutine(ChargePunch());
+			}
+		}
     }
 
     public void OnPunchInputUp()
@@ -1195,9 +1233,12 @@ public class PlayerController : MonoBehaviour
         m_states.m_movementControllState = MovementControllState.MovementEnabled;
         m_states.m_gravityControllState = GravityState.GravityEnabled;
         m_isPunching = false;
-    }
 
-    public void OnShortDashInputDown(Vector3 p_dashDirection)
+		m_punchCooldownCoroutine = StartCoroutine(RunBufferTimer((x) => m_punchCooldownTimer = (x), m_punchCooldownTime, m_punchCooldownUI));
+	}
+	#endregion
+
+	public void OnShortDashInputDown(Vector3 p_dashDirection)
     {
         if (!m_isShortDashing)
         {
@@ -1319,10 +1360,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnUppercutInputDown()
     {
-        if (!m_isUppercutting)
-        {
-            StartCoroutine(RunUppercut());
-        }
+		if (CheckOverBuffer(ref m_uppercutCooldownTimer, ref m_uppercutCooldownTime, m_uppercutCoroutine))
+		{
+			if (!m_isUppercutting)
+			{
+				StartCoroutine(RunUppercut());
+			}
+		}
     }
 
     private IEnumerator RunUppercut()
@@ -1356,7 +1400,9 @@ public class PlayerController : MonoBehaviour
         m_states.m_gravityControllState = GravityState.GravityEnabled;
 
         m_isUppercutting = false;
-    }
+
+		m_uppercutCoroutine = StartCoroutine(RunBufferTimer((x) => m_uppercutCooldownTimer = (x), m_uppercutCooldownTime, m_uppercutCooldownUI));
+	}
 
     public void OnSlamInputDown()
     {
