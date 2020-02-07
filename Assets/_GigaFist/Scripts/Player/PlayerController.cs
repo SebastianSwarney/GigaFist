@@ -194,7 +194,6 @@ public class PlayerController : MonoBehaviour
 		[Header("Punch Cooldown Properties")]
 		public float m_punchCooldownTime;
 		public PlayerUICooldown m_punchCooldownUI;
-        public PlayerUICooldown m_punchChargeUI;
 	}
 
 	[Header("Punch Properties")]
@@ -1056,13 +1055,8 @@ public class PlayerController : MonoBehaviour
         while (m_isChargingPunch)
         {
             t += Time.deltaTime;
-
-            m_punchProperties.m_punchChargeUI.DisplayCooldown(t, m_punchProperties.m_punchChargeTime);
-
             yield return null;
         }
-
-        m_punchProperties.m_punchChargeUI.DisplayCooldown(t, m_punchProperties.m_punchChargeTime);
 
         StartCoroutine(RunPunch(m_cameraProperties.m_camera.transform.forward, t / m_punchProperties.m_punchChargeTime));
 
