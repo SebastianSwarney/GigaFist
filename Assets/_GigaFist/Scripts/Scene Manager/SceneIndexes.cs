@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GigaFist
 {
-    public enum SceneIndexes
+    public enum SceneIndexes //Contains hard set build index values for easy reference
     {
         LOADING = 0,
         SAMPLE_SCENE = 1,

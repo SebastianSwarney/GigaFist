@@ -118,6 +118,7 @@ namespace GigaFist
                         loadProgress += operation.progress;
                     }
 
+                    //Calculate load progress
                     loadProgress = loadProgress / loadingScenes.Count;
                     UpdateLoadingBar(loadProgress);
                     yield return null;

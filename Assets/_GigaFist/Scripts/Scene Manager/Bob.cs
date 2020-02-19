@@ -28,7 +28,7 @@ namespace GigaFist
         {
             if (targets != null)
             {
-                foreach (BobObject target in targets)
+                foreach (BobObject target in targets) //Animate an object up and down based on its settings from its origin
                 {
                     if (target.obj != null && target.origin != null)
                     {
@@ -44,7 +44,7 @@ namespace GigaFist
 }
 
 [System.Serializable]
-public class BobObject
+public class BobObject //Helper class to contain all info to customize bobbing speed
 {
     public GameObject obj;
     public bool animate = true;
