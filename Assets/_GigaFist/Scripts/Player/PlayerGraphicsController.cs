@@ -10,7 +10,7 @@ public class PlayerGraphicsController : MonoBehaviour
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
-        m_animator = GetComponent<Animator>();
+        m_animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
