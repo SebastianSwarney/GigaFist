@@ -22,6 +22,12 @@ ModelImporter:
       74: 5660161656060218371
     second: Armature|RocketPunch
   - first:
+      74: 8587356524689375401
+    second: Armature|UpperCutEnd
+  - first:
+      74: 1801250336832361008
+    second: Armature|UpperCutStart
+  - first:
       74: 8349542763059015795
     second: Armature|Walk
   - first:
@@ -204,6 +210,64 @@ ModelImporter:
       name: Armature|RocketPunch
       takeName: Armature|RocketPunch
       internalID: 5660161656060218371
+      firstFrame: 0
+      lastFrame: 95
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|UpperCutEnd
+      takeName: Armature|UpperCutEnd
+      internalID: 8587356524689375401
+      firstFrame: 0
+      lastFrame: 95
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|UpperCutStart
+      takeName: Armature|UpperCutStart
+      internalID: 1801250336832361008
       firstFrame: 0
       lastFrame: 95
       wrapMode: 0
