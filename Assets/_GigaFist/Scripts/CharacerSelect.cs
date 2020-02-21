@@ -21,7 +21,7 @@ public class CharacerSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //update material to currently selected colour (from an array of materials)
         currentColour = playerColours[currentlySelected];
         characterMesh.material = currentColour;
 
