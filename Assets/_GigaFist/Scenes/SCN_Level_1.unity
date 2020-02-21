@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 498316435}
   - component: {fileID: 498316438}
   m_Layer: 0
-  m_Name: New Game Object
+  m_Name: Upper Floor
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
