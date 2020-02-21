@@ -575,7 +575,7 @@ public class PlayerController : MonoBehaviour
 		public AliveState m_aliveState;
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         if (m_characterController.collisionFlags == CollisionFlags.Below)
         {

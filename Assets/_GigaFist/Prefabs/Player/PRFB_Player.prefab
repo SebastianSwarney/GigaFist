@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 1281786204917135808}
   - component: {fileID: 5279535111685427267}
   - component: {fileID: 479003483520546471}
+  - component: {fileID: 8045650274511733625}
+  - component: {fileID: 2477912807795514703}
   m_Layer: 9
   m_Name: PRFB_Player
   m_TagString: Untagged
@@ -351,6 +353,37 @@ MonoBehaviour:
   m_killZoneMask:
     serializedVersion: 2
     m_Bits: 1024
+--- !u!114 &8045650274511733625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592642010797543925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de1e59be6b5ce8488fa13ab62a750cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &2477912807795514703
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592642010797543925}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a40c21f422c66ed40a62fc8394d87949, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2592642012345496103
 GameObject:
   m_ObjectHideFlags: 0
