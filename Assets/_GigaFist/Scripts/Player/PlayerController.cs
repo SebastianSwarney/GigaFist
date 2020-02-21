@@ -294,9 +294,13 @@ public class PlayerController : MonoBehaviour
 
 	private PlayerInput m_input;
 
+    private Animator m_animator;
+
     private void Start()
     {
         m_characterController = GetComponent<CharacterController>();
+
+        m_animator = GetComponentInChildren<Animator>();
 
         CalculateJump();
         LockCursor();
@@ -1233,6 +1237,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RunUppercut()
     {
+        m_animator.SetTrigger("UppercutStart");
+
         m_isUppercutting = true;
 
         m_states.m_movementControllState = MovementControllState.MovementDisabled;
@@ -1250,6 +1256,8 @@ public class PlayerController : MonoBehaviour
 
             float progress = m_uppercutProperties.m_uppercutCurve.Evaluate(t / m_uppercutProperties.m_uppercutTime);
 
+            m_animator.SetFloat("UppercutProgress", progress);
+
             Vector3 targetPos = Vector3.Lerp(startPos, startPos + Vector3.up * m_uppercutProperties.m_uppercutDistance, progress);
             PhysicsSeekTo(targetPos);
 
@@ -1264,7 +1272,9 @@ public class PlayerController : MonoBehaviour
         m_isUppercutting = false;
 
 		m_uppercutCoroutine = StartCoroutine(RunBufferTimer((x) => m_uppercutCooldownTimer = (x), m_uppercutProperties.m_uppercutCooldownTime, m_uppercutProperties.m_uppercutCooldownUI));
-	}
+
+        m_animator.SetTrigger("UppercutEnd");
+    }
 	#endregion
 
 	#region Slam Code
