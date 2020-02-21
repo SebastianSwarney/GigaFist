@@ -22,6 +22,6 @@ public class PlayerGraphicsController : MonoBehaviour
         Vector3 reletiveVelocity = transform.InverseTransformDirection(m_playerController.m_velocity);
 
         m_animator.SetFloat("Forward", reletiveVelocity.z);
-        m_animator.SetFloat("Strafe", reletiveVelocity.x);
+        //m_animator.SetFloat("Strafe", reletiveVelocity.x);
     }
 }
