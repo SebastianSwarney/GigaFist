@@ -120,6 +120,90 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &875261484
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7391192416826178494, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_Name
+      value: PRFB_SceneManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178492, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416301822517, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416301822517, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7391192416826178493, guid: 0562893c8ab87234296ea472c173689a,
+        type: 3}
+      propertyPath: currentScene
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0562893c8ab87234296ea472c173689a, type: 3}
 --- !u!1 &882862228
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +389,7 @@ GameObject:
   - component: {fileID: 1496393452}
   - component: {fileID: 1496393451}
   m_Layer: 0
-  m_Name: MatchManager
+  m_Name: PRFB_MatchManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,12 +413,7 @@ MonoBehaviour:
   m_playersInMatch: 2
   m_numberOfRounds: 3
   m_passIntermissionAutomatically: 0
-  m_matchData:
-    rounds: []
-    numOfPlayers: 0
-    matchWinner:
-      playerID: 0
-      playerScore: 0
+  stateTickRate: 0.25
 --- !u!4 &1496393452
 Transform:
   m_ObjectHideFlags: 0

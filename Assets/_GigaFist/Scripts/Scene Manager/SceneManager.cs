@@ -14,7 +14,7 @@ namespace GigaFist
         [Header("Scene Management Properties")]
         public static SceneManager instance;
         public bool unloadCurrentOnChange = true;
-        public SceneIndexes currentScene = SceneIndexes.SAMPLE_SCENE;
+        public SceneIndexes currentScene = SceneIndexes.LOADING;
 
         [Header("Loading Screen Properties")]
         public CanvasGroup loadingScreen;
@@ -68,15 +68,15 @@ namespace GigaFist
         {
             //Testing
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                SetLoadingScreen(!loadingScreenVisible, animate);
-            }
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     SetLoadingScreen(!loadingScreenVisible, animate);
+            // }
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                ChangeScene(SceneIndexes.SAMPLE_2);
-            }
+            // if (Input.GetMouseButtonDown(1))
+            // {
+            //     ChangeScene(SceneIndexes.LOADING);
+            // }
         }
 
         #region Scene Loading and Changing
@@ -90,7 +90,7 @@ namespace GigaFist
         {
             if (unloadCurrentOnChange)
             {
-                loadingScenes.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)currentScene));
+                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)currentScene);
             }
 
             SetLoadingScreen(true, true);
