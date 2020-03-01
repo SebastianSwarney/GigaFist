@@ -324,10 +324,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_matchState: 0
-  m_matchSavePath: matchData.json
+  m_matchSavePath: /_GigaFist/Saves/
+  m_matchSaveFileName: Match
   m_playersInMatch: 2
-  m_numberOfRounds: 1
+  m_numberOfRounds: 3
   m_passIntermissionAutomatically: 0
+  m_matchData:
+    rounds: []
+    numOfPlayers: 0
+    matchWinner:
+      playerID: 0
+      playerScore: 0
 --- !u!4 &1496393452
 Transform:
   m_ObjectHideFlags: 0
