@@ -285,7 +285,8 @@ public class PlayerController : MonoBehaviour
 
 	public LayerMask m_killZoneMask;
 
-    private Vector2 m_movementInput;
+	[HideInInspector]
+    public Vector2 m_movementInput;
     private Vector2 m_lookInput;
 
     private bool m_isStunned;
@@ -330,17 +331,17 @@ public class PlayerController : MonoBehaviour
 		}
 		else if (p_numberOfPlayers == 2)
 		{
-			Vector2 size = new Vector2(1, 0.5f);
+			Vector2 size = new Vector2(0.5f, 1);
 
 			if (p_playerId == 0)
 			{
-				Vector2 pos = new Vector2(0,0);
+				Vector2 pos = new Vector2(0, 0);
 				m_cameraProperties.m_camera.rect = new Rect(pos, size);
 				return;
 			}
 			else if (p_playerId == 1)
 			{
-				Vector2 pos = new Vector2(0, 0.5f);
+				Vector2 pos = new Vector2(0.5f, 0);
 				m_cameraProperties.m_camera.rect = new Rect(pos, size);
 				return;
 			}
