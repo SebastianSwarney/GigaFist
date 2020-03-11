@@ -7,6 +7,9 @@ public class PlayerGraphicsController : MonoBehaviour
     private PlayerController m_playerController;
     private Animator m_animator;
 
+	public Transform m_visualTilt;
+	public float m_maxTiltAngle;
+
     private void Start()
     {
         m_playerController = GetComponent<PlayerController>();
@@ -22,6 +25,15 @@ public class PlayerGraphicsController : MonoBehaviour
         Vector3 reletiveVelocity = transform.InverseTransformDirection(m_playerController.m_velocity);
 
         m_animator.SetFloat("Forward", reletiveVelocity.z);
-        //m_animator.SetFloat("Strafe", reletiveVelocity.x);
-    }
+
+		Vector3 reletiveSpeed = transform.InverseTransformDirection(m_playerController.m_velocity / m_playerController.m_baseMovementProperties.m_baseMovementSpeed);
+
+		Quaternion forwardTilt = Quaternion.AngleAxis(m_maxTiltAngle * reletiveSpeed.z, Vector3.right);
+		Quaternion sideTilt = Quaternion.AngleAxis(m_maxTiltAngle * -reletiveSpeed.x, Vector3.forward);
+
+		m_visualTilt.transform.localRotation = forwardTilt * sideTilt;
+
+
+		//m_animator.SetFloat("Strafe", reletiveVelocity.x);
+	}
 }
