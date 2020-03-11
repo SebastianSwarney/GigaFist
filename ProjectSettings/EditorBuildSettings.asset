@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/_GigaFist/Scenes/Menu Scenes/SCN_Loading.unity
     guid: 38f6f87eea77f39409843570acef0026
   - enabled: 1
-    path: Assets/_GigaFist/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/_GigaFist/Scenes/Menu Scenes/SCN_LevelSelect.unity
+    guid: 7c00ae80e471dc84a895520e4a62b6e0
   - enabled: 1
-    path: Assets/_GigaFist/Scenes/Sample 2.unity
-    guid: efab56c35d2ff0e47ba273b1e7591300
+    path: Assets/_GigaFist/Scenes/SCN_CharTest.unity
+    guid: 645ea4d22bb8f3e41aeda1d1c0146f1e
+  - enabled: 1
+    path: Assets/_GigaFist/Scenes/SCN_Level_1.unity
+    guid: f330cf3c295383348932d00c91e16fdc
+  - enabled: 1
+    path: Assets/_GigaFist/Scenes/SCN_SavingTest.unity
+    guid: 1c97ad548ad4fa646bec673885342693
   m_configObjects: {}
