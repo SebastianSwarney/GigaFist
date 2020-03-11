@@ -65,25 +65,25 @@ namespace GigaFist
         void Update()
         {
             //! Testing
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 Debug.Log("Unloaded Match " + m_matchID);
                 UnloadMatchData();
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 LoadMatch();
                 Debug.Log("Loaded Match " + m_matchID);
             }
 
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 Debug.Log("Saved Match " + m_matchID);
                 SaveMatch();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 StartMatch();
             }

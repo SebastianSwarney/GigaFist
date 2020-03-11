@@ -61,6 +61,7 @@ namespace GigaFist
             SetLoadingScreen(loadingScreenVisible, false);
             //Reset loadingScenes list
             loadingScenes = new List<AsyncOperation>();
+            UpdateCurrentScene();
         }
 
         // Update is called once per frame
@@ -88,7 +89,7 @@ namespace GigaFist
 
         public void ChangeScene(SceneIndexes scene) //Change scene from current scene to the selected one
         {
-            if (unloadCurrentOnChange)
+            if (unloadCurrentOnChange && (int)currentScene < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
             {
                 UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)currentScene);
             }

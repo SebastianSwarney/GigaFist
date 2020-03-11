@@ -414,8 +414,8 @@ MonoBehaviour:
   m_numberOfRounds: 3
   m_passIntermissionAutomatically: 0
   stateTickRate: 0.25
-  scn_LevelSelect: 1
-  scn_MatchEnd: 0
+  scn_LevelSelect: 2
+  scn_MatchEnd: 5
 --- !u!4 &1496393452
 Transform:
   m_ObjectHideFlags: 0

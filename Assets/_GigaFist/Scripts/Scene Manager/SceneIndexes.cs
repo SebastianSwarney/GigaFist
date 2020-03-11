@@ -5,10 +5,12 @@ namespace GigaFist
 {
     public enum SceneIndexes //Contains hard set build index values for easy reference
     {
-        LOADING = 0,
-        LEVEL_SELECT = 1,
-        LEVEL_ONE = 2,
-        LEVEL_TWO = 3,
-        SAVING_TEST = 4
+        START_MENU = 0,
+        LOADING = 1,
+        LEVEL_SELECT = 2,
+        CHAR_TEST = 3,
+        LEVEL_ONE = 4,
+        MATCH_END = 5,
+        SAVING_TEST = 6
     }
 }
