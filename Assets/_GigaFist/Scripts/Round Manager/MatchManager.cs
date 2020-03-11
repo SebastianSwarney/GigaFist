@@ -8,7 +8,6 @@ namespace GigaFist
 {
     public class MatchManager : MonoBehaviour //Responsible for keeping track of the current match and the scoring, as well as beginning 
     {
-
         public static MatchManager Instance;
         public enum MatchState { Idle, MatchStart, StartRound, RoundInProgress, Intermission, MatchEnd }
         // * MatchStart: Create score tracking and go to level select
@@ -19,7 +18,8 @@ namespace GigaFist
 
         [Header("Match Settings")]
         public MatchState m_matchState;
-        public string m_matchSavePath;
+        [SerializeField]
+        private string m_matchSavePath;
         public string m_matchSaveFileName = "Match ";
         [Space]
 
@@ -32,7 +32,8 @@ namespace GigaFist
         [Space]
         [Header("Configuration")]
         public float stateTickRate = 0.25f;
-
+        public SceneIndexes scn_LevelSelect;
+        public SceneIndexes scn_MatchEnd;
 
         //Tracking
         private MatchData m_matchData;
@@ -52,6 +53,7 @@ namespace GigaFist
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(this.gameObject);
             }
             else
             {
@@ -135,7 +137,7 @@ namespace GigaFist
 
             // Load scene selection level
             ChangeMatchState(MatchState.StartRound);
-            SceneManager.instance.ChangeScene(SceneIndexes.LEVEL_SELECT);
+            SceneManager.instance.ChangeScene(scn_LevelSelect);
         }
 
         public void StartMatch()
@@ -156,7 +158,7 @@ namespace GigaFist
             }
         }
 
-        public void SelectLevel(int index)
+        public void SetSelectLevel(int index)
         {
             //If the index given was actually valid
             if (Enum.IsDefined(typeof(SceneIndexes), index))
@@ -226,7 +228,7 @@ namespace GigaFist
                 SaveMatch();
                 ChangeMatchState(MatchState.Idle);
                 //! Change This once levels are actually implemented
-                SceneManager.instance.ChangeScene(SceneIndexes.LOADING);
+                SceneManager.instance.ChangeScene(scn_MatchEnd);
             }
         }
 

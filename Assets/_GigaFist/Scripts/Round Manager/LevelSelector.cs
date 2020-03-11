@@ -7,6 +7,6 @@ public class LevelSelector : MonoBehaviour //Just a simple script to load the se
 {
     public void SelectLevel(int levelIndex)
     {
-        MatchManager.Instance.SelectLevel(levelIndex);
+        MatchManager.Instance.SetSelectLevel(levelIndex);
     }
 }
