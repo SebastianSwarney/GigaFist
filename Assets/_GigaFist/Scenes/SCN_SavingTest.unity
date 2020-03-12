@@ -407,15 +407,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd2db9099b213f4ab62050800e70ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_matchState: 0
-  m_matchSavePath: /_GigaFist/Saves/
-  m_matchSaveFileName: Match
-  m_playersInMatch: 2
+  m_cupState: 0
+  m_cupSavePath: \_GigaFist\Saves
+  m_cupSaveFileName: 'Cup '
+  m_playersInCup: 2
   m_numberOfRounds: 3
   m_passIntermissionAutomatically: 0
   stateTickRate: 0.25
   scn_LevelSelect: 2
-  scn_MatchEnd: 5
+  scn_CupEnd: 5
 --- !u!4 &1496393452
 Transform:
   m_ObjectHideFlags: 0
