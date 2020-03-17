@@ -142,7 +142,7 @@ namespace GigaFist
             CreateSave();
 
             //Reset Variables
-            m_currentRound = 1;
+            m_currentRound = 0;
             m_levelSelected = false;
             m_roundComplete = false;
             intermissionComplete = false;
@@ -165,8 +165,9 @@ namespace GigaFist
             // Listen for level selection, and load appropriate level
             if (m_levelSelected)
             {
-                ChangeCupState(CupState.RoundInProgress);
                 SceneManager.instance.ChangeScene(m_selectedLevelIndex);
+                m_currentRound++;
+                ChangeCupState(CupState.RoundInProgress);
             }
         }
 
@@ -213,6 +214,7 @@ namespace GigaFist
             if (intermissionComplete)
             {
                 CupState targetState = IsCupComplete() == true ? CupState.CupEnd : CupState.StartRound;
+                intermissionComplete = false;
                 ChangeCupState(targetState);
             }
         }

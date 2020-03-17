@@ -305,7 +305,6 @@ GameObject:
   m_Component:
   - component: {fileID: 973104160}
   - component: {fileID: 973104159}
-  - component: {fileID: 973104158}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -313,14 +312,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &973104158
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973104157}
-  m_Enabled: 1
 --- !u!20 &973104159
 Camera:
   m_ObjectHideFlags: 0
@@ -408,8 +399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_cupState: 0
-  m_cupSavePath: \_GigaFist\Saves
-  m_cupSaveFileName: 'Cup '
+  m_cupSavePath: \_GigaFist\Saves\
+  m_cupSaveFileName: Cup
   m_playersInCup: 2
   m_numberOfRounds: 3
   m_passIntermissionAutomatically: 0

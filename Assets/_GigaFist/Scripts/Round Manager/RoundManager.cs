@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GigaFist;
 
 public class RoundManager : MonoBehaviour //Responsible for managing the beginning and end of a specific round, and report winner to MatchManager
 {
     public static RoundManager Instance;
+
+    public enum RoundState {Idle, In_Progress, Complete}
+    public RoundState m_roundState;
 
     public int m_numberOfPlayers;
 
@@ -18,6 +22,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
     public GameObject m_countdownObject;
 
     private List<PlayerController> m_players = new List<PlayerController>();
+    private RoundData roundData;
 
     private void Awake()
     {
@@ -33,13 +38,79 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
 
     private void Start()
     {
+        ChangeRoundState(RoundState.Idle);
+    }
+
+    private void Update()
+    {
+        //! Testing
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            PlayerWon(0);
+        }
+
+        if (m_roundState == RoundState.Idle)
+        {
+            // ! Horrible temporary code lol
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneIndexes.CHAR_TEST)
+            {
+                if (MatchManager.Instance != null)
+                {
+                    if (MatchManager.Instance.m_cupState == MatchManager.CupState.RoundInProgress) //If the round should be in progress
+                    {
+                        m_numberOfPlayers = MatchManager.Instance.m_playersInCup;
+                        StartRound();
+                    }
+                }
+                else
+                {
+                    StartRound();
+                }
+            }
+        }
+
+        if (m_roundState == RoundState.Complete)
+        {
+            ChangeRoundState(RoundState.Idle);
+            if (MatchManager.Instance != null)
+            {
+                DestroyAllPlayers();
+                MatchManager.Instance.RoundComplete(roundData);
+            }
+        }
+    }
+
+    #region Round Control & Setup
+
+    public void ChangeRoundState(RoundState newState)
+    {
+        if (newState != m_roundState)
+        {
+            m_roundState = newState;
+        }
+    }
+
+    public void StartRound()
+    {
+        ChangeRoundState(RoundState.In_Progress);
         StartCoroutine(RunRoundStartUp());
     }
 
     private IEnumerator RunRoundStartUp()
     {
+
         SpawnPlayers();
         FreezePlayers();
+
+        if (MatchManager.Instance != null)
+        {
+            roundData = new RoundData(MatchManager.Instance.m_playersInCup);
+        }
+        else
+        {
+            roundData = new RoundData(m_numberOfPlayers);
+        }
+        
 
         m_countdownObject.gameObject.SetActive(true);
 
@@ -60,13 +131,18 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
 
     private void SpawnPlayers()
     {
+        Debug.Log("Spawn them bitches");
         for (int i = 0; i < m_numberOfPlayers; i++)
         {
             m_players.Add(Instantiate(m_playerPrefab, m_spawnPositions[i], Quaternion.identity).GetComponent<PlayerController>());
             m_players[i].RunRoundSetup(i, m_numberOfPlayers);
+            Debug.Log(m_players[i].gameObject.scene.name);
         }
     }
 
+    #endregion
+
+    #region Player Control
     private void FreezePlayers()
     {
         foreach (PlayerController player in m_players)
@@ -80,6 +156,17 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         foreach (PlayerController player in m_players)
         {
             player.UnFreezeSelf();
+        }
+    }
+
+    private void DestroyAllPlayers()
+    {
+        if (m_players != null)
+        {
+            foreach (PlayerController player in m_players)
+            {
+                Destroy(player.gameObject);
+            }
         }
     }
 
@@ -121,7 +208,10 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
     private void PlayerWon(int p_winningPlayer)
     {
         Debug.Log("Player " + p_winningPlayer + " wins!!!!!!");
+        ChangeRoundState(RoundState.Complete);
     }
+
+    #endregion
 
     private void OnDrawGizmos()
     {

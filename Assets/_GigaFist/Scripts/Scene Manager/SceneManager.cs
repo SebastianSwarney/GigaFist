@@ -15,6 +15,7 @@ namespace GigaFist
         public static SceneManager instance;
         public bool unloadCurrentOnChange = true;
         public SceneIndexes currentScene = SceneIndexes.LOADING;
+        private SceneIndexes pastScene;
 
         [Header("Loading Screen Properties")]
         public CanvasGroup loadingScreen;
@@ -62,6 +63,7 @@ namespace GigaFist
             //Reset loadingScenes list
             loadingScenes = new List<AsyncOperation>();
             UpdateCurrentScene();
+            pastScene = currentScene;
         }
 
         // Update is called once per frame
@@ -89,14 +91,17 @@ namespace GigaFist
 
         public void ChangeScene(SceneIndexes scene) //Change scene from current scene to the selected one
         {
-            if (unloadCurrentOnChange && (int)currentScene < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
-            {
-                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)currentScene);
-            }
-
             SetLoadingScreen(true, true);
-            LoadScene(scene);
+            StartCoroutine(LoadSceneDelayed(scene, fadeTime));
+            //LoadScene(scene);
 
+            //StartCoroutine(TrackLoadProgress(scene, true));
+        }
+
+        private IEnumerator LoadSceneDelayed(SceneIndexes scene, float delayTime)
+        {
+            yield return new WaitForSeconds(delayTime);
+            LoadScene(scene);
             StartCoroutine(TrackLoadProgress(scene, true));
         }
 
@@ -127,6 +132,11 @@ namespace GigaFist
             }
 
             yield return new WaitForSeconds(0.5f);
+
+            if (unloadCurrentOnChange && (int)currentScene < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
+            {
+                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int)currentScene);
+            }
 
             if (setActiveOnLoad)
             {
@@ -165,8 +175,8 @@ namespace GigaFist
                 else
                 {
                     loadingScreen.alpha = 1;
+                    loadingScreenVisible = true;
                 }
-                loadingScreenVisible = true;
 
                 if (showTips)
                 {
@@ -192,8 +202,8 @@ namespace GigaFist
                 else
                 {
                     loadingScreen.alpha = 0;
+                    loadingScreenVisible = false;
                 }
-                loadingScreenVisible = false;
                 StopCoroutine(CycleTips());
                 cycleTipsCoroutine = null;
             }
@@ -235,7 +245,12 @@ namespace GigaFist
 
         private void UpdateCurrentScene() //Update currentScene value for tracking purposes
         {
+            SceneIndexes temp = currentScene;
             currentScene = (SceneIndexes)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+            if (temp != currentScene)
+            {
+                pastScene = temp;
+            }
         }
 
         public IEnumerator CycleTips() //Responsible for selecting tips and transitioning them
@@ -322,6 +337,7 @@ namespace GigaFist
             }
             if (loadingScreen != null) { loadingScreen.alpha = Mathf.Round(alpha); }
             yield return new WaitForEndOfFrame();
+            loadingScreenVisible = fadeIn == true ? true : false;
             transitionAnimation = null;
         }
 
