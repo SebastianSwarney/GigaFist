@@ -132,11 +132,12 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
     private void SpawnPlayers()
     {
         Debug.Log("Spawn them bitches");
+        m_players = new List<PlayerController>();
         for (int i = 0; i < m_numberOfPlayers; i++)
         {
             m_players.Add(Instantiate(m_playerPrefab, m_spawnPositions[i], Quaternion.identity).GetComponent<PlayerController>());
             m_players[i].RunRoundSetup(i, m_numberOfPlayers);
-            Debug.Log(m_players[i].gameObject.scene.name);
+            Debug.Log(m_players[i].gameObject.name, m_players[i].gameObject);
         }
     }
 
