@@ -23,6 +23,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
 
     private List<PlayerController> m_players = new List<PlayerController>();
     private RoundData roundData;
+    private float roundStartTime;
 
     private void Awake()
     {
@@ -49,32 +50,11 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
             PlayerWon(0);
         }
 
-        if (m_roundState == RoundState.Idle)
-        {
-            // ! Horrible temporary code lol
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)SceneIndexes.CHAR_TEST)
-            {
-                if (MatchManager.Instance != null)
-                {
-                    if (MatchManager.Instance.m_cupState == MatchManager.CupState.RoundInProgress) //If the round should be in progress
-                    {
-                        m_numberOfPlayers = MatchManager.Instance.m_playersInCup;
-                        StartRound();
-                    }
-                }
-                else
-                {
-                    StartRound();
-                }
-            }
-        }
-
-        if (m_roundState == RoundState.Complete)
-        {
-            ChangeRoundState(RoundState.Idle);
+        if (m_roundState == RoundState.Complete) //Send roundData to MatchManager instance if the round is complete
+        { 
             if (MatchManager.Instance != null)
             {
-                DestroyAllPlayers();
+                ChangeRoundState(RoundState.Idle);
                 MatchManager.Instance.RoundComplete(roundData);
             }
         }
@@ -96,8 +76,10 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         StartCoroutine(RunRoundStartUp());
     }
 
-    private IEnumerator RunRoundStartUp()
+    private IEnumerator RunRoundStartUp() //Spawn players and prevent them from moving, and handle roundData and round countdown
     {
+        roundStartTime = Time.time;
+        DestroyAllPlayers();
 
         SpawnPlayers();
         FreezePlayers();
@@ -131,13 +113,12 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
 
     private void SpawnPlayers()
     {
-        Debug.Log("Spawn them bitches");
         m_players = new List<PlayerController>();
         for (int i = 0; i < m_numberOfPlayers; i++)
         {
             m_players.Add(Instantiate(m_playerPrefab, m_spawnPositions[i], Quaternion.identity).GetComponent<PlayerController>());
             m_players[i].RunRoundSetup(i, m_numberOfPlayers);
-            Debug.Log(m_players[i].gameObject.name, m_players[i].gameObject);
+            //Debug.Log(m_players[i].gameObject.name, m_players[i].gameObject);
         }
     }
 
@@ -176,7 +157,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         CheckPlayers();
     }
 
-    private void CheckPlayers()
+    private void CheckPlayers() //Check if players are alive or dead
     {
         int deadPlayers = 0;
         int alivePlayerIndex = 0;
@@ -209,7 +190,19 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
     private void PlayerWon(int p_winningPlayer)
     {
         Debug.Log("Player " + p_winningPlayer + " wins!!!!!!");
+        UpdateRoundData(p_winningPlayer);
         ChangeRoundState(RoundState.Complete);
+    }
+
+    private void UpdateRoundData(int winningPlayerIndex)
+    {
+        roundData.roundTime = Time.time - roundStartTime;
+        if (MatchManager.Instance != null)
+        {
+            roundData.level = (int)MatchManager.Instance.m_selectedLevelIndex;
+        }
+
+        roundData.roundWinner = new PlayerData(winningPlayerIndex);
     }
 
     #endregion

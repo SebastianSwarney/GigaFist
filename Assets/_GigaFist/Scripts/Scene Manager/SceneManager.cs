@@ -140,6 +140,10 @@ namespace GigaFist
 
             if (setActiveOnLoad)
             {
+                //if (ifScene_CurrentlyLoaded_inEditor(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene).name))
+                //{
+                //    UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
+                //}
                 UnityEngine.SceneManagement.SceneManager.SetActiveScene(UnityEngine.SceneManagement.SceneManager.GetSceneByBuildIndex((int)scene));
                 UpdateCurrentScene();
             }
@@ -339,6 +343,43 @@ namespace GigaFist
             yield return new WaitForEndOfFrame();
             loadingScreenVisible = fadeIn == true ? true : false;
             transitionAnimation = null;
+        }
+
+        #endregion
+
+        #region Is Scene Loaded
+
+#if UNITY_EDITOR
+        bool ifScene_CurrentlyLoaded_inEditor(string sceneName_no_extention)
+        {
+            for (int i = 0; i < UnityEditor.SceneManagement.EditorSceneManager.sceneCount; ++i)
+            {
+                var scene = UnityEditor.SceneManagement.EditorSceneManager.GetSceneAt(i);
+
+                if (scene.name == sceneName_no_extention)
+                {
+                    return true;//the scene is already loaded
+                }
+            }
+            //scene not currently loaded in the hierarchy:
+            return false;
+        }
+#endif
+
+
+        bool isScene_CurrentlyLoaded(string sceneName_no_extention)
+        {
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; ++i)
+            {
+                Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+                if (scene.name == sceneName_no_extention)
+                {
+                    //the scene is already loaded
+                    return true;
+                }
+            }
+
+            return false;//scene not currently loaded in the hierarchy
         }
 
         #endregion

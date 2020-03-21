@@ -46,7 +46,8 @@ namespace GigaFist
         private bool intermissionComplete = false;
 
         private bool m_levelSelected = false;
-        private SceneIndexes m_selectedLevelIndex;
+        [HideInInspector]
+        public SceneIndexes m_selectedLevelIndex;
 
         void Start()
         {
@@ -169,6 +170,13 @@ namespace GigaFist
                 m_currentRound++;
                 ChangeCupState(CupState.RoundInProgress);
             }
+            else //Go back to level select
+            {
+                //if (SceneManager.instance.currentScene != SceneIndexes.LEVEL_SELECT)
+                //{
+                //    SceneManager.instance.ChangeScene(SceneIndexes.LEVEL_SELECT);
+                //}
+            }
         }
 
         public void SetSelectLevel(int index)
@@ -187,12 +195,25 @@ namespace GigaFist
 
         private void RoundInProgress() // * RoundInProgress: wait back for a report from RoundManager for final scores from input devices
         {
-            //There's really nothing to do except wait
-
+            //Start round if it hasn't started
             if (m_roundComplete)
             {
                 //Proceed onto the intermission step
                 ChangeCupState(CupState.Intermission);
+            }
+            else
+            {
+                if (RoundManager.Instance != null)
+                {
+                    if (RoundManager.Instance.m_roundState != RoundManager.RoundState.In_Progress)
+                    {
+                        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)m_selectedLevelIndex)
+                        {
+                            RoundManager.Instance.m_numberOfPlayers = m_playersInCup;
+                            RoundManager.Instance.StartRound();
+                        }
+                    }
+                }
             }
         }
 
@@ -215,7 +236,12 @@ namespace GigaFist
             {
                 CupState targetState = IsCupComplete() == true ? CupState.CupEnd : CupState.StartRound;
                 intermissionComplete = false;
+                m_levelSelected = false;
                 ChangeCupState(targetState);
+                if (targetState == CupState.StartRound)
+                {
+                    SceneManager.instance.ChangeScene(scn_LevelSelect);
+                }
             }
         }
 
@@ -238,7 +264,7 @@ namespace GigaFist
             if (m_cupData != null)
             {
                 m_cupData.CompleteCup();
-                Debug.Log("Ultimate Victory goes to: " + m_cupData.cupWinner);
+                Debug.Log("Ultimate Victory goes to: Player " + m_cupData.cupWinner.playerID.ToString());
                 SaveCup();
                 ChangeCupState(CupState.Idle);
                 //! Change This once levels are actually implemented
@@ -265,6 +291,7 @@ namespace GigaFist
 
             //Create cupSave
             CupData cupSave = new CupData(m_cupID, m_numberOfRounds, m_playersInCup);
+            m_cupData = cupSave;
 
             Debug.Log(path);
             //Save
@@ -323,6 +350,7 @@ namespace GigaFist
         {
             if (m_cupData == null)
             {
+                Debug.Log("Load Cup");
                 LoadCup();
             }
 
@@ -343,6 +371,7 @@ namespace GigaFist
         public bool complete = false;
         public string cupID;
         public int numOfPlayers;
+        public float cupTime;
         public PlayerData cupWinner;
 
         public CupData(string cupIDString, int numberOfRounds, int numberOfPlayers)
@@ -364,9 +393,11 @@ namespace GigaFist
 
             //Determine Winner by determining list of players and adding up all their scores
             List<PlayerData> players = new List<PlayerData>();
+            cupTime = 0;
 
             foreach (RoundData roundData in rounds)
             {
+                cupTime += roundData.roundTime;
                 //This should populate the list of players initially
                 if (players.Count == 0)
                 {
