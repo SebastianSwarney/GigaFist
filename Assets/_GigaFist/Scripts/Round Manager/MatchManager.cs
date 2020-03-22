@@ -6,25 +6,25 @@ using System;
 
 namespace GigaFist
 {
-    public class MatchManager : MonoBehaviour //Responsible for keeping track of the current match and the scoring, as well as beginning 
+    public class MatchManager : MonoBehaviour //Responsible for keeping track of the current Cup and the scoring, as well as beginning 
     {
-
         public static MatchManager Instance;
-        public enum MatchState { Idle, MatchStart, StartRound, RoundInProgress, Intermission, MatchEnd }
-        // * MatchStart: Create score tracking and go to level select
+        public enum CupState { Idle, CupStart, StartRound, RoundInProgress, Intermission, CupEnd }
+        // * CupStart: Create score tracking and go to level select
         // * StartRound: Launch game into a round
         // * RoundInProgress: wait back for a report from RoundManager for final scores from input devices
         // * Intermission: intermission scene or moment of pause where players can choose to continue or not (all press A to continue or something)
-        // * MatchEnd: all rounds in a match have been played, determine victor and go to win screen. Save stats.
+        // * CupEnd: all rounds in a Cup have been played, determine victor and go to win screen. Save stats.
 
-        [Header("Match Settings")]
-        public MatchState m_matchState;
-        public string m_matchSavePath;
-        public string m_matchSaveFileName = "Match ";
+        [Header("Cup Settings")]
+        public CupState m_cupState;
+        [SerializeField]
+        private string m_cupSavePath;
+        public string m_cupSaveFileName = "Cup ";
         [Space]
 
         [Range(2, 4)]
-        public int m_playersInMatch;
+        public int m_playersInCup;
         [Range(1, 15)]
         public int m_numberOfRounds;
         public bool m_passIntermissionAutomatically = false;
@@ -32,12 +32,13 @@ namespace GigaFist
         [Space]
         [Header("Configuration")]
         public float stateTickRate = 0.25f;
-
+        public SceneIndexes scn_LevelSelect;
+        public SceneIndexes scn_CupEnd;
 
         //Tracking
-        private MatchData m_matchData;
-        private string m_matchID;
-        private string m_matchFilePath;
+        private CupData m_cupData;
+        private string m_cupID;
+        private string m_cupFilePath;
 
         private int m_currentRound;
         private bool m_roundComplete = false;
@@ -45,103 +46,117 @@ namespace GigaFist
         private bool intermissionComplete = false;
 
         private bool m_levelSelected = false;
-        private SceneIndexes m_selectedLevelIndex;
+        [HideInInspector]
+        public SceneIndexes m_selectedLevelIndex;
 
         void Start()
         {
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(this.gameObject);
             }
             else
             {
                 Destroy(this);
             }
-            StartCoroutine(MatchStateController());
+            StartCoroutine(CupStateController());
         }
 
         void Update()
         {
             //! Testing
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log("Unloaded Match " + m_matchID);
-                UnloadMatchData();
+                Debug.Log("Unloaded Cup " + m_cupID);
+                UnloadCupData();
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                LoadMatch();
-                Debug.Log("Loaded Match " + m_matchID);
+                LoadCup();
+                Debug.Log("Loaded Cup " + m_cupID);
             }
 
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Debug.Log("Saved Match " + m_matchID);
-                SaveMatch();
+                Debug.Log("Saved Cup " + m_cupID);
+                SaveCup();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                StartMatch();
+                StartCup();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                RoundData fake = new RoundData(m_playersInCup);
+                fake.roundWinner = new PlayerData(10, 420);
+                RoundComplete(fake);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                CompleteIntermission();
             }
         }
 
-        #region Match State
+        #region Cup State
 
-        private IEnumerator MatchStateController()
+        private IEnumerator CupStateController()
         {
             for (; ; )
             {
-                switch (m_matchState)
+                switch (m_cupState)
                 {
-                    case MatchState.Idle:
+                    case CupState.Idle:
                         break;
-                    case MatchState.MatchStart:
-                        MatchStart();
+                    case CupState.CupStart:
+                        CupStart();
                         break;
-                    case MatchState.StartRound:
+                    case CupState.StartRound:
                         StartRound();
                         break;
-                    case MatchState.RoundInProgress:
+                    case CupState.RoundInProgress:
                         RoundInProgress();
                         break;
-                    case MatchState.Intermission:
+                    case CupState.Intermission:
                         Intermission();
                         break;
-                    case MatchState.MatchEnd:
-                        MatchEnd();
+                    case CupState.CupEnd:
+                        CupEnd();
                         break;
                 }
                 yield return new WaitForSeconds(stateTickRate);
             }
         }
 
-        private void ChangeMatchState(MatchState newState)
+        private void ChangeCupState(CupState newState)
         {
-            m_matchState = newState;
+            m_cupState = newState;
         }
 
-        private void MatchStart() // * MatchStart: Create score tracking and go to level select
+        private void CupStart() // * CupStart: Create score tracking and go to level select
         {
-            //Create the save data for the match
+            //Create the save data for the Cup
             CreateSave();
 
             //Reset Variables
-            m_currentRound = 1;
+            m_currentRound = 0;
             m_levelSelected = false;
             m_roundComplete = false;
             intermissionComplete = false;
 
             // Load scene selection level
-            ChangeMatchState(MatchState.StartRound);
-            SceneManager.instance.ChangeScene(SceneIndexes.LEVEL_SELECT);
+            ChangeCupState(CupState.StartRound);
+            SceneManager.instance.ChangeScene(scn_LevelSelect);
         }
 
-        public void StartMatch()
+        public void StartCup()
         {
-            ChangeMatchState(MatchState.MatchStart);
-            Debug.Log("Match Started!");
+            ChangeCupState(CupState.CupStart);
+            Debug.Log("Cup Started!");
         }
 
         private void StartRound() // * StartRound: Launch game into a round
@@ -151,12 +166,20 @@ namespace GigaFist
             // Listen for level selection, and load appropriate level
             if (m_levelSelected)
             {
-                ChangeMatchState(MatchState.RoundInProgress);
                 SceneManager.instance.ChangeScene(m_selectedLevelIndex);
+                m_currentRound++;
+                ChangeCupState(CupState.RoundInProgress);
+            }
+            else //Go back to level select
+            {
+                //if (SceneManager.instance.currentScene != SceneIndexes.LEVEL_SELECT)
+                //{
+                //    SceneManager.instance.ChangeScene(SceneIndexes.LEVEL_SELECT);
+                //}
             }
         }
 
-        public void SelectLevel(int index)
+        public void SetSelectLevel(int index)
         {
             //If the index given was actually valid
             if (Enum.IsDefined(typeof(SceneIndexes), index))
@@ -172,25 +195,38 @@ namespace GigaFist
 
         private void RoundInProgress() // * RoundInProgress: wait back for a report from RoundManager for final scores from input devices
         {
-            //There's really nothing to do except wait
-
+            //Start round if it hasn't started
             if (m_roundComplete)
             {
                 //Proceed onto the intermission step
-                ChangeMatchState(MatchState.Intermission);
+                ChangeCupState(CupState.Intermission);
+            }
+            else
+            {
+                if (RoundManager.Instance != null)
+                {
+                    if (RoundManager.Instance.m_roundState != RoundManager.RoundState.In_Progress)
+                    {
+                        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == (int)m_selectedLevelIndex)
+                        {
+                            RoundManager.Instance.m_numberOfPlayers = m_playersInCup;
+                            RoundManager.Instance.StartRound();
+                        }
+                    }
+                }
             }
         }
 
         public void RoundComplete(RoundData roundData)
         {
-            //Save the RoundData to the match data
+            //Save the RoundData to the Cup data
             SaveRound(roundData, m_currentRound - 1);
             m_roundComplete = true;
         }
 
         private void Intermission() // * Intermission: intermission scene or moment of pause where players can choose to continue or not (all press A to continue or something)
         {
-            intermissionComplete = false;
+            //intermissionComplete = false;
             if (m_passIntermissionAutomatically)
             {
                 intermissionComplete = true;
@@ -198,8 +234,14 @@ namespace GigaFist
 
             if (intermissionComplete)
             {
-                MatchState targetState = IsMatchComplete() == true ? MatchState.MatchEnd : MatchState.StartRound;
-                ChangeMatchState(targetState);
+                CupState targetState = IsCupComplete() == true ? CupState.CupEnd : CupState.StartRound;
+                intermissionComplete = false;
+                m_levelSelected = false;
+                ChangeCupState(targetState);
+                if (targetState == CupState.StartRound)
+                {
+                    SceneManager.instance.ChangeScene(scn_LevelSelect);
+                }
             }
         }
 
@@ -208,7 +250,7 @@ namespace GigaFist
             intermissionComplete = true;
         }
 
-        public bool IsMatchComplete()
+        public bool IsCupComplete()
         {
             if (m_currentRound == m_numberOfRounds && m_roundComplete)
             {
@@ -217,87 +259,88 @@ namespace GigaFist
             return false;
         }
 
-        private void MatchEnd() // * MatchEnd: all rounds in a match have been played, determine victor and go to win screen. Save stats.
+        private void CupEnd() // * CupEnd: all rounds in a Cup have been played, determine victor and go to win screen. Save stats.
         {
-            if (m_matchData != null)
+            if (m_cupData != null)
             {
-                m_matchData.CompleteMatch();
-                Debug.Log("Ultimate Victory goes to: " + m_matchData.matchWinner);
-                SaveMatch();
-                ChangeMatchState(MatchState.Idle);
+                m_cupData.CompleteCup();
+                Debug.Log("Ultimate Victory goes to: Player " + m_cupData.cupWinner.playerID.ToString());
+                SaveCup();
+                ChangeCupState(CupState.Idle);
                 //! Change This once levels are actually implemented
-                SceneManager.instance.ChangeScene(SceneIndexes.LOADING);
+                SceneManager.instance.ChangeScene(scn_CupEnd);
             }
         }
 
         #endregion
 
-        #region Match Saving/Loading
+        #region Cup Saving/Loading
 
         private void CreateSave()
         {
             //Get Folder Path
             // ! Change to Application.persistentDataPath for final build and update variables in Inspector
-            string path = Application.dataPath + m_matchSavePath;
+            string path = Application.dataPath + m_cupSavePath;
 
-            //Assign Match ID - dynamic so that it will be 'Match 1', 'Match 2', and so on
-            m_matchID = (Directory.GetFiles(path, "*.json").Length + 1).ToString();
+            //Assign Cup ID - dynamic so that it will be 'Cup 1', 'Cup 2', and so on
+            m_cupID = (Directory.GetFiles(path, "*.json").Length + 1).ToString();
 
-            //Update Path and set m_matchFilePath
-            path = path + m_matchSaveFileName + " " + m_matchID + ".json";
-            m_matchFilePath = path;
+            //Update Path and set m_cupFilePath
+            path = path + m_cupSaveFileName + " " + m_cupID + ".json";
+            m_cupFilePath = path;
 
-            //Create MatchSave
-            MatchData matchSave = new MatchData(m_matchID, m_numberOfRounds, m_playersInMatch);
+            //Create cupSave
+            CupData cupSave = new CupData(m_cupID, m_numberOfRounds, m_playersInCup);
+            m_cupData = cupSave;
 
             Debug.Log(path);
             //Save
-            SaveMatch(matchSave, path);
+            SaveCup(cupSave, path);
         }
 
-        private void SaveMatch()
+        private void SaveCup()
         {
-            SaveMatch(m_matchData, m_matchFilePath);
+            SaveCup(m_cupData, m_cupFilePath);
         }
 
-        private void SaveMatch(MatchData matchDataToSave, string path)
+        private void SaveCup(CupData cupDataToSave, string path)
         {
-            //Convert MatchSave to JSON
-            string saveContent = JsonUtility.ToJson(matchDataToSave);
+            //Convert CupSave to JSON
+            string saveContent = JsonUtility.ToJson(cupDataToSave, true);
 
             //Write to Path
             File.WriteAllText(path, saveContent);
         }
 
-        private void UnloadMatchData()
+        private void UnloadCupData()
         {
-            m_matchData = null;
+            m_cupData = null;
         }
 
-        private void LoadMatch()
+        private void LoadCup()
         {
-            LoadMatch(m_matchID);
+            LoadCup(m_cupID);
         }
 
-        private void LoadMatch(string matchID)
+        private void LoadCup(string cupID)
         {
             // ! Change to Application.persistentDataPath for final build and update variables in Inspector
-            string path = Application.dataPath + m_matchSavePath;
+            string path = Application.dataPath + m_cupSavePath;
 
-            //Technically the direct file path is already saved in m_matchFilePath, but this is practice to find it by just ID and folder path
-            //Find the file by its matchID
+            //Technically the direct file path is already saved in m_cupFilePath, but this is practice to find it by just ID and folder path
+            //Find the file by its cupID
             DirectoryInfo directory = new DirectoryInfo(path);
             FileInfo[] fileInfo = directory.GetFiles("*.json");
             foreach (FileInfo file in fileInfo)
             {
-                if (file.Name.Contains(matchID))
+                if (file.Name.Contains(cupID))
                 {
                     path = path + file.Name;
                 }
             }
 
             string data = File.ReadAllText(path);
-            m_matchData = JsonUtility.FromJson<MatchData>(data);
+            m_cupData = JsonUtility.FromJson<CupData>(data);
         }
 
         #endregion
@@ -305,14 +348,15 @@ namespace GigaFist
         #region Round Saving/Loading
         private void SaveRound(RoundData data, int roundNumber)
         {
-            if (m_matchData == null)
+            if (m_cupData == null)
             {
-                LoadMatch();
+                Debug.Log("Load Cup");
+                LoadCup();
             }
 
-            if (m_matchData != null)
+            if (m_cupData != null)
             {
-                m_matchData.rounds[roundNumber] = data;
+                m_cupData.rounds[roundNumber] = data;
             }
         }
 
@@ -321,18 +365,19 @@ namespace GigaFist
     }
 
     [System.Serializable]
-    public class MatchData
+    public class CupData
     {
         public RoundData[] rounds;
         public bool complete = false;
-        public string matchID;
+        public string cupID;
         public int numOfPlayers;
-        public PlayerData matchWinner;
+        public float cupTime;
+        public PlayerData cupWinner;
 
-        public MatchData(string matchIDString, int numberOfRounds, int numberOfPlayers)
+        public CupData(string cupIDString, int numberOfRounds, int numberOfPlayers)
         {
             //Initialize Array
-            matchID = matchIDString;
+            cupID = cupIDString;
             rounds = new RoundData[Mathf.Abs(numberOfRounds)];
             numOfPlayers = numberOfPlayers;
             for (int i = 0; i < rounds.Length; i++)
@@ -342,15 +387,17 @@ namespace GigaFist
             }
         }
 
-        public void CompleteMatch()
+        public void CompleteCup()
         {
             complete = true;
 
             //Determine Winner by determining list of players and adding up all their scores
             List<PlayerData> players = new List<PlayerData>();
+            cupTime = 0;
 
             foreach (RoundData roundData in rounds)
             {
+                cupTime += roundData.roundTime;
                 //This should populate the list of players initially
                 if (players.Count == 0)
                 {
@@ -363,7 +410,7 @@ namespace GigaFist
                 {
                     for (int i = 0; i < players.Count; i++) //Loop through all players found
                     {
-                        for (int x = 0; x < roundData.players.Length; x++) //Loop through each round and match player IDs, adding up scores as you go
+                        for (int x = 0; x < roundData.players.Length; x++) //Loop through each round and Cup player IDs, adding up scores as you go
                         {
                             if (players[i].playerID == roundData.players[x].playerID) //If Matching IDs
                             {
@@ -386,7 +433,7 @@ namespace GigaFist
                 }
             }
 
-            matchWinner = players[winningPlayerIndex];
+            cupWinner = players[winningPlayerIndex];
         }
     }
 
@@ -395,7 +442,7 @@ namespace GigaFist
     {
         public PlayerData[] players;
         public PlayerData roundWinner;
-        public float matchTime;
+        public float roundTime;
         public int level;
 
         public RoundData(int numOfPlayers)
