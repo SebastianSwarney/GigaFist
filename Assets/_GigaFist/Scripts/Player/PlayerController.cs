@@ -7,6 +7,9 @@ using UnityEngine.UI;
 [System.Serializable]
 public class PlayerControllerEvent : UnityEvent { }
 
+[System.Serializable]
+public class PlayerControllerIndexEvent : UnityEvent <int> { }
+
 public class PlayerController : MonoBehaviour
 {
     public enum MovementControllState { MovementEnabled, MovementDisabled }
@@ -194,6 +197,8 @@ public class PlayerController : MonoBehaviour
 		[Header("Punch Cooldown Properties")]
 		public float m_punchCooldownTime;
 		public PlayerUICooldown m_punchCooldownUI;
+
+		public PlayerControllerIndexEvent m_onPunchedEvent;
 	}
 
 	[Header("Punch Properties")]
@@ -218,6 +223,8 @@ public class PlayerController : MonoBehaviour
 		[Header("Uppercut Cooldown Properties")]
 		public float m_uppercutCooldownTime;
 		public PlayerUICooldown m_uppercutCooldownUI;
+
+		public PlayerControllerIndexEvent m_uppercutUsedEvent;
 
 	}
 
@@ -1070,7 +1077,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RunPunch(Vector3 p_punchDirection, float p_punchChargePercent)
     {
-        m_isPunching = true;
+		m_punchProperties.m_onPunchedEvent.Invoke(m_input.m_playerId);
+
+		m_isPunching = true;
         m_states.m_movementControllState = MovementControllState.MovementDisabled;
         m_states.m_gravityControllState = GravityState.GravityDisabled;
 
@@ -1238,7 +1247,10 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RunUppercut()
     {
-        m_animator.SetTrigger("UppercutStart");
+		m_uppercutProperties.m_uppercutUsedEvent.Invoke(m_input.m_playerId);
+
+
+		m_animator.SetTrigger("UppercutStart");
 
         m_isUppercutting = true;
 
