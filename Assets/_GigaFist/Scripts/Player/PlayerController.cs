@@ -304,6 +304,39 @@ public class PlayerController : MonoBehaviour
 
     private Animator m_animator;
 
+    public PlayerControllerIndexEvent onHitAnEnemy;
+    public PlayerControllerIndexEvent onHit;
+
+    private void Awake()
+    {
+        onHitAnEnemy = new PlayerControllerIndexEvent();
+        onHit = new PlayerControllerIndexEvent();
+        m_punchProperties.m_onPunchedEvent = new PlayerControllerIndexEvent();
+        m_uppercutProperties.m_uppercutUsedEvent = new PlayerControllerIndexEvent();
+    }
+
+    private void OnEnable()
+    {
+        if (RoundManager.Instance != null)
+        {
+            onHitAnEnemy.AddListener(RoundManager.Instance.OnEnemyHit);
+            onHit.AddListener(RoundManager.Instance.OnHit);
+            m_punchProperties.m_onPunchedEvent.AddListener(RoundManager.Instance.OnUsePunch);
+            m_uppercutProperties.m_uppercutUsedEvent.AddListener(RoundManager.Instance.OnUseUppercut);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (RoundManager.Instance != null)
+        {
+            onHitAnEnemy.RemoveListener(RoundManager.Instance.OnEnemyHit);
+            onHit.RemoveListener(RoundManager.Instance.OnHit);
+            m_punchProperties.m_onPunchedEvent.RemoveListener(RoundManager.Instance.OnUsePunch);
+            m_uppercutProperties.m_uppercutUsedEvent.RemoveListener(RoundManager.Instance.OnUseUppercut);
+        }
+    }
+
     private void Start()
     {
         m_characterController = GetComponent<CharacterController>();
@@ -323,8 +356,8 @@ public class PlayerController : MonoBehaviour
         m_speedBoostCharge = m_speedBoostProperties.m_speedBoostChargeMax;
 
 		m_punchCooldownTimer = m_punchProperties.m_punchCooldownTime;
-		m_uppercutCooldownTimer = m_uppercutProperties.m_uppercutCooldownTime;
-	}
+        m_uppercutCooldownTimer = m_uppercutProperties.m_uppercutCooldownTime;
+    }
 
 	public void RunRoundSetup(int p_playerId, int p_numberOfPlayers)
 	{
@@ -1347,6 +1380,11 @@ public class PlayerController : MonoBehaviour
 			{
 				player.TriggerKnockBack(p_hitDirection, p_hitForce);
 				p_previouslyHitEnemies.Add(player);
+                if (null != onHitAnEnemy && null != onHit)
+                {
+                    onHitAnEnemy.Invoke(this.m_input.m_playerId);
+                    onHit.Invoke(player.m_input.m_playerId);
+                }
 			}
 		}
 	}
@@ -1395,7 +1433,7 @@ public class PlayerController : MonoBehaviour
 
 		//m_cameraProperties.m_camera.enabled = false;
 
-		RoundManager.Instance.OnPlayerDeath();
+		RoundManager.Instance.OnPlayerDeath(m_input.m_playerId);
 	}
 
 	private void StopAllActions()

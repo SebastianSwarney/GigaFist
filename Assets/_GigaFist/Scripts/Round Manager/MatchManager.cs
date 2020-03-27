@@ -356,12 +356,12 @@ namespace GigaFist
 
             if (m_cupData != null)
             {
+                data.roundNumber = roundNumber;
                 m_cupData.rounds[roundNumber] = data;
             }
         }
 
         #endregion
-
     }
 
     [System.Serializable]
@@ -372,6 +372,7 @@ namespace GigaFist
         public string cupID;
         public int numOfPlayers;
         public float cupTime;
+        public PlayerData[] playerCumulativeCupData;
         public PlayerData cupWinner;
 
         public CupData(string cupIDString, int numberOfRounds, int numberOfPlayers)
@@ -401,12 +402,13 @@ namespace GigaFist
                 //This should populate the list of players initially
                 if (players.Count == 0)
                 {
-                    for (int i = 0; i < roundData.players.Length; i++)
+                    for (int i = 0; i < numOfPlayers; i++)
                     {
-                        players.Add(roundData.players[i]);
+                        players.Add(new PlayerData(i));
                     }
                 }
-                else //Afterwards, check for matching player IDs and add score up
+                
+                if (players.Count != 0) //Afterwards, check for matching player IDs and add score up
                 {
                     for (int i = 0; i < players.Count; i++) //Loop through all players found
                     {
@@ -414,7 +416,13 @@ namespace GigaFist
                         {
                             if (players[i].playerID == roundData.players[x].playerID) //If Matching IDs
                             {
-                                players[i].AddScore(roundData.players[x].playerScore); //Add up scores
+                                players[i].AddScore(roundData.players[x].playerScore); //Add up scores and stats
+                                players[i].punchCount += roundData.players[x].punchCount;
+                                players[i].uppercutCount += roundData.players[x].uppercutCount;
+                                players[i].hitEnemiesCount += roundData.players[x].hitEnemiesCount;
+                                players[i].hitByEnemiesCount += roundData.players[x].hitByEnemiesCount;
+                                players[i].timeAlive += roundData.players[x].timeAlive;
+                                players[i].alive = false;
                             }
                         }
                     }
@@ -433,6 +441,8 @@ namespace GigaFist
                 }
             }
 
+            playerCumulativeCupData = new PlayerData[numOfPlayers];
+            playerCumulativeCupData = players.ToArray();
             cupWinner = players[winningPlayerIndex];
         }
     }
@@ -440,6 +450,7 @@ namespace GigaFist
     [System.Serializable]
     public class RoundData
     {
+        public int roundNumber = 0;
         public PlayerData[] players;
         public PlayerData roundWinner;
         public float roundTime;
@@ -448,6 +459,16 @@ namespace GigaFist
         public RoundData(int numOfPlayers)
         {
             players = new PlayerData[numOfPlayers];
+            for (int i = 0; i < numOfPlayers; i++)
+            {
+                players[i] = new PlayerData(i);
+            }
+        }
+
+        public RoundData(int numOfPlayers, int _roundNumber)
+        {
+            players = new PlayerData[numOfPlayers];
+            roundNumber = _roundNumber;
             for (int i = 0; i < numOfPlayers; i++)
             {
                 players[i] = new PlayerData(i);
@@ -465,6 +486,12 @@ namespace GigaFist
     {
         public int playerID;
         public int playerScore;
+        public int punchCount;
+        public int uppercutCount;
+        public int hitEnemiesCount;
+        public int hitByEnemiesCount;
+        public bool alive = true;
+        public float timeAlive;
 
         public PlayerData(int ID)
         {
@@ -476,6 +503,10 @@ namespace GigaFist
         {
             playerID = ID;
             playerScore = score;
+            punchCount = 0;
+            uppercutCount = 0;
+            hitEnemiesCount = 0;
+            hitByEnemiesCount = 0;
         }
 
         public void ResetScore()

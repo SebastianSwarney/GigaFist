@@ -152,8 +152,16 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         }
     }
 
-    public void OnPlayerDeath()
+    public void OnPlayerDeath(int playerIndex)
     {
+        for(int i = 0; i < roundData.players.Length; i++)
+        {
+            if (roundData.players[i].playerID == playerIndex)
+            {
+                roundData.players[i].timeAlive = Time.time - roundStartTime;
+                roundData.players[i].alive = false;
+            }
+        }
         CheckPlayers();
     }
 
@@ -202,16 +210,115 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
             roundData.level = (int)MatchManager.Instance.m_selectedLevelIndex;
         }
 
-        roundData.roundWinner = new PlayerData(winningPlayerIndex);
+        for(int i = 0; i < roundData.players.Length; i++)
+        {
+            if (roundData.players[i].playerID == winningPlayerIndex)
+            {
+                roundData.players[i].AddScore(1);
+                roundData.players[i].timeAlive = Time.time - roundStartTime;
+            }
+        }
+
+        roundData.roundWinner = roundData.players[winningPlayerIndex];
     }
 
     #endregion
 
+    #region Stats
+
+    public void OnUsePunch(int playerIndex)
+    {
+        if (null != m_players)
+        {
+            if (roundData != null)
+            {
+                if (roundData.players != null)
+                {
+                    //Iterate through each player in RoundData and if hitEnemyIndex matches their ID, add to their HitByEnemyCount
+                    for (int i = 0; i < roundData.players.Length; i++)
+                    {
+                        if (roundData.players[i].playerID == playerIndex)
+                        {
+                            roundData.players[i].punchCount++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnUseUppercut(int playerIndex)
+    {
+        if (null != m_players)
+        {
+            if (roundData != null)
+            {
+                if (roundData.players != null)
+                {
+                    //Iterate through each player in RoundData and if hitEnemyIndex matches their ID, add to their HitByEnemyCount
+                    for (int i = 0; i < roundData.players.Length; i++)
+                    {
+                        if (roundData.players[i].playerID == playerIndex)
+                        {
+                            roundData.players[i].uppercutCount++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnEnemyHit(int hitEnemyIndex)
+    {
+        if (null != m_players)
+        {
+            if (roundData != null)
+            {
+                if (roundData.players != null)
+                {
+                    //Iterate through each player in RoundData and if hitEnemyIndex matches their ID, add to their HitByEnemyCount
+                    for(int i = 0; i < roundData.players.Length; i++)
+                    {
+                        if (roundData.players[i].playerID == hitEnemyIndex)
+                        {
+                            roundData.players[i].hitEnemiesCount++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnHit(int playerHitIndex)
+    {
+        if (null != m_players)
+        {
+            if (roundData != null)
+            {
+                if (roundData.players != null)
+                {
+                    //Iterate through each player in RoundData and if hitEnemyIndex matches their ID, add to their HitByEnemyCount
+                    for (int i = 0; i < roundData.players.Length; i++)
+                    {
+                        if (roundData.players[i].playerID == playerHitIndex)
+                        {
+                            roundData.players[i].hitByEnemiesCount++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #endregion
+
     private void OnDrawGizmos()
     {
-        foreach (Vector3 position in m_spawnPositions)
+        if (m_spawnPositions != null)
         {
-            Gizmos.DrawWireSphere(position, 1f);
+            foreach (Vector3 position in m_spawnPositions)
+            {
+                Gizmos.DrawWireSphere(position, 10f);
+            }
         }
     }
 }
