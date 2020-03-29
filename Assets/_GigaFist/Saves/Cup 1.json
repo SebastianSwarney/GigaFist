@@ -5,156 +5,147 @@
             "players": [
                 {
                     "playerID": 0,
-                    "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
+                    "playerScore": 1,
+                    "punchCount": 25,
+                    "uppercutCount": 2,
+                    "hitEnemiesCount": 4,
+                    "hitByEnemiesCount": 8,
+                    "alive": false,
+                    "timeAlive": 107.32445526123047
                 },
                 {
                     "playerID": 1,
                     "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
-                },
-                {
-                    "playerID": 2,
-                    "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
+                    "punchCount": 14,
+                    "uppercutCount": 14,
+                    "hitEnemiesCount": 8,
+                    "hitByEnemiesCount": 4,
+                    "alive": false,
+                    "timeAlive": 106.30445098876953
                 }
             ],
             "roundWinner": {
                 "playerID": 0,
-                "playerScore": 0,
-                "punchCount": 0,
-                "uppercutCount": 0,
-                "hitEnemiesCount": 0,
-                "hitByEnemiesCount": 0,
+                "playerScore": 1,
+                "punchCount": 25,
+                "uppercutCount": 2,
+                "hitEnemiesCount": 4,
+                "hitByEnemiesCount": 8,
                 "alive": false,
-                "timeAlive": 0.0
+                "timeAlive": 107.32445526123047
             },
-            "roundTime": 0.0,
-            "level": 0
+            "roundTime": 106.30445098876953,
+            "level": 3
         },
         {
-            "roundNumber": 0,
+            "roundNumber": 1,
             "players": [
                 {
                     "playerID": 0,
-                    "playerScore": 0,
-                    "punchCount": 0,
+                    "playerScore": 1,
+                    "punchCount": 4,
                     "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
+                    "hitEnemiesCount": 2,
+                    "hitByEnemiesCount": 1,
                     "alive": true,
-                    "timeAlive": 0.0
+                    "timeAlive": 26.371849060058595
                 },
                 {
                     "playerID": 1,
                     "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
-                },
-                {
-                    "playerID": 2,
-                    "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
+                    "punchCount": 5,
+                    "uppercutCount": 3,
+                    "hitEnemiesCount": 1,
+                    "hitByEnemiesCount": 2,
+                    "alive": false,
+                    "timeAlive": 26.371849060058595
                 }
             ],
             "roundWinner": {
                 "playerID": 0,
-                "playerScore": 0,
-                "punchCount": 0,
+                "playerScore": 1,
+                "punchCount": 4,
                 "uppercutCount": 0,
-                "hitEnemiesCount": 0,
-                "hitByEnemiesCount": 0,
-                "alive": false,
-                "timeAlive": 0.0
+                "hitEnemiesCount": 2,
+                "hitByEnemiesCount": 1,
+                "alive": true,
+                "timeAlive": 26.371849060058595
             },
-            "roundTime": 0.0,
-            "level": 0
+            "roundTime": 26.371849060058595,
+            "level": 3
         },
         {
-            "roundNumber": 0,
+            "roundNumber": 2,
             "players": [
                 {
                     "playerID": 0,
-                    "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
+                    "playerScore": 1,
+                    "punchCount": 13,
+                    "uppercutCount": 2,
+                    "hitEnemiesCount": 4,
+                    "hitByEnemiesCount": 6,
                     "alive": true,
-                    "timeAlive": 0.0
+                    "timeAlive": 47.56318664550781
                 },
                 {
                     "playerID": 1,
                     "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
-                },
-                {
-                    "playerID": 2,
-                    "playerScore": 0,
-                    "punchCount": 0,
-                    "uppercutCount": 0,
-                    "hitEnemiesCount": 0,
-                    "hitByEnemiesCount": 0,
-                    "alive": true,
-                    "timeAlive": 0.0
+                    "punchCount": 8,
+                    "uppercutCount": 3,
+                    "hitEnemiesCount": 6,
+                    "hitByEnemiesCount": 4,
+                    "alive": false,
+                    "timeAlive": 47.56318664550781
                 }
             ],
             "roundWinner": {
                 "playerID": 0,
-                "playerScore": 0,
-                "punchCount": 0,
-                "uppercutCount": 0,
-                "hitEnemiesCount": 0,
-                "hitByEnemiesCount": 0,
-                "alive": false,
-                "timeAlive": 0.0
+                "playerScore": 1,
+                "punchCount": 13,
+                "uppercutCount": 2,
+                "hitEnemiesCount": 4,
+                "hitByEnemiesCount": 6,
+                "alive": true,
+                "timeAlive": 47.56318664550781
             },
-            "roundTime": 0.0,
-            "level": 0
+            "roundTime": 47.56318664550781,
+            "level": 3
         }
     ],
-    "complete": false,
+    "complete": true,
     "cupID": "1",
-    "numOfPlayers": 3,
-    "cupTime": 0.0,
-    "playerCumulativeCupData": [],
+    "numOfPlayers": 2,
+    "cupTime": 180.23948669433595,
+    "playerCumulativeCupData": [
+        {
+            "playerID": 0,
+            "playerScore": 3,
+            "punchCount": 42,
+            "uppercutCount": 4,
+            "hitEnemiesCount": 10,
+            "hitByEnemiesCount": 15,
+            "alive": false,
+            "timeAlive": 181.25949096679688
+        },
+        {
+            "playerID": 1,
+            "playerScore": 0,
+            "punchCount": 27,
+            "uppercutCount": 20,
+            "hitEnemiesCount": 15,
+            "hitByEnemiesCount": 10,
+            "alive": false,
+            "timeAlive": 180.23948669433595
+        }
+    ],
     "cupWinner": {
         "playerID": 0,
-        "playerScore": 0,
-        "punchCount": 0,
-        "uppercutCount": 0,
-        "hitEnemiesCount": 0,
-        "hitByEnemiesCount": 0,
+        "playerScore": 3,
+        "punchCount": 42,
+        "uppercutCount": 4,
+        "hitEnemiesCount": 10,
+        "hitByEnemiesCount": 15,
         "alive": false,
-        "timeAlive": 0.0
+        "timeAlive": 181.25949096679688
     }
 }

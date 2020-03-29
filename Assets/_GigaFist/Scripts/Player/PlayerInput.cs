@@ -42,35 +42,35 @@ public class PlayerInput : MonoBehaviour
 
 		if (m_playerInputController.GetButtonDoublePressDown("MoveHorizontal", m_shortDashInputSpeed))
 		{
-            m_playerController.OnShortDashInputDown(transform.right);
+            //m_playerController.OnShortDashInputDown(transform.right);
 		}
 		if (m_playerInputController.GetNegativeButtonDoublePressDown("MoveHorizontal", m_shortDashInputSpeed))
 		{
-            m_playerController.OnShortDashInputDown(-transform.right);
+            //m_playerController.OnShortDashInputDown(-transform.right);
         }
 
         if (m_playerInputController.GetButtonDoublePressDown("MoveVertical", m_shortDashInputSpeed))
         {
-            m_playerController.OnShortDashInputDown(transform.forward);
+           //m_playerController.OnShortDashInputDown(transform.forward);
         }
         if (m_playerInputController.GetNegativeButtonDoublePressDown("MoveVertical", m_shortDashInputSpeed))
         {
-            m_playerController.OnShortDashInputDown(-transform.forward);
+           //m_playerController.OnShortDashInputDown(-transform.forward);
         }
 
 
         if (m_playerInputController.GetButtonDown("SpeedBoost"))
         {
-            m_playerController.OnSpeedBoostInputDown();
+           //m_playerController.OnSpeedBoostInputDown();
         }
         if (m_playerInputController.GetButtonUp("SpeedBoost"))
         {
-            m_playerController.OnSpeedBoostInputUp();
+           //m_playerController.OnSpeedBoostInputUp();
         }
 
 		if (m_playerInputController.GetButtonDown("Slam"))
 		{
-			m_playerController.OnSlamInputDown();
+			//m_playerController.OnSlamInputDown();
 		}
 
 		if (m_playerInputController.GetButtonDown("Punch"))
@@ -99,12 +99,12 @@ public class PlayerInput : MonoBehaviour
 
 		if (m_playerInputController.GetButtonDown("WallRide"))
 		{
-			m_playerController.WallRideInputDown();
+			//m_playerController.WallRideInputDown();
 		}
 
 		if (m_playerInputController.GetButtonUp("WallRide"))
 		{
-			m_playerController.WallRideInputUp();
+			//m_playerController.WallRideInputUp();
 		}
 	}
 }
