@@ -306,11 +306,13 @@ public class PlayerController : MonoBehaviour
 
     public PlayerControllerIndexEvent onHitAnEnemy;
     public PlayerControllerIndexEvent onHit;
+    public PlayerControllerIndexEvent onDeath;
 
     private void Awake()
     {
         onHitAnEnemy = new PlayerControllerIndexEvent();
         onHit = new PlayerControllerIndexEvent();
+        onDeath = new PlayerControllerIndexEvent();
         m_punchProperties.m_onPunchedEvent = new PlayerControllerIndexEvent();
         m_uppercutProperties.m_uppercutUsedEvent = new PlayerControllerIndexEvent();
     }
@@ -1431,9 +1433,9 @@ public class PlayerController : MonoBehaviour
 
         gameObject.SetActive(false);
 
-		//m_cameraProperties.m_camera.enabled = false;
+        //m_cameraProperties.m_camera.enabled = false;
 
-		RoundManager.Instance.OnPlayerDeath(m_input.m_playerId);
+        onDeath.Invoke(m_input.m_playerId);
 	}
 
 	private void StopAllActions()

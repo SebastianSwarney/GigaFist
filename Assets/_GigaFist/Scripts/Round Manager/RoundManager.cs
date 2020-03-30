@@ -118,6 +118,11 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         {
             m_players.Add(Instantiate(m_playerPrefab, m_spawnPositions[i], Quaternion.identity).GetComponent<PlayerController>());
             m_players[i].RunRoundSetup(i, m_numberOfPlayers);
+            if (m_players[i].onDeath != null)
+            {
+                Debug.Log("Subscribed successfully");
+                m_players[i].onDeath.AddListener(OnPlayerDeath);   
+            }
             //Debug.Log(m_players[i].gameObject.name, m_players[i].gameObject);
         }
     }
