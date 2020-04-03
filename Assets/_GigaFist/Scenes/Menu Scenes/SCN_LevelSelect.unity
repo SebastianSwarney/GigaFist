@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoSelectLevel1: 0
+  autoSelectLevel2: 1
 --- !u!4 &705017512
 Transform:
   m_ObjectHideFlags: 0
