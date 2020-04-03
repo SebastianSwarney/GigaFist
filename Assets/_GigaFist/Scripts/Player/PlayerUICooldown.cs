@@ -31,7 +31,7 @@ public class PlayerUICooldown : MonoBehaviour
 		if (p_cooldownTimer == p_cooldownTime)
 		{
 			m_cooldownText.gameObject.SetActive(false);
-			m_cooldownImage.gameObject.SetActive(false);
+			//m_cooldownImage.gameObject.SetActive(false);
 		}
 	}
 }

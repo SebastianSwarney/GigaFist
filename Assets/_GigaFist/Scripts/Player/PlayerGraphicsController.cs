@@ -26,6 +26,8 @@ public class PlayerGraphicsController : MonoBehaviour
 
         m_animator.SetFloat("Forward", reletiveVelocity.z);
 
+
+
 		//Vector3 reletiveSpeed = transform.InverseTransformDirection(m_playerController.m_velocity / m_playerController.m_baseMovementProperties.m_baseMovementSpeed);
 
 		//Quaternion forwardTilt = Quaternion.AngleAxis(m_maxTiltAngle * reletiveSpeed.z, Vector3.right);

@@ -1095,6 +1095,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ChargePunch()
     {
+        m_animator.SetTrigger("FistCharge");
+
         m_isChargingPunch = true;
 
         float t = 0;
@@ -1112,7 +1114,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RunPunch(Vector3 p_punchDirection, float p_punchChargePercent)
     {
-		m_punchProperties.m_onPunchedEvent.Invoke(m_input.m_playerId);
+        m_animator.SetTrigger("FistStart");
+
+        m_punchProperties.m_onPunchedEvent.Invoke(m_input.m_playerId);
 
 		m_isPunching = true;
         m_states.m_movementControllState = MovementControllState.MovementDisabled;
@@ -1141,7 +1145,9 @@ public class PlayerController : MonoBehaviour
         m_isPunching = false;
 
 		m_punchCooldownCoroutine = StartCoroutine(RunBufferTimer((x) => m_punchCooldownTimer = (x), m_punchProperties.m_punchCooldownTime, m_punchProperties.m_punchCooldownUI));
-	}
+
+        m_animator.SetTrigger("FistEnd");
+    }
 	#endregion
 
 	#region Short Dash Code
