@@ -6,7 +6,7 @@ public class LocalizationChanger : MonoBehaviour
 {
     public LocalizationSystem.Language language;
 
-    public void ChangeLanguage(int language)
+    public void ChangeLanguage(int language) //Public method to change the language to a specified one (e.g On Button Clicks)
     {
         if (System.Enum.IsDefined(typeof(LocalizationSystem.Language), language))
         {

@@ -16,6 +16,7 @@ public class TextLocalizerUI : MonoBehaviour
         UpdateText();
     }
 
+    //Update the text of the TextMeshPro component to the corresponding language's equivalent
     public void UpdateText()
     {
         if (textField == null)

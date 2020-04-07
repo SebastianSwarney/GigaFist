@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct LocalizedString
+public struct LocalizedString //Custom struct used to draw all localized values of a given key
 {
     public string key;
 

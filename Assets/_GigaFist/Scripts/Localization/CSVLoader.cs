@@ -100,6 +100,7 @@ public class CSVLoader
 
         int index = -1;
 
+        //If the keys contain the specific key, save that index
         for (int i = 0; i < keys.Length; i++)
         {
             if (keys[i].Contains(key))
@@ -109,6 +110,7 @@ public class CSVLoader
             }
         }
 
+        //If the index was changed (meaning a key was found), remove the specific line and then save the new CSV
         if (index > -1)
         {
             string[] newLines;

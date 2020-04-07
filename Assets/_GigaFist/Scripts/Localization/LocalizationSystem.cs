@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LocalizationSystem
@@ -15,7 +14,7 @@ public class LocalizationSystem
 
     public static CSVLoader csvLoader;
 
-    public static void Init() //Load specific language dictionaries
+    public static void Init() //Create CSVLoader and UpdateDictionaries
     {
         csvLoader = new CSVLoader();
         csvLoader.LoadCSV();
@@ -39,7 +38,7 @@ public class LocalizationSystem
         }
     }
 
-    public static void UpdateAllTextInScene()
+    public static void UpdateAllTextInScene() //Update all existing localized text in scene
     {
         Object[] textInScene = Resources.FindObjectsOfTypeAll(typeof(TextLocalizerUI));
         if (textInScene != null)
@@ -51,13 +50,14 @@ public class LocalizationSystem
         }
     }
 
-    public static void UpdateDictionaries()
+    //! Must update if adding new languages
+    public static void UpdateDictionaries() //Update localized dictionaries
     {
         localizedEN = csvLoader.GetDictionaryValues("en");
         localizedFR = csvLoader.GetDictionaryValues("fr");
     }
 
-    public static string GetLocalizedValue(string key)
+    public static string GetLocalizedValue(string key) //Get the localized value given a key for the set language
     {
         if (isInit == false) { Init(); }
 
@@ -75,7 +75,7 @@ public class LocalizationSystem
         return value;
     }
 
-    public static string GetLocalizedValue(string key, Language _language)
+    public static string GetLocalizedValue(string key, Language _language) //Get localized value given a key and a specific language
     {
         if (isInit == false) { Init(); }
 
@@ -93,7 +93,8 @@ public class LocalizationSystem
         return value;
     }
 
-    public static void Add(string key, string value)
+
+    public static void Add(string key, string value) //Process the new value and add on necessary regex to identify it in the CSV file, and then add it to the CSV
     {
         if (value.Contains("\""))
         {
@@ -112,7 +113,7 @@ public class LocalizationSystem
         UpdateDictionaries();
     }
 
-    public static void Replace(string key, string value)
+    public static void Replace(string key, string value)//Process the new value and add on necessary regex to identify it in the CSV file, and then edit the specific key
     {
         if (value.Contains("\""))
         {
@@ -131,7 +132,7 @@ public class LocalizationSystem
         UpdateDictionaries();
     }
 
-    public static void Remove(string key)
+    public static void Remove(string key)//Remove a specified key from the CSV file
     {
         if (csvLoader == null)
         {
@@ -145,13 +146,13 @@ public class LocalizationSystem
         UpdateDictionaries();
     }
 
-    public static Dictionary<string, string> GetDictionaryForEditor()
+    public static Dictionary<string, string> GetDictionaryForEditor() //Return English Dictionary for Search Window use
     {
         if (isInit == false) { Init(); }
         return localizedEN;
     }
 
-    public static List<Dictionary<string, string>> GetAllDictionariesForEditor()
+    public static List<Dictionary<string, string>> GetAllDictionariesForEditor() //Return all dictionaries in a list for custom editor use
     {
         if (isInit == false) { Init(); }
 

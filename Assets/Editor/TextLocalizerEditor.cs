@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class TextLocalizerEditWindow : EditorWindow
 {
-    public static void Open(string key)
+    public static void Open(string key) //Open the custom edit window for an entry
     {
         TextLocalizerEditWindow window = (TextLocalizerEditWindow)ScriptableObject.CreateInstance(typeof(TextLocalizerEditWindow));
         window.titleContent = new GUIContent("Localizer Window");
@@ -16,7 +16,7 @@ public class TextLocalizerEditWindow : EditorWindow
     public string key;
     public string value;
 
-    public void OnGUI()
+    public void OnGUI() //Draw the Add GUI
     {
         key = EditorGUILayout.TextField("Key : ", key);
         EditorGUILayout.BeginHorizontal();
@@ -26,8 +26,10 @@ public class TextLocalizerEditWindow : EditorWindow
         value = EditorGUILayout.TextArea(value, EditorStyles.textArea, GUILayout.Height(100), GUILayout.Width(400));
         EditorGUILayout.EndHorizontal();
 
+        //Add button
         if (GUILayout.Button("Add"))
         {
+            //Call specific localization system methods
             if (LocalizationSystem.GetLocalizedValue(key) != string.Empty)
             {
                 LocalizationSystem.Replace(key, value);
@@ -45,7 +47,7 @@ public class TextLocalizerEditWindow : EditorWindow
 
 public class TextLocalizerSearchWindow : EditorWindow
 {
-    public static void Open()
+    public static void Open() //Open the search window
     {
         TextLocalizerSearchWindow window = (TextLocalizerSearchWindow)ScriptableObject.CreateInstance(typeof(TextLocalizerSearchWindow));
         window.titleContent = new GUIContent("Localization Search");
@@ -59,12 +61,12 @@ public class TextLocalizerSearchWindow : EditorWindow
     public Vector2 scroll;
     public Dictionary<string, string> dictionary;
 
-    private void OnEnable()
+    private void OnEnable() //Get the dictionary for the editor (DEFAULT: English)
     {
         dictionary = LocalizationSystem.GetDictionaryForEditor();
     }
 
-    private void OnGUI()
+    private void OnGUI() //Draw the search box
     {
         EditorGUILayout.BeginHorizontal("Box");
         EditorGUILayout.LabelField("Search: ", EditorStyles.boldLabel);
@@ -74,22 +76,23 @@ public class TextLocalizerSearchWindow : EditorWindow
         GetSearchResults();
     }
 
-    private void GetSearchResults()
+    private void GetSearchResults() //Draw the search results
     {
-        if (value == null) { value = ""; }
+        if (value == null) { value = ""; } //If the value is null, just set it to empty so that no errors occur
 
         EditorGUILayout.BeginVertical();
         scroll = EditorGUILayout.BeginScrollView(scroll);
 
+        //For each key, draw its corresponding value in a list format
         foreach (KeyValuePair<string, string> element in dictionary)
         {
             if (element.Key.ToLower().Contains(value.ToLower()) || element.Value.ToLower().Contains(value.ToLower()))
             {
+                //Delete Entry Button
                 EditorGUILayout.BeginHorizontal("box");
+                GUIContent deleteButton = EditorGUIUtility.IconContent("d_LookDevClose@2x"); //This is an X icon...
 
-                GUIContent content = EditorGUIUtility.IconContent("d_LookDevClose@2x");
-
-                if (GUILayout.Button(content, GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))
+                if (GUILayout.Button(deleteButton, GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))
                 {
                     if (EditorUtility.DisplayDialog("Remove Key '" + element.Key + "'?", "This will remove the element from localization, are you sure?", "Yes I'm Sure", "Cancel"))
                     {
@@ -100,7 +103,8 @@ public class TextLocalizerSearchWindow : EditorWindow
                     }
                 }
 
-                GUIContent copyContent = EditorGUIUtility.IconContent("Clipboard");
+                //Clipboard Copy Button
+                GUIContent copyContent = EditorGUIUtility.IconContent("Clipboard"); //This is a clipboard icon...
                 if (GUILayout.Button(copyContent, GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))
                 {
                     //Copy to clipboard
@@ -110,6 +114,7 @@ public class TextLocalizerSearchWindow : EditorWindow
                     te.Copy();
                 }
 
+                //Draw the values
                 EditorGUILayout.TextField(element.Key);
                 EditorGUILayout.LabelField(element.Value);
                 EditorGUILayout.EndHorizontal();
