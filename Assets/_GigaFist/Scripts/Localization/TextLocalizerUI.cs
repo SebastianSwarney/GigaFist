@@ -8,16 +8,24 @@ public class TextLocalizerUI : MonoBehaviour
 {
     TextMeshProUGUI textField;
 
-    public string key;
+    public LocalizedString localizedString;
 
     // Start is called before the first frame update
     void Start()
     {
-        textField = GetComponent<TextMeshProUGUI>();
+        UpdateText();
+    }
+
+    public void UpdateText()
+    {
+        if (textField == null)
+        {
+            textField = GetComponent<TextMeshProUGUI>();
+        }
+
         if (textField != null)
         {
-            string value = LocalizationSystem.GetLocalizedValue(key);
-            textField.SetText(value);
+            textField.SetText(localizedString.value);
         }
     }
 }

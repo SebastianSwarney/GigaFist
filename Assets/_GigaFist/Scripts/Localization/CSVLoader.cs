@@ -70,4 +70,59 @@ public class CSVLoader
         }
         return dictionary;
     }
+#if UNITY_EDITOR
+    public void Add(string key, string value) //Add a new entry to the file, only adds first language at the moment
+    {
+        //Only adds first language, if you wanted to add more the line would look like this
+        //* string.Format("\n\"{0}\",\"{1}\",\"{2}\",\"{3}\", key, value, value2, value3);
+        string appended = string.Format("\n\"{0}\",\"{1}\",\"\"", key, value);
+
+        //Add the new entry to the file
+        File.AppendAllText("Assets/Resources/" + localizationFileName + ".csv", appended);
+
+        //Refresh the database to ensure no old versions
+        UnityEditor.AssetDatabase.Refresh();
+    }
+
+    public void Remove(string key) //Parse through the file and look for the key, and remove that line entirely. Replace all the text with the key's according line removed.
+    {
+        string[] lines = csvFile.text.Split(lineSeperator);
+
+        string[] keys = new string[lines.Length];
+
+        //Get the keys from each line
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+
+            keys[i] = line.Split(fieldSeperator, StringSplitOptions.None)[0];
+        }
+
+        int index = -1;
+
+        for (int i = 0; i < keys.Length; i++)
+        {
+            if (keys[i].Contains(key))
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index > -1)
+        {
+            string[] newLines;
+            newLines = lines.Where(w => w != lines[index]).ToArray();
+
+            string replaced = string.Join(lineSeperator.ToString(), newLines);
+            File.WriteAllText("Assets/Resources/" + localizationFileName + ".csv", replaced);
+        }
+    }
+
+    public void Edit(string key, string value)
+    {
+        Remove(key);
+        Add(key, value);
+    }
+#endif
 }
