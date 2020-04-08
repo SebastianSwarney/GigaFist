@@ -20,6 +20,7 @@ namespace GigaFist
         public CupState m_cupState;
         [SerializeField]
         private string m_cupSavePath;
+        public bool saveCup = true;
         public string m_cupSaveFileName = "Cup ";
         [Space]
 
@@ -140,7 +141,10 @@ namespace GigaFist
         private void CupStart() // * CupStart: Create score tracking and go to level select
         {
             //Create the save data for the Cup
-            CreateSave();
+            if (saveCup)
+            {
+                CreateSave();
+            }
 
             //Reset Variables
             m_currentRound = 0;
@@ -278,38 +282,49 @@ namespace GigaFist
 
         private void CreateSave()
         {
-            //Get Folder Path
-            // ! Change to Application.persistentDataPath for final build and update variables in Inspector
-            string path = Application.dataPath + m_cupSavePath;
-
-            //Assign Cup ID - dynamic so that it will be 'Cup 1', 'Cup 2', and so on
-            m_cupID = (Directory.GetFiles(path, "*.json").Length + 1).ToString();
-
-            //Update Path and set m_cupFilePath
-            path = path + m_cupSaveFileName + " " + m_cupID + ".json";
-            m_cupFilePath = path;
-
             //Create cupSave
-            CupData cupSave = new CupData(m_cupID, m_numberOfRounds, m_playersInCup);
+            CupData cupSave = new CupData("SAVE", m_numberOfRounds, m_playersInCup);
             m_cupData = cupSave;
 
-            Debug.Log(path);
-            //Save
-            SaveCup(cupSave, path);
+            if (saveCup)
+            {
+                //Get Folder Path
+                // ! Change to Application.persistentDataPath for final build and update variables in Inspector
+                string path = Application.dataPath + m_cupSavePath;
+
+                //Assign Cup ID - dynamic so that it will be 'Cup 1', 'Cup 2', and so on
+                m_cupID = (Directory.GetFiles(path, "*.json").Length + 1).ToString();
+
+                //Update Path and set m_cupFilePath
+                path = path + m_cupSaveFileName + " " + m_cupID + ".json";
+                m_cupFilePath = path;
+
+                m_cupData.cupID = m_cupID;
+
+                Debug.Log(path);
+                //Save
+                SaveCup(cupSave, path);
+            }
         }
 
         private void SaveCup()
         {
-            SaveCup(m_cupData, m_cupFilePath);
+            if (saveCup)
+            {
+                SaveCup(m_cupData, m_cupFilePath);
+            }
         }
 
         private void SaveCup(CupData cupDataToSave, string path)
         {
-            //Convert CupSave to JSON
-            string saveContent = JsonUtility.ToJson(cupDataToSave, true);
+            if (saveCup)
+            {
+                //Convert CupSave to JSON
+                string saveContent = JsonUtility.ToJson(cupDataToSave, true);
 
-            //Write to Path
-            File.WriteAllText(path, saveContent);
+                //Write to Path
+                File.WriteAllText(path, saveContent);
+            }
         }
 
         private void UnloadCupData()
@@ -407,7 +422,7 @@ namespace GigaFist
                         players.Add(new PlayerData(i));
                     }
                 }
-                
+
                 if (players.Count != 0) //Afterwards, check for matching player IDs and add score up
                 {
                     for (int i = 0; i < players.Count; i++) //Loop through all players found
