@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_cupState: 0
   m_cupSavePath: \_GigaFist\Saves\
+  saveCup: 0
   m_cupSaveFileName: Cup
   m_playersInCup: 2
   m_numberOfRounds: 3

@@ -3004,8 +3004,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1567063375}
   - component: {fileID: 1567063374}
-  - component: {fileID: 1567063373}
   - component: {fileID: 1567063372}
+  - component: {fileID: 1567063373}
   m_Layer: 0
   m_Name: Input Selection
   m_TagString: Untagged
@@ -3043,9 +3043,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewiredInputManager: {fileID: 1616977568}
   useAllRewiredGamePlayers: 1
-  useRewiredSystemPlayer: 0
-  rewiredPlayerIds: 00000000
-  usePlayingPlayersOnly: 0
+  useRewiredSystemPlayer: 1
+  rewiredPlayerIds: 00000000010000000200000003000000
+  usePlayingPlayersOnly: 1
   playerMice: []
   moveOneElementPerAxisPress: 1
   setActionsById: 1
@@ -3059,10 +3059,10 @@ MonoBehaviour:
   m_CancelButton: UICancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0
-  m_allowMouseInput: 1
-  m_allowMouseInputIfTouchSupported: 1
-  m_allowTouchInput: 1
-  m_deselectIfBackgroundClicked: 1
+  m_allowMouseInput: 0
+  m_allowMouseInputIfTouchSupported: 0
+  m_allowTouchInput: 0
+  m_deselectIfBackgroundClicked: 0
   m_deselectBeforeSelecting: 1
   m_ForceModuleActive: 0
 --- !u!114 &1567063374

@@ -141,10 +141,7 @@ namespace GigaFist
         private void CupStart() // * CupStart: Create score tracking and go to level select
         {
             //Create the save data for the Cup
-            if (saveCup)
-            {
-                CreateSave();
-            }
+            CreateSave();
 
             //Reset Variables
             m_currentRound = 0;
@@ -339,23 +336,26 @@ namespace GigaFist
 
         private void LoadCup(string cupID)
         {
-            // ! Change to Application.persistentDataPath for final build and update variables in Inspector
-            string path = Application.dataPath + m_cupSavePath;
-
-            //Technically the direct file path is already saved in m_cupFilePath, but this is practice to find it by just ID and folder path
-            //Find the file by its cupID
-            DirectoryInfo directory = new DirectoryInfo(path);
-            FileInfo[] fileInfo = directory.GetFiles("*.json");
-            foreach (FileInfo file in fileInfo)
+            if (saveCup)
             {
-                if (file.Name.Contains(cupID))
-                {
-                    path = path + file.Name;
-                }
-            }
+                // ! Change to Application.persistentDataPath for final build and update variables in Inspector
+                string path = Application.dataPath + m_cupSavePath;
 
-            string data = File.ReadAllText(path);
-            m_cupData = JsonUtility.FromJson<CupData>(data);
+                //Technically the direct file path is already saved in m_cupFilePath, but this is practice to find it by just ID and folder path
+                //Find the file by its cupID
+                DirectoryInfo directory = new DirectoryInfo(path);
+                FileInfo[] fileInfo = directory.GetFiles("*.json");
+                foreach (FileInfo file in fileInfo)
+                {
+                    if (file.Name.Contains(cupID))
+                    {
+                        path = path + file.Name;
+                    }
+                }
+
+                string data = File.ReadAllText(path);
+                m_cupData = JsonUtility.FromJson<CupData>(data);
+            }
         }
 
         #endregion

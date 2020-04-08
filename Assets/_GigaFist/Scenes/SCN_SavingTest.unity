@@ -446,5 +446,10 @@ PrefabInstance:
       propertyPath: m_numberOfRounds
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 253843370297212100, guid: b7b955ac1adb5044bae0db834c8f8ac9,
+        type: 3}
+      propertyPath: saveCup
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7b955ac1adb5044bae0db834c8f8ac9, type: 3}

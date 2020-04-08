@@ -8,7 +8,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
 {
     public static RoundManager Instance;
 
-    public enum RoundState {Idle, In_Progress, Complete}
+    public enum RoundState { Idle, In_Progress, Complete }
     public RoundState m_roundState;
 
     public int m_numberOfPlayers;
@@ -35,11 +35,12 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         {
             Destroy(this);
         }
+        ChangeRoundState(RoundState.Idle);
     }
 
     private void Start()
     {
-        ChangeRoundState(RoundState.Idle);
+
     }
 
     private void Update()
@@ -51,7 +52,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         }
 
         if (m_roundState == RoundState.Complete) //Send roundData to MatchManager instance if the round is complete
-        { 
+        {
             if (MatchManager.Instance != null)
             {
                 ChangeRoundState(RoundState.Idle);
@@ -92,7 +93,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
         {
             roundData = new RoundData(m_numberOfPlayers);
         }
-        
+
 
         m_countdownObject.gameObject.SetActive(true);
 
@@ -121,7 +122,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
             if (m_players[i].onDeath != null)
             {
                 Debug.Log("Subscribed successfully");
-                m_players[i].onDeath.AddListener(OnPlayerDeath);   
+                m_players[i].onDeath.AddListener(OnPlayerDeath);
             }
             //Debug.Log(m_players[i].gameObject.name, m_players[i].gameObject);
         }
@@ -159,7 +160,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
 
     public void OnPlayerDeath(int playerIndex)
     {
-        for(int i = 0; i < roundData.players.Length; i++)
+        for (int i = 0; i < roundData.players.Length; i++)
         {
             if (roundData.players[i].playerID == playerIndex)
             {
@@ -215,7 +216,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
             roundData.level = (int)MatchManager.Instance.m_selectedLevelIndex;
         }
 
-        for(int i = 0; i < roundData.players.Length; i++)
+        for (int i = 0; i < roundData.players.Length; i++)
         {
             if (roundData.players[i].playerID == winningPlayerIndex)
             {
@@ -282,7 +283,7 @@ public class RoundManager : MonoBehaviour //Responsible for managing the beginni
                 if (roundData.players != null)
                 {
                     //Iterate through each player in RoundData and if hitEnemyIndex matches their ID, add to their HitByEnemyCount
-                    for(int i = 0; i < roundData.players.Length; i++)
+                    for (int i = 0; i < roundData.players.Length; i++)
                     {
                         if (roundData.players[i].playerID == hitEnemyIndex)
                         {
