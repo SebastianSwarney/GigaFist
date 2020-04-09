@@ -308,6 +308,8 @@ public class PlayerController : MonoBehaviour
     public PlayerControllerIndexEvent onHit;
     public PlayerControllerIndexEvent onDeath;
 
+    public float m_punchChargePercent;
+
     private void Awake()
     {
         onHitAnEnemy = new PlayerControllerIndexEvent();
@@ -1101,13 +1103,20 @@ public class PlayerController : MonoBehaviour
 
         float t = 0;
 
+        m_punchChargePercent = 0;
+
         while (m_isChargingPunch)
         {
             t += Time.deltaTime;
+
+            m_punchChargePercent = t / m_punchProperties.m_punchChargeTime;
+
             yield return null;
         }
 
         StartCoroutine(RunPunch(m_cameraProperties.m_camera.transform.forward, t / m_punchProperties.m_punchChargeTime));
+
+        m_punchChargePercent = 0;
 
         m_isChargingPunch = false;
     }
