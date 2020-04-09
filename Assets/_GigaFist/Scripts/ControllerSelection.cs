@@ -32,10 +32,6 @@ public class ControllerSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (eventSystem != null)
-        {
-            Debug.Log(eventSystem.currentSelectedGameObject.name, eventSystem.currentSelectedGameObject);
-        }
         if (controllerOneInput != null)
         {
             switch (state)
