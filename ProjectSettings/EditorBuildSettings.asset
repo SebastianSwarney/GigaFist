@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_GigaFist/Scenes/Menu Scenes/SCN_GameStart.unity
-    guid: 74f01c560b28a414697e55b2271cf027
+    path: Assets/_GigaFist/Scenes/Menu Scenes/porter_test.unity
+    guid: 32dbacdccf27d37448824a681dbdd573
   - enabled: 1
     path: Assets/_GigaFist/Scenes/Menu Scenes/SCN_Loading.unity
     guid: 38f6f87eea77f39409843570acef0026
