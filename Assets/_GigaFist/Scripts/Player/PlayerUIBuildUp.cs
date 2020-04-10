@@ -9,15 +9,13 @@ public class PlayerUIBuildUp : MonoBehaviour
     public Image fistBuildupImage;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
     {
+        //Charge up effect for punch
+        //fill amount of chargeup based on current punchcharge percent
         fistBuildupImage.fillAmount= playerScript.m_punchChargePercent;
     }
 }
