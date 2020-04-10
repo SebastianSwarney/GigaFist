@@ -66,41 +66,41 @@ namespace GigaFist
 
         void Update()
         {
-            //! Testing
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                Debug.Log("Unloaded Cup " + m_cupID);
-                UnloadCupData();
-            }
+            // //! Testing
+            // if (Input.GetKeyDown(KeyCode.Alpha1))
+            // {
+            //     Debug.Log("Unloaded Cup " + m_cupID);
+            //     UnloadCupData();
+            // }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                LoadCup();
-                Debug.Log("Loaded Cup " + m_cupID);
-            }
+            // if (Input.GetKeyDown(KeyCode.Alpha2))
+            // {
+            //     LoadCup();
+            //     Debug.Log("Loaded Cup " + m_cupID);
+            // }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                Debug.Log("Saved Cup " + m_cupID);
-                SaveCup();
-            }
+            // if (Input.GetKeyDown(KeyCode.Alpha3))
+            // {
+            //     Debug.Log("Saved Cup " + m_cupID);
+            //     SaveCup();
+            // }
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 StartCup();
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                RoundData fake = new RoundData(m_playersInCup);
-                fake.roundWinner = new PlayerData(10, 420);
-                RoundComplete(fake);
-            }
+            // if (Input.GetKeyDown(KeyCode.Alpha5))
+            // {
+            //     RoundData fake = new RoundData(m_playersInCup);
+            //     fake.roundWinner = new PlayerData(10, 420);
+            //     RoundComplete(fake);
+            // }
 
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                CompleteIntermission();
-            }
+            // if (Input.GetKeyDown(KeyCode.Alpha6))
+            // {
+            //     CompleteIntermission();
+            // }
         }
 
         #region Cup State
@@ -271,6 +271,21 @@ namespace GigaFist
                 //! Change This once levels are actually implemented
                 SceneManager.instance.ChangeScene(scn_CupEnd);
             }
+        }
+
+        public int GetWinningPlayerNumber()
+        {
+            if (m_cupState == CupState.Idle)
+            {
+                if (m_cupData != null)
+                {
+                    if (m_cupData.cupWinner != null)
+                    {
+                        return m_cupData.cupWinner.playerID + 1;
+                    }
+                }
+            }
+            return -1;
         }
 
         #endregion
