@@ -32,6 +32,6 @@ public class LevelSelector : MonoBehaviour //Just a simple script to load the se
 
     public void SelectLevel(int levelIndex)
     {
-        MatchManager.Instance.SetSelectLevel(levelIndex);
+        GigaFist.SceneManager.instance.ChangeScene((GigaFist.SceneIndexes)levelIndex);
     }
 }

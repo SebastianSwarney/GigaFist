@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerControllerEvent : UnityEvent { }
 
 [System.Serializable]
-public class PlayerControllerIndexEvent : UnityEvent <int> { }
+public class PlayerControllerIndexEvent : UnityEvent<int> { }
 
 public class PlayerController : MonoBehaviour
 {
@@ -49,57 +49,57 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Camera Properties
-	[System.Serializable]
-	public struct CameraProperties
-	{
-		public float m_mouseSensitivity;
-		public float m_maxCameraAng;
-		public bool m_inverted;
-		public Camera m_camera;
-		public Transform m_cameraTilt;
-		public Transform m_cameraMain;
-	}
+    [System.Serializable]
+    public struct CameraProperties
+    {
+        public float m_mouseSensitivity;
+        public float m_maxCameraAng;
+        public bool m_inverted;
+        public Camera m_camera;
+        public Transform m_cameraTilt;
+        public Transform m_cameraMain;
+    }
 
-	[Header("Camera Properties")]
-	public CameraProperties m_cameraProperties;
-	#endregion
+    [Header("Camera Properties")]
+    public CameraProperties m_cameraProperties;
+    #endregion
 
-	#region Base Movement Properties
-	[System.Serializable]
-	public struct BaseMovementProperties
-	{
-		public float m_baseMovementSpeed;
-		public float m_accelerationTime;
-	}
+    #region Base Movement Properties
+    [System.Serializable]
+    public struct BaseMovementProperties
+    {
+        public float m_baseMovementSpeed;
+        public float m_accelerationTime;
+    }
 
-	[Header("Base Movement Properties")]
-	public BaseMovementProperties m_baseMovementProperties;
+    [Header("Base Movement Properties")]
+    public BaseMovementProperties m_baseMovementProperties;
 
     private float m_currentMovementSpeed;
     [HideInInspector]
     public Vector3 m_velocity;
     private Vector3 m_velocitySmoothing;
     private CharacterController m_characterController;
-	private Coroutine m_jumpBufferCoroutine;
-	private Coroutine m_graceBufferCoroutine;
-	#endregion
+    private Coroutine m_jumpBufferCoroutine;
+    private Coroutine m_graceBufferCoroutine;
+    #endregion
 
-	#region Jumping Properties
-	[System.Serializable]
-	public struct JumpingProperties
-	{
-		[Header("Jump Properties")]
-		public float m_maxJumpHeight;
-		public float m_minJumpHeight;
-		public float m_timeToJumpApex;
+    #region Jumping Properties
+    [System.Serializable]
+    public struct JumpingProperties
+    {
+        [Header("Jump Properties")]
+        public float m_maxJumpHeight;
+        public float m_minJumpHeight;
+        public float m_timeToJumpApex;
 
-		[Header("Jump Buffer Properties")]
-		public float m_graceTime;
-		public float m_jumpBufferTime;
-	}
+        [Header("Jump Buffer Properties")]
+        public float m_graceTime;
+        public float m_jumpBufferTime;
+    }
 
-	[Header("Jumping Properties")]
-	public JumpingProperties m_jumpingProperties;
+    [Header("Jumping Properties")]
+    public JumpingProperties m_jumpingProperties;
 
     private float m_graceTimer;
     private float m_jumpBufferTimer;
@@ -109,33 +109,33 @@ public class PlayerController : MonoBehaviour
     private float m_minJumpVelocity;
     private bool m_isLanded;
     private bool m_offLedge;
-	#endregion
+    #endregion
 
-	#region Wall Run Properties
-	[System.Serializable]
-	public struct WallRunProperties
-	{
-		public LayerMask m_wallMask;
+    #region Wall Run Properties
+    [System.Serializable]
+    public struct WallRunProperties
+    {
+        public LayerMask m_wallMask;
 
-		public AnimationCurve m_wallSpeedCurve;
-		public float m_wallSpeedUpTime;
-		public float m_maxWallRunSpeed;
+        public AnimationCurve m_wallSpeedCurve;
+        public float m_wallSpeedUpTime;
+        public float m_maxWallRunSpeed;
 
-		public float m_tiltSpeed;
-		public float m_wallRunCameraMaxTilt;
+        public float m_tiltSpeed;
+        public float m_wallRunCameraMaxTilt;
 
-		public int m_wallRidingRayCount;
-		public float m_wallRaySpacing;
-		public float m_wallRunRayLength;
-		public float m_wallRunBufferTime;
-		public Vector3 m_wallRunJumpVelocity;
+        public int m_wallRidingRayCount;
+        public float m_wallRaySpacing;
+        public float m_wallRunRayLength;
+        public float m_wallRunBufferTime;
+        public Vector3 m_wallRunJumpVelocity;
 
-		public float m_wallJumpBufferTime;
-		public Vector3 m_wallJumpVelocity;
-	}
+        public float m_wallJumpBufferTime;
+        public Vector3 m_wallJumpVelocity;
+    }
 
-	[Header("Wall Run Properties")]
-	public WallRunProperties m_wallRunProperties;
+    [Header("Wall Run Properties")]
+    public WallRunProperties m_wallRunProperties;
 
     private float m_currentWallRunningSpeed;
 
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
     private bool m_isWallRunning;
     private bool m_connectedWithWall;
-	[HideInInspector]
+    [HideInInspector]
     public bool m_holdingWallRideStick;
 
     private Vector3 m_wallHitPos;
@@ -157,142 +157,142 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_wallFacingVector;
     private Vector3 m_modelWallRunPos;
 
-	private Coroutine m_wallJumpBufferCoroutine;
-	private Coroutine m_wallRunBufferCoroutine;
-	#endregion
+    private Coroutine m_wallJumpBufferCoroutine;
+    private Coroutine m_wallRunBufferCoroutine;
+    #endregion
 
-	#region Wall Climb Properties
-	[System.Serializable]
-	public struct WallClimbProperties
-	{
-		public AnimationCurve m_wallClimbSpeedCurve;
-		public float m_maxWallClimbSpeed;
-		public float m_wallClimbSpeedUpTime;
-		public float m_wallClimbFactor;
-		public Vector3 m_wallClimbJumpVelocity;
-	}
+    #region Wall Climb Properties
+    [System.Serializable]
+    public struct WallClimbProperties
+    {
+        public AnimationCurve m_wallClimbSpeedCurve;
+        public float m_maxWallClimbSpeed;
+        public float m_wallClimbSpeedUpTime;
+        public float m_wallClimbFactor;
+        public Vector3 m_wallClimbJumpVelocity;
+    }
 
-	[Header("Wall Climb Properties")]
-	public WallClimbProperties m_wallClimbProperties;
+    [Header("Wall Climb Properties")]
+    public WallClimbProperties m_wallClimbProperties;
 
 
     private float m_currentWallClimbSpeed;
     private bool m_isWallClimbing;
     [HideInInspector]
     public Vector3 m_localWallFacingVector;
-	#endregion
+    #endregion
 
-	#region Punch Properties
-	[System.Serializable]
-	public struct PunchProperties
-	{
-		[Header("Punch Charge Properties")]
-		public float m_punchChargeTime;
+    #region Punch Properties
+    [System.Serializable]
+    public struct PunchProperties
+    {
+        [Header("Punch Charge Properties")]
+        public float m_punchChargeTime;
 
-		[Header("Punch Attack Properties")]
-		public float m_minPunchTime;
-		public float m_maxPunchTime;
-		public float m_punchSpeed;
+        [Header("Punch Attack Properties")]
+        public float m_minPunchTime;
+        public float m_maxPunchTime;
+        public float m_punchSpeed;
 
-		[Header("Punch Cooldown Properties")]
-		public float m_punchCooldownTime;
-		public PlayerUICooldown m_punchCooldownUI;
+        [Header("Punch Cooldown Properties")]
+        public float m_punchCooldownTime;
+        public PlayerUICooldown m_punchCooldownUI;
 
-		public PlayerControllerIndexEvent m_onPunchedEvent;
-	}
+        public PlayerControllerIndexEvent m_onPunchedEvent;
+    }
 
-	[Header("Punch Properties")]
-	public LayerMask m_playerFistMask;
-	public PunchProperties m_punchProperties;
+    [Header("Punch Properties")]
+    public LayerMask m_playerFistMask;
+    public PunchProperties m_punchProperties;
 
-	private float m_punchCooldownTimer;
-	private bool m_isChargingPunch;
-	private bool m_isPunching;
-	private Coroutine m_punchCooldownCoroutine;
+    private float m_punchCooldownTimer;
+    private bool m_isChargingPunch;
+    private bool m_isPunching;
+    private Coroutine m_punchCooldownCoroutine;
     #endregion
 
     #region Uppercut Properties
-	[System.Serializable]
-	public struct UppercutProperties
-	{
-		[Header("Uppercut Attack Properties")]
-		public float m_uppercutTime;
-		public float m_uppercutDistance;
-		public AnimationCurve m_uppercutCurve;
+    [System.Serializable]
+    public struct UppercutProperties
+    {
+        [Header("Uppercut Attack Properties")]
+        public float m_uppercutTime;
+        public float m_uppercutDistance;
+        public AnimationCurve m_uppercutCurve;
 
-		[Header("Uppercut Cooldown Properties")]
-		public float m_uppercutCooldownTime;
-		public PlayerUICooldown m_uppercutCooldownUI;
+        [Header("Uppercut Cooldown Properties")]
+        public float m_uppercutCooldownTime;
+        public PlayerUICooldown m_uppercutCooldownUI;
 
-		public PlayerControllerIndexEvent m_uppercutUsedEvent;
+        public PlayerControllerIndexEvent m_uppercutUsedEvent;
 
-	}
+    }
 
-	[Header("Uppercut Properties")]
-	public UppercutProperties m_uppercutProperties;
+    [Header("Uppercut Properties")]
+    public UppercutProperties m_uppercutProperties;
 
-	private bool m_isUppercutting;
-	private Coroutine m_uppercutCoroutine;
-	private float m_uppercutCooldownTimer;
-	#endregion
+    private bool m_isUppercutting;
+    private Coroutine m_uppercutCoroutine;
+    private float m_uppercutCooldownTimer;
+    #endregion
 
-	#region Short Dash Properties
-	[System.Serializable]
-	public struct ShortDashProperties
-	{
-		[Header("Short Dash Attack Properties")]
-		public float m_shortDashTime;
-		public float m_shortDashDistance;
-		public AnimationCurve m_shortDashCurve;
-	}
+    #region Short Dash Properties
+    [System.Serializable]
+    public struct ShortDashProperties
+    {
+        [Header("Short Dash Attack Properties")]
+        public float m_shortDashTime;
+        public float m_shortDashDistance;
+        public AnimationCurve m_shortDashCurve;
+    }
 
-	[Header("Short Dash Properties")]
-	public ShortDashProperties m_shortDashProperties;
+    [Header("Short Dash Properties")]
+    public ShortDashProperties m_shortDashProperties;
 
     private bool m_isShortDashing;
     #endregion
 
     #region Speed Boost Properties
-	[System.Serializable]
-	public struct SpeedBoostProperties
-	{
-		[Header("Speed Boost Properties")]
-		public float m_speedBoostChargeTime;
-		public float m_speedBoostChargeMax;
-		public float m_speedBoostTime;
-		public float m_speedBoostSpeed;
-		public AnimationCurve m_speedBoostCurve;
-	}
+    [System.Serializable]
+    public struct SpeedBoostProperties
+    {
+        [Header("Speed Boost Properties")]
+        public float m_speedBoostChargeTime;
+        public float m_speedBoostChargeMax;
+        public float m_speedBoostTime;
+        public float m_speedBoostSpeed;
+        public AnimationCurve m_speedBoostCurve;
+    }
 
-	[Header("Speed Boost Properties")]
-	public SpeedBoostProperties m_speedBoostProperties;
+    [Header("Speed Boost Properties")]
+    public SpeedBoostProperties m_speedBoostProperties;
 
     private bool m_isSpeedBoosting;
-	private float m_speedBoostChargeTimer;
-	private float m_speedBoostCharge;
-	private Coroutine m_speedBoostCoroutine;
+    private float m_speedBoostChargeTimer;
+    private float m_speedBoostCharge;
+    private Coroutine m_speedBoostCoroutine;
     #endregion
 
     #region Slam Properties
-	[System.Serializable]
-	public struct SlamProperties
-	{
-		[Header("Slam Attack Properties")]
-		public LayerMask m_slamWallMask;
-		public float m_slamTime;
-		public AnimationCurve m_slamCurve;
-	}
+    [System.Serializable]
+    public struct SlamProperties
+    {
+        [Header("Slam Attack Properties")]
+        public LayerMask m_slamWallMask;
+        public float m_slamTime;
+        public AnimationCurve m_slamCurve;
+    }
 
-	[Header("Slam Properties")]
-	public SlamProperties m_slamProperties;
+    [Header("Slam Properties")]
+    public SlamProperties m_slamProperties;
 
     private bool m_isSlaming;
-	[Space]
-	#endregion
+    [Space]
+    #endregion
 
-	public LayerMask m_killZoneMask;
+    public LayerMask m_killZoneMask;
 
-	[HideInInspector]
+    [HideInInspector]
     public Vector2 m_movementInput;
     private Vector2 m_lookInput;
 
@@ -300,7 +300,7 @@ public class PlayerController : MonoBehaviour
 
     private float m_currentSpeedBoost;
 
-	private PlayerInput m_input;
+    private PlayerInput m_input;
 
     private Animator m_animator;
 
@@ -312,11 +312,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        onHitAnEnemy = new PlayerControllerIndexEvent();
-        onHit = new PlayerControllerIndexEvent();
-        onDeath = new PlayerControllerIndexEvent();
-        m_punchProperties.m_onPunchedEvent = new PlayerControllerIndexEvent();
-        m_uppercutProperties.m_uppercutUsedEvent = new PlayerControllerIndexEvent();
+        if (onHitAnEnemy == null) { onHitAnEnemy = new PlayerControllerIndexEvent(); }
+        if (onHit == null) { onHit = new PlayerControllerIndexEvent(); }
+        if (onDeath == null) { onDeath = new PlayerControllerIndexEvent(); }
+        if (m_punchProperties.m_onPunchedEvent == null) { m_punchProperties.m_onPunchedEvent = new PlayerControllerIndexEvent(); }
+        if (m_uppercutProperties.m_uppercutUsedEvent == null) { m_uppercutProperties.m_uppercutUsedEvent = new PlayerControllerIndexEvent(); }
     }
 
     private void OnEnable()
@@ -359,93 +359,93 @@ public class PlayerController : MonoBehaviour
         m_speedBoostChargeTimer = m_speedBoostProperties.m_speedBoostChargeTime;
         m_speedBoostCharge = m_speedBoostProperties.m_speedBoostChargeMax;
 
-		m_punchCooldownTimer = m_punchProperties.m_punchCooldownTime;
+        m_punchCooldownTimer = m_punchProperties.m_punchCooldownTime;
         m_uppercutCooldownTimer = m_uppercutProperties.m_uppercutCooldownTime;
     }
 
-	public void RunRoundSetup(int p_playerId, int p_numberOfPlayers)
-	{
-		m_input = GetComponent<PlayerInput>();
-		m_input.m_playerId = p_playerId;
+    public void RunRoundSetup(int p_playerId, int p_numberOfPlayers)
+    {
+        m_input = GetComponent<PlayerInput>();
+        m_input.m_playerId = p_playerId;
 
-		#region Camera Size Calc
-		if (p_numberOfPlayers == 1)
-		{
-			return;
-		}
-		else if (p_numberOfPlayers == 2)
-		{
-			Vector2 size = new Vector2(0.5f, 1);
+        #region Camera Size Calc
+        if (p_numberOfPlayers == 1)
+        {
+            return;
+        }
+        else if (p_numberOfPlayers == 2)
+        {
+            Vector2 size = new Vector2(0.5f, 1);
 
-			if (p_playerId == 0)
-			{
-				Vector2 pos = new Vector2(0, 0);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-			else if (p_playerId == 1)
-			{
-				Vector2 pos = new Vector2(0.5f, 0);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-		}
-		else if (p_numberOfPlayers == 3)
-		{
-			Vector2 size = new Vector2(0.5f, 0.5f);
+            if (p_playerId == 0)
+            {
+                Vector2 pos = new Vector2(0, 0);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+            else if (p_playerId == 1)
+            {
+                Vector2 pos = new Vector2(0.5f, 0);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+        }
+        else if (p_numberOfPlayers == 3)
+        {
+            Vector2 size = new Vector2(0.5f, 0.5f);
 
-			if (p_playerId == 0)
-			{
-				Vector2 pos = new Vector2(0, 0);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-			else if (p_playerId == 1)
-			{
-				Vector2 pos = new Vector2(0.5f, 0);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-			else if (p_playerId == 2)
-			{
-				Vector2 pos = new Vector2(0, 0.5f);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-		}
-		else if (p_numberOfPlayers == 4)
-		{
-			Vector2 size = new Vector2(0.5f, 0.5f);
+            if (p_playerId == 0)
+            {
+                Vector2 pos = new Vector2(0, 0);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+            else if (p_playerId == 1)
+            {
+                Vector2 pos = new Vector2(0.5f, 0);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+            else if (p_playerId == 2)
+            {
+                Vector2 pos = new Vector2(0, 0.5f);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+        }
+        else if (p_numberOfPlayers == 4)
+        {
+            Vector2 size = new Vector2(0.5f, 0.5f);
 
-			if (p_playerId == 0)
-			{
-				Vector2 pos = new Vector2(0, 0);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-			else if (p_playerId == 1)
-			{
-				Vector2 pos = new Vector2(0.5f, 0);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-			else if (p_playerId == 2)
-			{
-				Vector2 pos = new Vector2(0, 0.5f);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-			else if (p_playerId == 3)
-			{
-				Vector2 pos = new Vector2(0.5f, 0.5f);
-				m_cameraProperties.m_camera.rect = new Rect(pos, size);
-				return;
-			}
-		}
-		#endregion
-	}
+            if (p_playerId == 0)
+            {
+                Vector2 pos = new Vector2(0, 0);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+            else if (p_playerId == 1)
+            {
+                Vector2 pos = new Vector2(0.5f, 0);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+            else if (p_playerId == 2)
+            {
+                Vector2 pos = new Vector2(0, 0.5f);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+            else if (p_playerId == 3)
+            {
+                Vector2 pos = new Vector2(0.5f, 0.5f);
+                m_cameraProperties.m_camera.rect = new Rect(pos, size);
+                return;
+            }
+        }
+        #endregion
+    }
 
-	private void OnValidate()
+    private void OnValidate()
     {
         CalculateJump();
     }
@@ -499,8 +499,8 @@ public class PlayerController : MonoBehaviour
 
     public void ResetCamera()
     {
-		m_cameraProperties.m_cameraMain.rotation = Quaternion.identity;
-		m_cameraProperties.m_cameraTilt.rotation = Quaternion.identity;
+        m_cameraProperties.m_cameraMain.rotation = Quaternion.identity;
+        m_cameraProperties.m_cameraTilt.rotation = Quaternion.identity;
     }
 
     private void CameraRotation()
@@ -521,22 +521,22 @@ public class PlayerController : MonoBehaviour
             //Stops the camera from rotating, if it hits the resrictions
             if (cameraInput.x < 0 && cameraXAng > 360 - m_cameraProperties.m_maxCameraAng || cameraInput.x < 0 && cameraXAng < m_cameraProperties.m_maxCameraAng + 10)
             {
-				m_cameraProperties.m_cameraMain.transform.Rotate(Vector3.right, cameraInput.x * (m_cameraProperties.m_mouseSensitivity));
+                m_cameraProperties.m_cameraMain.transform.Rotate(Vector3.right, cameraInput.x * (m_cameraProperties.m_mouseSensitivity));
 
             }
             else if (cameraInput.x > 0 && cameraXAng > 360 - m_cameraProperties.m_maxCameraAng - 10 || cameraInput.x > 0 && cameraXAng < m_cameraProperties.m_maxCameraAng)
             {
-				m_cameraProperties.m_cameraMain.transform.Rotate(Vector3.right, cameraInput.x * (m_cameraProperties.m_mouseSensitivity));
+                m_cameraProperties.m_cameraMain.transform.Rotate(Vector3.right, cameraInput.x * (m_cameraProperties.m_mouseSensitivity));
 
             }
 
             if (m_cameraProperties.m_cameraMain.transform.eulerAngles.x < 360 - m_cameraProperties.m_maxCameraAng && m_cameraProperties.m_cameraMain.transform.eulerAngles.x > 180)
             {
-				m_cameraProperties.m_cameraMain.transform.localEulerAngles = new Vector3(360 - m_cameraProperties.m_maxCameraAng, 0f, 0f);
+                m_cameraProperties.m_cameraMain.transform.localEulerAngles = new Vector3(360 - m_cameraProperties.m_maxCameraAng, 0f, 0f);
             }
             else if (m_cameraProperties.m_camera.transform.eulerAngles.x > m_cameraProperties.m_maxCameraAng && m_cameraProperties.m_cameraMain.transform.eulerAngles.x < 180)
             {
-				m_cameraProperties.m_cameraMain.transform.localEulerAngles = new Vector3(m_cameraProperties.m_maxCameraAng, 0f, 0f);
+                m_cameraProperties.m_cameraMain.transform.localEulerAngles = new Vector3(m_cameraProperties.m_maxCameraAng, 0f, 0f);
             }
         }
 
@@ -594,34 +594,34 @@ public class PlayerController : MonoBehaviour
     }
 
     //For UI Elements
-	private IEnumerator RunBufferTimer(System.Action<float> m_bufferTimerRef, float p_bufferTime, PlayerUICooldown p_cooldownImage)
-	{
-		float t = 0;
+    private IEnumerator RunBufferTimer(System.Action<float> m_bufferTimerRef, float p_bufferTime, PlayerUICooldown p_cooldownImage)
+    {
+        float t = 0;
 
-		while (t < p_bufferTime)
-		{
-			t += Time.deltaTime;
-			m_bufferTimerRef(t);
-			p_cooldownImage.DisplayCooldown(t, p_bufferTime);
-			yield return null;
-		}
+        while (t < p_bufferTime)
+        {
+            t += Time.deltaTime;
+            m_bufferTimerRef(t);
+            p_cooldownImage.DisplayCooldown(t, p_bufferTime);
+            yield return null;
+        }
 
-		m_bufferTimerRef(p_bufferTime);
+        m_bufferTimerRef(p_bufferTime);
 
-		p_cooldownImage.DisplayCooldown(p_bufferTime, p_bufferTime);
-	}
+        p_cooldownImage.DisplayCooldown(p_bufferTime, p_bufferTime);
+    }
 
-	#endregion
+    #endregion
 
-	#region Player State Code
-	[System.Serializable]
+    #region Player State Code
+    [System.Serializable]
     public struct PlayerState
     {
         public MovementControllState m_movementControllState;
         public GravityState m_gravityControllState;
         public DamageState m_damageState;
         public InputState m_inputState;
-		public AliveState m_aliveState;
+        public AliveState m_aliveState;
     }
 
     public bool IsGrounded()
@@ -655,10 +655,10 @@ public class PlayerController : MonoBehaviour
     {
         m_isLanded = true;
 
-		if (CheckBuffer(ref m_jumpBufferTimer, ref m_jumpingProperties.m_jumpBufferTime, m_jumpBufferCoroutine))
-		{
-			JumpMaxVelocity();
-		}
+        if (CheckBuffer(ref m_jumpBufferTimer, ref m_jumpingProperties.m_jumpBufferTime, m_jumpBufferCoroutine))
+        {
+            JumpMaxVelocity();
+        }
 
         m_movementEvents.m_onLandedEvent.Invoke();
     }
@@ -775,120 +775,120 @@ public class PlayerController : MonoBehaviour
         Vector3 deltaPosition = p_targetPosition - transform.position;
         m_velocity = deltaPosition / Time.deltaTime;
     }
-	#endregion
+    #endregion
 
-	#region Jump Code
-	public void OnJumpInputDown()
-	{
-		m_jumpBufferCoroutine = StartCoroutine(RunBufferTimer((x) => m_jumpBufferTimer = (x), m_jumpingProperties.m_jumpBufferTime));
+    #region Jump Code
+    public void OnJumpInputDown()
+    {
+        m_jumpBufferCoroutine = StartCoroutine(RunBufferTimer((x) => m_jumpBufferTimer = (x), m_jumpingProperties.m_jumpBufferTime));
 
-		if (CheckBuffer(ref m_wallJumpBufferTimer, ref m_wallRunProperties.m_wallJumpBufferTime, m_wallJumpBufferCoroutine) && !m_isWallRunning)
-		{
-			WallJump();
-			return;
-		}
+        if (CheckBuffer(ref m_wallJumpBufferTimer, ref m_wallRunProperties.m_wallJumpBufferTime, m_wallJumpBufferCoroutine) && !m_isWallRunning)
+        {
+            WallJump();
+            return;
+        }
 
-		if (CheckBuffer(ref m_graceTimer, ref m_jumpingProperties.m_graceTime, m_graceBufferCoroutine) && !IsGrounded() && m_velocity.y <= 0f)
-		{
-			GroundJump();
-			return;
-		}
+        if (CheckBuffer(ref m_graceTimer, ref m_jumpingProperties.m_graceTime, m_graceBufferCoroutine) && !IsGrounded() && m_velocity.y <= 0f)
+        {
+            GroundJump();
+            return;
+        }
 
-		if (m_isWallClimbing)
-		{
-			WallRunningJump();
-			return;
-		}
+        if (m_isWallClimbing)
+        {
+            WallRunningJump();
+            return;
+        }
 
-		if (m_isWallRunning)
-		{
-			WallRunningJump();
-			return;
-		}
+        if (m_isWallRunning)
+        {
+            WallRunningJump();
+            return;
+        }
 
-		if (IsGrounded())
-		{
-			GroundJump();
-			return;
-		}
+        if (IsGrounded())
+        {
+            GroundJump();
+            return;
+        }
 
-	}
+    }
 
-	public void OnJumpInputUp()
-	{
-		if (m_velocity.y > m_minJumpVelocity)
-		{
-			JumpMinVelocity();
-		}
-	}
+    public void OnJumpInputUp()
+    {
+        if (m_velocity.y > m_minJumpVelocity)
+        {
+            JumpMinVelocity();
+        }
+    }
 
-	private void CalculateJump()
-	{
-		m_gravity = -(2 * m_jumpingProperties.m_maxJumpHeight) / Mathf.Pow(m_jumpingProperties.m_timeToJumpApex, 2);
-		m_maxJumpVelocity = Mathf.Abs(m_gravity) * m_jumpingProperties.m_timeToJumpApex;
-		m_minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(m_gravity) * m_jumpingProperties.m_minJumpHeight);
-	}
+    private void CalculateJump()
+    {
+        m_gravity = -(2 * m_jumpingProperties.m_maxJumpHeight) / Mathf.Pow(m_jumpingProperties.m_timeToJumpApex, 2);
+        m_maxJumpVelocity = Mathf.Abs(m_gravity) * m_jumpingProperties.m_timeToJumpApex;
+        m_minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(m_gravity) * m_jumpingProperties.m_minJumpHeight);
+    }
 
-	private void WallJump()
-	{
-		m_movementEvents.m_onWallJumpEvent.Invoke();
+    private void WallJump()
+    {
+        m_movementEvents.m_onWallJumpEvent.Invoke();
 
-		m_velocity.x = m_wallDir.x * m_wallRunProperties.m_wallJumpVelocity.x;
-		m_velocity.y = m_wallRunProperties.m_wallJumpVelocity.y;
-		m_velocity.z = m_wallDir.z * m_wallRunProperties.m_wallJumpVelocity.z;
-	}
+        m_velocity.x = m_wallDir.x * m_wallRunProperties.m_wallJumpVelocity.x;
+        m_velocity.y = m_wallRunProperties.m_wallJumpVelocity.y;
+        m_velocity.z = m_wallDir.z * m_wallRunProperties.m_wallJumpVelocity.z;
+    }
 
-	private void WallRunningJump()
-	{
-		m_isWallRunning = false;
+    private void WallRunningJump()
+    {
+        m_isWallRunning = false;
 
-		m_movementEvents.m_onWallRunJumpEvent.Invoke();
+        m_movementEvents.m_onWallRunJumpEvent.Invoke();
 
-		m_wallRunBufferCoroutine = StartCoroutine(RunBufferTimer((x) => m_wallRunBufferTimer = (x), m_wallRunProperties.m_wallRunBufferTime));
+        m_wallRunBufferCoroutine = StartCoroutine(RunBufferTimer((x) => m_wallRunBufferTimer = (x), m_wallRunProperties.m_wallRunBufferTime));
 
-		m_velocity.x = m_wallDir.x * m_wallRunProperties.m_wallRunJumpVelocity.x;
-		m_velocity.y = m_wallRunProperties.m_wallRunJumpVelocity.y;
-		m_velocity.z = m_wallDir.z * m_wallRunProperties.m_wallRunJumpVelocity.z;
-	}
+        m_velocity.x = m_wallDir.x * m_wallRunProperties.m_wallRunJumpVelocity.x;
+        m_velocity.y = m_wallRunProperties.m_wallRunJumpVelocity.y;
+        m_velocity.z = m_wallDir.z * m_wallRunProperties.m_wallRunJumpVelocity.z;
+    }
 
-	private void WallClimbingJump()
-	{
-		m_isWallClimbing = false;
+    private void WallClimbingJump()
+    {
+        m_isWallClimbing = false;
 
-		m_movementEvents.m_onWallClimbJumpEvent.Invoke();
+        m_movementEvents.m_onWallClimbJumpEvent.Invoke();
 
-		m_wallRunBufferCoroutine = StartCoroutine(RunBufferTimer((x) => m_wallRunBufferTimer = (x), m_wallRunProperties.m_wallRunBufferTime));
+        m_wallRunBufferCoroutine = StartCoroutine(RunBufferTimer((x) => m_wallRunBufferTimer = (x), m_wallRunProperties.m_wallRunBufferTime));
 
-		m_velocity.x = m_wallDir.x * m_wallClimbProperties.m_wallClimbJumpVelocity.x;
-		m_velocity.y = m_wallClimbProperties.m_wallClimbJumpVelocity.y;
-		m_velocity.z = m_wallDir.z * m_wallClimbProperties.m_wallClimbJumpVelocity.z;
-	}
+        m_velocity.x = m_wallDir.x * m_wallClimbProperties.m_wallClimbJumpVelocity.x;
+        m_velocity.y = m_wallClimbProperties.m_wallClimbJumpVelocity.y;
+        m_velocity.z = m_wallDir.z * m_wallClimbProperties.m_wallClimbJumpVelocity.z;
+    }
 
-	private void GroundJump()
-	{
-		m_movementEvents.m_onJumpEvent.Invoke();
-		JumpMaxVelocity();
-	}
+    private void GroundJump()
+    {
+        m_movementEvents.m_onJumpEvent.Invoke();
+        JumpMaxVelocity();
+    }
 
-	private void JumpMaxVelocity()
-	{
-		m_velocity.y = m_maxJumpVelocity;
-	}
+    private void JumpMaxVelocity()
+    {
+        m_velocity.y = m_maxJumpVelocity;
+    }
 
-	private void JumpMinVelocity()
-	{
-		m_velocity.y = m_minJumpVelocity;
-	}
+    private void JumpMinVelocity()
+    {
+        m_velocity.y = m_minJumpVelocity;
+    }
 
-	private void JumpMaxMultiplied(float p_force)
-	{
-		m_velocity.y = m_maxJumpVelocity * p_force;
-	}
+    private void JumpMaxMultiplied(float p_force)
+    {
+        m_velocity.y = m_maxJumpVelocity * p_force;
+    }
 
-	#endregion
+    #endregion
 
-	#region Wall Run Code
-	private void CheckWallRun()
+    #region Wall Run Code
+    private void CheckWallRun()
     {
         float m_angleBetweenRays = m_wallRunProperties.m_wallRaySpacing / m_wallRunProperties.m_wallRidingRayCount;
         bool anyRayHit = false;
@@ -941,7 +941,7 @@ public class PlayerController : MonoBehaviour
 
     private void TiltLerp()
     {
-		m_cameraProperties.m_cameraTilt.localRotation = Quaternion.Slerp(m_cameraProperties.m_cameraTilt.localRotation, Quaternion.Euler(0, 0, m_tiltTarget), m_wallRunProperties.m_tiltSpeed);
+        m_cameraProperties.m_cameraTilt.localRotation = Quaternion.Slerp(m_cameraProperties.m_cameraTilt.localRotation, Quaternion.Euler(0, 0, m_tiltTarget), m_wallRunProperties.m_tiltSpeed);
     }
 
     private void OnWallRideRelease()
@@ -1076,18 +1076,18 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-	#region Attack Code
+    #region Attack Code
 
-	#region Punch Code
-	public void OnPunchInputDown()
+    #region Punch Code
+    public void OnPunchInputDown()
     {
-		if (CheckOverBuffer(ref m_punchCooldownTimer, ref m_punchProperties.m_punchCooldownTime, m_punchCooldownCoroutine))
-		{
-			if (!m_isChargingPunch)
-			{
-				StartCoroutine(ChargePunch());
-			}
-		}
+        if (CheckOverBuffer(ref m_punchCooldownTimer, ref m_punchProperties.m_punchCooldownTime, m_punchCooldownCoroutine))
+        {
+            if (!m_isChargingPunch)
+            {
+                StartCoroutine(ChargePunch());
+            }
+        }
     }
 
     public void OnPunchInputUp()
@@ -1127,7 +1127,7 @@ public class PlayerController : MonoBehaviour
 
         m_punchProperties.m_onPunchedEvent.Invoke(m_input.m_playerId);
 
-		m_isPunching = true;
+        m_isPunching = true;
         m_states.m_movementControllState = MovementControllState.MovementDisabled;
         m_states.m_gravityControllState = GravityState.GravityDisabled;
 
@@ -1136,15 +1136,15 @@ public class PlayerController : MonoBehaviour
         float t = 0;
 
         Vector3 startPos = transform.position;
-		List<PlayerController> hitEnemies = new List<PlayerController>();
+        List<PlayerController> hitEnemies = new List<PlayerController>();
 
         while (t < currentPunchTime)
         {
             t += Time.fixedDeltaTime;
 
-			m_velocity = p_punchDirection * m_punchProperties.m_punchSpeed;
+            m_velocity = p_punchDirection * m_punchProperties.m_punchSpeed;
 
-			HitEnemies(ref hitEnemies, m_cameraProperties.m_camera.transform.forward, 250f, (m_cameraProperties.m_camera.transform.forward * 1) + transform.position, 1, m_playerFistMask);
+            HitEnemies(ref hitEnemies, m_cameraProperties.m_camera.transform.forward, 250f, (m_cameraProperties.m_camera.transform.forward * 1) + transform.position, 1, m_playerFistMask);
 
             yield return new WaitForFixedUpdate();
         }
@@ -1153,14 +1153,14 @@ public class PlayerController : MonoBehaviour
         m_states.m_gravityControllState = GravityState.GravityEnabled;
         m_isPunching = false;
 
-		m_punchCooldownCoroutine = StartCoroutine(RunBufferTimer((x) => m_punchCooldownTimer = (x), m_punchProperties.m_punchCooldownTime, m_punchProperties.m_punchCooldownUI));
+        m_punchCooldownCoroutine = StartCoroutine(RunBufferTimer((x) => m_punchCooldownTimer = (x), m_punchProperties.m_punchCooldownTime, m_punchProperties.m_punchCooldownUI));
 
         m_animator.SetTrigger("FistEnd");
     }
-	#endregion
+    #endregion
 
-	#region Short Dash Code
-	public void OnShortDashInputDown(Vector3 p_dashDirection)
+    #region Short Dash Code
+    public void OnShortDashInputDown(Vector3 p_dashDirection)
     {
         if (!m_isShortDashing)
         {
@@ -1181,9 +1181,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 dashPos = startPos + (p_dashDirection * m_shortDashProperties.m_shortDashDistance);
 
-		List<PlayerController> hitEnemies = new List<PlayerController>();
+        List<PlayerController> hitEnemies = new List<PlayerController>();
 
-		while (t < m_shortDashProperties.m_shortDashTime)
+        while (t < m_shortDashProperties.m_shortDashTime)
         {
             t += Time.fixedDeltaTime;
 
@@ -1191,9 +1191,9 @@ public class PlayerController : MonoBehaviour
             Vector3 targetPos = Vector3.Lerp(startPos, dashPos, progress);
             PhysicsSeekTo(targetPos);
 
-			HitEnemies(ref hitEnemies, p_dashDirection, 350f, (transform.forward * 2) + transform.position, 2, m_playerFistMask);
+            HitEnemies(ref hitEnemies, p_dashDirection, 350f, (transform.forward * 2) + transform.position, 2, m_playerFistMask);
 
-			yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
         }
 
         m_states.m_movementControllState = MovementControllState.MovementEnabled;
@@ -1201,10 +1201,10 @@ public class PlayerController : MonoBehaviour
 
         m_isShortDashing = false;
     }
-	#endregion
+    #endregion
 
-	#region Speed Boost
-	public void OnSpeedBoostInputDown()
+    #region Speed Boost
+    public void OnSpeedBoostInputDown()
     {
         if (!m_isSpeedBoosting && m_speedBoostCharge > 0)
         {
@@ -1281,26 +1281,26 @@ public class PlayerController : MonoBehaviour
 
         m_speedBoostCoroutine = StartCoroutine(ChargeSpeedBoost());
     }
-	#endregion
+    #endregion
 
-	#region Uppercut Code
-	public void OnUppercutInputDown()
+    #region Uppercut Code
+    public void OnUppercutInputDown()
     {
-		if (CheckOverBuffer(ref m_uppercutCooldownTimer, ref m_uppercutProperties.m_uppercutCooldownTime, m_uppercutCoroutine))
-		{
-			if (!m_isUppercutting)
-			{
-				StartCoroutine(RunUppercut());
-			}
-		}
+        if (CheckOverBuffer(ref m_uppercutCooldownTimer, ref m_uppercutProperties.m_uppercutCooldownTime, m_uppercutCoroutine))
+        {
+            if (!m_isUppercutting)
+            {
+                StartCoroutine(RunUppercut());
+            }
+        }
     }
 
     private IEnumerator RunUppercut()
     {
-		m_uppercutProperties.m_uppercutUsedEvent.Invoke(m_input.m_playerId);
+        m_uppercutProperties.m_uppercutUsedEvent.Invoke(m_input.m_playerId);
 
 
-		m_animator.SetTrigger("UppercutStart");
+        m_animator.SetTrigger("UppercutStart");
 
         m_isUppercutting = true;
 
@@ -1311,9 +1311,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 startPos = transform.position;
 
-		List<PlayerController> hitEnemies = new List<PlayerController>();
+        List<PlayerController> hitEnemies = new List<PlayerController>();
 
-		while (t < m_uppercutProperties.m_uppercutTime)
+        while (t < m_uppercutProperties.m_uppercutTime)
         {
             t += Time.fixedDeltaTime;
 
@@ -1324,9 +1324,9 @@ public class PlayerController : MonoBehaviour
             Vector3 targetPos = Vector3.Lerp(startPos, startPos + Vector3.up * m_uppercutProperties.m_uppercutDistance, progress);
             PhysicsSeekTo(targetPos);
 
-			HitEnemies(ref hitEnemies, transform.up, 50f, (transform.forward * 3) + transform.position, 3, m_playerFistMask);
+            HitEnemies(ref hitEnemies, transform.up, 50f, (transform.forward * 3) + transform.position, 3, m_playerFistMask);
 
-			yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
         }
 
         m_states.m_movementControllState = MovementControllState.MovementEnabled;
@@ -1334,14 +1334,14 @@ public class PlayerController : MonoBehaviour
 
         m_isUppercutting = false;
 
-		m_uppercutCoroutine = StartCoroutine(RunBufferTimer((x) => m_uppercutCooldownTimer = (x), m_uppercutProperties.m_uppercutCooldownTime, m_uppercutProperties.m_uppercutCooldownUI));
+        m_uppercutCoroutine = StartCoroutine(RunBufferTimer((x) => m_uppercutCooldownTimer = (x), m_uppercutProperties.m_uppercutCooldownTime, m_uppercutProperties.m_uppercutCooldownUI));
 
         m_animator.SetTrigger("UppercutEnd");
     }
-	#endregion
+    #endregion
 
-	#region Slam Code
-	public void OnSlamInputDown()
+    #region Slam Code
+    public void OnSlamInputDown()
     {
         if (!m_isSlaming)
         {
@@ -1385,26 +1385,26 @@ public class PlayerController : MonoBehaviour
 
         m_isSlaming = false;
     }
-	#endregion
+    #endregion
 
-	private void HitEnemies(ref List<PlayerController> p_previouslyHitEnemies, Vector3 p_hitDirection, float p_hitForce, Vector3 p_hitboxOrigin, float p_hitboxSize, LayerMask p_layerMask)
-	{
-		PlayerController[] hitPlayers = CheckHitbox(p_hitboxOrigin, p_hitboxSize, p_layerMask);
+    private void HitEnemies(ref List<PlayerController> p_previouslyHitEnemies, Vector3 p_hitDirection, float p_hitForce, Vector3 p_hitboxOrigin, float p_hitboxSize, LayerMask p_layerMask)
+    {
+        PlayerController[] hitPlayers = CheckHitbox(p_hitboxOrigin, p_hitboxSize, p_layerMask);
 
-		foreach (PlayerController player in hitPlayers)
-		{
-			if (!p_previouslyHitEnemies.Contains(player))
-			{
-				player.TriggerKnockBack(p_hitDirection, p_hitForce);
-				p_previouslyHitEnemies.Add(player);
+        foreach (PlayerController player in hitPlayers)
+        {
+            if (!p_previouslyHitEnemies.Contains(player))
+            {
+                player.TriggerKnockBack(p_hitDirection, p_hitForce);
+                p_previouslyHitEnemies.Add(player);
                 if (null != onHitAnEnemy && null != onHit)
                 {
                     onHitAnEnemy.Invoke(this.m_input.m_playerId);
                     onHit.Invoke(player.m_input.m_playerId);
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 
     private PlayerController[] CheckHitbox(Vector3 p_hitboxOrigin, float p_hitboxSize, LayerMask p_layerMask)
     {
@@ -1429,31 +1429,31 @@ public class PlayerController : MonoBehaviour
     {
         m_velocity = p_forceDirection.normalized * p_force;
     }
-	#endregion
+    #endregion
 
-	public void FreezeSelf()
-	{
-		m_states.m_movementControllState = MovementControllState.MovementDisabled;
-	}
+    public void FreezeSelf()
+    {
+        m_states.m_movementControllState = MovementControllState.MovementDisabled;
+    }
 
-	public void UnFreezeSelf()
-	{
-		m_states.m_movementControllState = MovementControllState.MovementEnabled;
-	}
+    public void UnFreezeSelf()
+    {
+        m_states.m_movementControllState = MovementControllState.MovementEnabled;
+    }
 
-	private void KillSelf()
-	{
-		m_states.m_movementControllState = MovementControllState.MovementDisabled;
-		m_states.m_aliveState = AliveState.IsDead;
+    private void KillSelf()
+    {
+        m_states.m_movementControllState = MovementControllState.MovementDisabled;
+        m_states.m_aliveState = AliveState.IsDead;
 
         gameObject.SetActive(false);
 
         //m_cameraProperties.m_camera.enabled = false;
 
         onDeath.Invoke(m_input.m_playerId);
-	}
+    }
 
-	private void StopAllActions()
+    private void StopAllActions()
     {
         StopAllCoroutines();
     }
@@ -1472,9 +1472,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-		if (CheckCollisionLayer(m_killZoneMask, hit.gameObject))
-		{
-			KillSelf();
-		}
+        if (CheckCollisionLayer(m_killZoneMask, hit.gameObject))
+        {
+            KillSelf();
+        }
     }
 }
